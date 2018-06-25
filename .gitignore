@@ -14,3 +14,4 @@ yarn-error.log*
 *.sln
 
 server/spider/node_modules/
+server/spider/files/
