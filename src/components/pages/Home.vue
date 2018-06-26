@@ -2,22 +2,28 @@
   <div class="acg-home">
     <search></search>
     <swiper :list="swiperImgs" auto></swiper>
-    <div class="recommend-"></div>
-
+    <tab bar-active-color="#668599" :line-width="1">
+      <tab-item v-for="(voiceType, i) in vocieTypes" :key="i">{{ voiceType }}</tab-item>
+    </tab>
     <flexbox :gutter="0" wrap="wrap" class="character-list">
       <flexbox-item class="character-item" :span="character.span" v-for="(character, i) in getCharacters" :key="i">
         <img :src="character.img" alt="">
+        <p>
+          <i class="iconfont" v-bind:class="[character.playOr ? 'icon-acg-timeout' : 'icon-acg-play-circle']"></i>{{ character.text }}
+        </p>
+        <!-- <i class="iconfont icon-acg-play-circle-copy"></i> -->
       </flexbox-item>
     </flexbox>
   </div>
 </template>
 
 <script>
-import { Search, Swiper, Flexbox, FlexboxItem } from 'vux'
+import { Search, Swiper, Tab, TabItem, Flexbox, FlexboxItem } from 'vux'
 export default {
   name: 'Home',
   data () {
     return {
+      vocieTypes: ['萝莉音', '御姐音', '少女音', '正太音', '男神音', '大叔音', '静音', '林正音'],
       swiperImgs: [
         {
           url: 'javascript:',
@@ -40,35 +46,35 @@ export default {
       characters: [
         {
           img: '../../../static/spider/images/LOL/不祥之刃-卡特琳娜(cover).jpg',
-          text: ''
+          text: '永远不要质疑我的忠诚，你不会了解我为之忍受的一切'
         },
         {
           img: '../../../static/spider/images/LOL/九尾妖狐-阿狸(cover).jpg',
-          text: ''
+          text: '人心善变'
         },
         {
           img: '../../../static/spider/images/LOL/九尾妖狐-阿狸(cover).jpg',
-          text: ''
+          text: '人心善变，甚于最深奥的魔法。'
         },
         {
           img: '../../../static/spider/images/LOL/九尾妖狐-阿狸(cover).jpg',
-          text: ''
+          text: '人心善变，甚于最深奥的魔法。'
         },
         {
           img: '../../../static/spider/images/LOL/九尾妖狐-阿狸(cover).jpg',
-          text: ''
+          text: '人心善变，甚于最深奥的魔法。'
         },
         {
           img: '../../../static/spider/images/LOL/九尾妖狐-阿狸(cover).jpg',
-          text: ''
+          text: '人心善变，甚于最深奥的魔法。'
         },
         {
           img: '../../../static/spider/images/LOL/九尾妖狐-阿狸(cover).jpg',
-          text: ''
+          text: '人心善变，甚于最深奥的魔法。'
         },
         {
           img: '../../../static/spider/images/LOL/九尾妖狐-阿狸(cover).jpg',
-          text: ''
+          text: '人心善变，甚于最深奥的魔法。'
         }
       ]
     }
@@ -77,7 +83,12 @@ export default {
     Search,
     Swiper,
     Flexbox,
-    FlexboxItem
+    FlexboxItem,
+    Tab,
+    TabItem
+  },
+  methods: {
+
   },
   computed: {
     getCharacters() {
@@ -97,16 +108,10 @@ export default {
       } else {
         rest = len % 3
         if (rest === 1) {
-          newObj = JSON.parse(JSON.stringify(this.characters[len - 1]))
-          newObj.span = 12;
-          this.characters.splice(len - 1, 1, newObj)
+          this.$set(this.characters[len - 1], 'span', 12)
         } else if (rest === 2) {
-          newObj = JSON.parse(JSON.stringify(this.characters[len - 1]))
-          newObj.span = 1/2;
-          this.characters.splice(len - 1, 1, newObj)
-          newObj = JSON.parse(JSON.stringify(this.characters[len - 2]))
-          newObj.span = 1/2;
-          this.characters.splice(len - 2, 1, newObj)
+          this.$set(this.characters[len - 1], 'span', 1/2)
+          this.$set(this.characters[len - 2], 'span', 1/2)
         }
       }
       return this.characters
@@ -121,9 +126,25 @@ export default {
     .character-item {
       padding: 0px 2px;
       box-sizing: border-box;
+      position: relative;
     }
     img {
       width: 100%;
+    }
+    p {
+      font-size: 0.1rem;
+      padding: 0 3px;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      position: absolute;
+      bottom: 0.6rem;
+      color: #fff;
+      i.iconfont {
+        position: relative;
+        top: 0.125rem;
+        cursor: pointer;
+      }
     }
   }
 </style>

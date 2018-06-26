@@ -8,24 +8,41 @@ const imagePath = path.join(__dirname, 'files/images/LOL');
 const spiderUrl = 'http://lol.178.com/champion/';
 const baseUrl = 'http://lol.qq.com/web201310/info-heros.shtml';
 
-function getHerosHead() {
-  superagent.get(spiderUrl).end((err, res) => {
-    if (err) {
-      throw Erroe(err);
-    }
-    let $ = cheerio.load(res.text);
-    let herosLink = $('.tabbed-contents .tabbed').filter('.cur').find('a');
-    let imgUrl, nickName, name, fileName;
-    let length = herosLink.length;
-    herosLink.each((index, ele) => {
-      imgUrl = $(ele).find('img').attr('src');
-      nickName = $(ele).find('strong').text();
-      name = $(ele).find('span').text();
-      fileName = nickName + '-' + name + '(head).jpg';
-      console.log('共' + length + '张图片，正在下载第' + (index + 1) + '张，' + fileName);
-      download(imgUrl, path.join(imagePath, fileName));
-    })
-  })
+// function getHerosHead() {
+//   superagent.get(spiderUrl).end((err, res) => {
+//     if (err) {
+//       throw Erroe(err);
+//     }
+//     let $ = cheerio.load(res.text);
+//     let herosLink = $('.tabbed-contents .tabbed').filter('.cur').find('a');
+//     let imgUrl, nickName, name, fileName;
+//     let length = herosLink.length;
+//     herosLink.each((index, ele) => {
+//       imgUrl = $(ele).find('img').attr('src');
+//       nickName = $(ele).find('strong').text();
+//       name = $(ele).find('span').text();
+//       fileName = nickName + '-' + name + '(head).jpg';
+//       console.log('共' + length + '张图片，正在下载第' + (index + 1) + '张，' + fileName);
+//       download(imgUrl, path.join(imagePath, fileName));
+//     })
+//   })
+// }
+
+async function getHerosHead() {
+  let $ = await openPage(baseUrl);
+  let herosLink = $('.imgtextlist').find('li');
+  let length = herosLink.length;
+  for (let i = 0; i < length; i++) {
+    let ele = herosLink[i];
+    let title = $(ele).find('a').attr('title');
+    let nickName = title.split(' ')[0];
+    let name = title.split(' ')[1];
+    let imgUrl = $(ele).find('img').attr('src');
+    let fileName = nickName + '-' + name + '(head).jpg';
+    // console.log(imgUrl);
+    console.log('共' + length + '张图片，正在下载第' + (i + 1) + '张，' + fileName);
+    download(imgUrl, path.join(imagePath, fileName));
+  }
 }
 
 function getHerosCover() {
@@ -62,14 +79,14 @@ async function getHerosSkin() {
   let herosLink = $('.imgtextlist').find('li');
   let length = herosLink.length;
   for (let i = 0; i < length; i++) {
-    if (i < 126) {
+    if (i < 64) {
       continue;
     }
     let ele = herosLink[i];
     let infoUrl = $(ele).find('a').attr('href');
     let title = $(ele).find('a').attr('title');
     let nickName = title.split(' ')[0];
-    let name = title.split(' ')[0];
+    let name = title.split(' ')[1];
     let $2 = await openPage('http://lol.qq.com/web201310/' + infoUrl);
     let imgLis = $2('.defail-skin-nav ul li'), imgSkinUrl, fileName;
     for (let j = 0, len = imgLis.length; j < len; j++) {
@@ -104,15 +121,6 @@ async function openPage(url) {
       height: 768
     },
   })
-  // page.customHeaders = headers;
-  // page.settings = {
-  //     javascriptEnabled: true,
-  //     userAgent: 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36',
-  // };
-  // page.viewportSize = {
-  //   width: 1024,
-  //   height: 768
-  // };
   await page.on('onResourceRequested', function(requestData) {
     // console.info('Requesting', requestData.url);
   });
@@ -134,4 +142,5 @@ function download(url, filePath) {
   })
 }
 
+// getHerosHead();
 getHerosSkin();
