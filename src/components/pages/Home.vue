@@ -27,54 +27,53 @@ export default {
       swiperImgs: [
         {
           url: 'javascript:',
-          img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vvsr72j20p00gogo2.jpg',
-          title: '不祥之刃'
+          img: 'http://paxr4fk3y.bkt.clouddn.com/%E7%86%94%E5%B2%A9%E5%B7%A8%E5%85%BD-%E5%A2%A8%E8%8F%B2%E7%89%B9%28skin4%29.jpg',
+          title: '熔岩巨兽-墨菲特'
         },
         {
           url: 'javascript:',
-          img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vw1k2wj20p00goq7n.jpg',
-          title: '九尾妖狐'
+          img: 'http://paxr4fk3y.bkt.clouddn.com/%E5%9C%A3%E6%9E%AA%E6%B8%B8%E4%BE%A0-%E5%8D%A2%E9%94%A1%E5%AE%89%28skin1%29.jpg',
+          title: '圣枪游侠-卢锡安'
         },
         {
           url: 'javascript:',
-          // img: '~/server/spider/files/images/LOL/光辉女郎-光辉女郎(skin8).jpg',
-          img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vw50iwj20ff0aaaci.jpg',
-          title: '光辉女郎'
+          img: 'http://paxr4fk3y.bkt.clouddn.com/%E4%BB%99%E7%81%B5%E5%A5%B3%E5%B7%AB-%E7%92%90%E7%92%90%28skin2%29.jpg',
+          title: '仙灵女巫-璐璐'
         }
       ],
       swiperImgsIndex: 0,
       characters: [
         {
-          img: '../../../static/spider/images/LOL/不祥之刃-卡特琳娜(cover).jpg',
-          text: '永远不要质疑我的忠诚，你不会了解我为之忍受的一切'
+          img: 'http://paxr4fk3y.bkt.clouddn.com/%E5%86%B0%E6%99%B6%E5%87%A4%E5%87%B0-%E8%89%BE%E5%B0%BC%E7%BB%B4%E4%BA%9A%28cover%29.jpg',
+          text: '冰晶凤凰-艾尼维亚'
         },
         {
-          img: '../../../static/spider/images/LOL/九尾妖狐-阿狸(cover).jpg',
-          text: '人心善变'
+          img: 'http://paxr4fk3y.bkt.clouddn.com/%E6%9A%97%E5%A4%9C%E7%8C%8E%E6%89%8B-%E8%96%87%E6%81%A9%28cover%29.jpg',
+          text: '暗夜猎手-薇恩'
         },
         {
-          img: '../../../static/spider/images/LOL/九尾妖狐-阿狸(cover).jpg',
-          text: '人心善变，甚于最深奥的魔法。'
+          img: 'http://paxr4fk3y.bkt.clouddn.com/%E6%9A%97%E8%A3%94%E5%89%91%E9%AD%94-%E4%BA%9A%E6%89%98%E5%85%8B%E6%96%AF%28cover%29.jpg',
+          text: '暗裔剑魔-亚托克斯'
         },
         {
-          img: '../../../static/spider/images/LOL/九尾妖狐-阿狸(cover).jpg',
-          text: '人心善变，甚于最深奥的魔法。'
+          img: 'http://paxr4fk3y.bkt.clouddn.com/%E6%9A%97%E5%BD%B1%E4%B9%8B%E6%8B%B3-%E9%98%BF%E5%8D%A1%E4%B8%BD%28cover%29.jpg',
+          text: '暗影之拳-阿卡丽'
         },
         {
-          img: '../../../static/spider/images/LOL/九尾妖狐-阿狸(cover).jpg',
-          text: '人心善变，甚于最深奥的魔法。'
+          img: 'http://paxr4fk3y.bkt.clouddn.com/%E5%8C%97%E5%9C%B0%E4%B9%8B%E6%80%92-%E7%91%9F%E5%BA%84%E5%A6%AE%28cover%29.jpg',
+          text: '北地之怒-瑟庄妮'
         },
         {
-          img: '../../../static/spider/images/LOL/九尾妖狐-阿狸(cover).jpg',
-          text: '人心善变，甚于最深奥的魔法。'
+          img: 'http://paxr4fk3y.bkt.clouddn.com/%E6%9A%97%E9%BB%91%E5%85%83%E9%A6%96-%E8%BE%9B%E5%BE%B7%E6%8B%89%28cover%29.jpg',
+          text: '暗黑元首-辛德拉'
         },
         {
-          img: '../../../static/spider/images/LOL/九尾妖狐-阿狸(cover).jpg',
-          text: '人心善变，甚于最深奥的魔法。'
+          img: 'http://paxr4fk3y.bkt.clouddn.com/%E4%B8%8D%E7%A5%A5%E4%B9%8B%E5%88%83-%E5%8D%A1%E7%89%B9%E7%90%B3%E5%A8%9C%28cover%29.jpg',
+          text: '不祥之刃-卡特琳娜'
         },
         {
-          img: '../../../static/spider/images/LOL/九尾妖狐-阿狸(cover).jpg',
-          text: '人心善变，甚于最深奥的魔法。'
+          img: '../../../server/spider/files/images/LOL/不祥之刃-卡特琳娜(cover).jpg',
+          text: '拉克丝'
         }
       ]
     }

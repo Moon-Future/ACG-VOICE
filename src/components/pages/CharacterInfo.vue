@@ -7,7 +7,7 @@
       <p>配音：xxx</p>
     </div>
     <div class="character-avatar">
-      <img src="../../../static/spider/images/LOL/不祥之刃-卡特琳娜(head).jpg" alt="头像">
+      <!-- <img src="../../../static/spider/images/LOL/不祥之刃-卡特琳娜(head).jpg" alt="头像"> -->
       <!-- <img src="../../../static/spider/images/LOL/不祥之刃-卡特琳娜(head).jpg" alt="头像"> -->
     </div>
     <swiper :list="swiperSkins" auto></swiper>
@@ -33,19 +33,18 @@ export default {
       swiperSkins: [
         {
           url: 'javascript:',
-          img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vvsr72j20p00gogo2.jpg',
-          title: '不祥之刃'
+          img: 'http://paxr4fk3y.bkt.clouddn.com/%E7%86%94%E5%B2%A9%E5%B7%A8%E5%85%BD-%E5%A2%A8%E8%8F%B2%E7%89%B9%28skin4%29.jpg',
+          title: '熔岩巨兽-墨菲特'
         },
         {
           url: 'javascript:',
-          img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vw1k2wj20p00goq7n.jpg',
-          title: '九尾妖狐'
+          img: 'http://paxr4fk3y.bkt.clouddn.com/%E5%9C%A3%E6%9E%AA%E6%B8%B8%E4%BE%A0-%E5%8D%A2%E9%94%A1%E5%AE%89%28skin1%29.jpg',
+          title: '圣枪游侠-卢锡安'
         },
         {
           url: 'javascript:',
-          // img: '~/server/spider/files/images/LOL/光辉女郎-光辉女郎(skin8).jpg',
-          img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vw50iwj20ff0aaaci.jpg',
-          title: '光辉女郎'
+          img: 'http://paxr4fk3y.bkt.clouddn.com/%E4%BB%99%E7%81%B5%E5%A5%B3%E5%B7%AB-%E7%92%90%E7%92%90%28skin2%29.jpg',
+          title: '仙灵女巫-璐璐'
         }
       ],
       voices: [
