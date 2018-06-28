@@ -13,6 +13,9 @@ yarn-error.log*
 *.njsproj
 *.sln
 
+package-lock.json
+server/spider/package-lock.json
+
 server/spider/node_modules/
 server/spider/files/
 static/spider/
