@@ -18,4 +18,5 @@ server/spider/package-lock.json
 
 server/spider/node_modules/
 server/spider/files/
+server/secret.config.js
 static/spider/
