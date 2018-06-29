@@ -14,6 +14,7 @@
     "axios": "^0.18.0",
     "element-ui": "^2.4.2",
     "koa": "^2.5.1",
+    "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "koa2-cors": "^2.0.5",
     "qiniu": "^7.2.1",

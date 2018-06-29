@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
-import { Tabs, TabPane, Card, Row, Col } from 'element-ui'
+import { Tabs, TabPane, Card, Row, Col, Progress, Button } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.config.productionTip = false
@@ -14,6 +14,8 @@ Vue.use(TabPane)
 Vue.use(Card)
 Vue.use(Row)
 Vue.use(Col)
+Vue.use(Progress)
+Vue.use(Button)
 
 /* eslint-disable no-new */
 new Vue({
