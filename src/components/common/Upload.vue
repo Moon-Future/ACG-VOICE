@@ -4,6 +4,7 @@
       <el-tabs>
         <el-tab-pane label="上传图片">
           <input type="file" multiple @change="imgPreview">
+          <span>已上传 {{ imgSuccess }} 张，还剩 {{ imgRest }} 张</span>
           <button @click="uploadAllImages">全部上传</button>
         </el-tab-pane>
       </el-tabs>
@@ -37,6 +38,9 @@ export default {
   data() {
     return {
       images: [],
+      imgLen: 0,
+      imgSuccess: 0,
+      imgRest: 0,
       uploadOptions: {
         putExtra: { fname: "", params: {}, mimeType: [] || null },
         config: { useCdnDomain: true },
@@ -55,6 +59,8 @@ export default {
       let fileDom = e.target
       let files = fileDom.files
       let that = this
+      this.imgLen = files.length
+      this.imgRest = files.length
       Array.prototype.forEach.call(files, file => {
         let reader = new FileReader()
         let obj = {}
@@ -83,6 +89,8 @@ export default {
           console.log('error:' + err)
         }, 
         complete(res) {
+          that.imgSuccess += 1
+          that.imgRest = that.imgLen - that.imgSuccess
           image.loadPercent = 100
           image.loadStatus = true
           image.link = that.imgLinkDomain + res.key
@@ -112,7 +120,12 @@ export default {
               callback: (uploadRes) => {
                 fileLinkData[uploadRes.hash] = {
                   name: uploadRes.key,
-                  link: that.imgLinkDomain + uploadRes.key
+                  link: that.imgLinkDomain + uploadRes.key,
+                  bucket: uploadRes.bucket,
+                  fsize: (uploadRes.fsize / 1024).toFixed('2') + ' KB',
+                  hash: uploadRes.hash,
+                  mimeType: uploadRes.mimeType,
+                  lastUpd: new Date().getTime()
                 }
                 resolve()
               }
@@ -121,8 +134,8 @@ export default {
         }
         that.$http.post('/api/upload/fileData', {
           data: fileLinkData
-        }).then((response) => {
-          console.log(response)
+        }).then((res) => {
+          // console.log(res.dara.msg)
         })
       })()
     },
