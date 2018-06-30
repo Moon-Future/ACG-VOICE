@@ -18,7 +18,7 @@
             <img :src="img.src" alt="上传图片预览">
             <div class="upload-card-msg">
               <p>{{ img.name }}</p>
-              <p v-if="img.link">链接：{{ img.link }}</p>
+              <p v-if="img.link">链接：<a :href="img.link" target="_blank">{{ img.link }}</a></p>
               <el-progress :text-inside="true" :stroke-width="12" :percentage="img.loadPercent" :status="img.loadStatus ? 'success' : ''"></el-progress>
             </div>
           </el-card>
@@ -31,6 +31,7 @@
 <script>
 import * as qiniu from 'qiniu-js'
 import { callbackify } from 'util';
+import { resolve } from 'url';
 export default {
   name: 'Upload',
   data() {
@@ -84,6 +85,7 @@ export default {
         complete(res) {
           image.loadPercent = 100
           image.loadStatus = true
+          image.link = that.imgLinkDomain + res.key
           callback ? callback(res) : false
           that.images.splice(index, 1, image)
         }
@@ -94,29 +96,35 @@ export default {
         return;
       }
       let that = this, token, fileLinkData = {};
-      this.$http.get('/api/upload/getUploadToken')
-        .then((res) => {
-          token = res.data;
-          (async () => {
-            for (let i = 0, len = that.images.length; i < len; i++) {
-              await that.uploadImage({
-                token, 
-                image: that.images[i],
-                index: i, 
-                callback: (uploadRes) => {
-                  fileLinkData[uploadRes.hash] = {
-                    name: uploadRes.key,
-                    link: that.imgLinkDomain + uploadRes.key
-                  }
-                }})
-            }
-          })()
-          that.$http.post('/api/upload/fileData', {
-            data: fileLinkData
-          }).then((response) => {
-            console.log(response)
-          })
+      (async () => {
+        token = await new Promise((resolve) => {
+          that.$http.get('/api/upload/getUploadToken')
+            .then((res) => {
+              resolve(res.data)
+            })
         })
+        for (let i = 0, len = that.images.length; i < len; i++) {
+          await new Promise((resolve) => {
+            that.uploadImage({
+              token, 
+              image: that.images[i],
+              index: i, 
+              callback: (uploadRes) => {
+                fileLinkData[uploadRes.hash] = {
+                  name: uploadRes.key,
+                  link: that.imgLinkDomain + uploadRes.key
+                }
+                resolve()
+              }
+            })
+          })
+        }
+        that.$http.post('/api/upload/fileData', {
+          data: fileLinkData
+        }).then((response) => {
+          console.log(response)
+        })
+      })()
     },
     dataURItoBlob(dataURI) {
       var byteString = atob(dataURI.split(',')[1])
