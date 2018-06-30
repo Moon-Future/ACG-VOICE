@@ -4,13 +4,13 @@
       <el-tabs>
         <el-tab-pane label="上传图片">
           <input type="file" multiple @change="imgPreview">
-          <button @click="uploadFile">全部上传</button>
+          <button @click="uploadAllImages">全部上传</button>
         </el-tab-pane>
       </el-tabs>
     </div>
     <div class="upload-area">
       <el-row :gutter="20">
-        <el-col :span="4" v-for="(img, i) in imgs" :key="i">
+        <el-col :span="4" v-for="(img, i) in images" :key="i">
           <el-card class="upload-card" :body-style="{padding:'0px'}">
             <div class="upload-card-tools">
               <button type="primary">点击上传</button>
@@ -30,13 +30,16 @@
 
 <script>
 import * as qiniu from 'qiniu-js'
+import { callbackify } from 'util';
 export default {
   name: 'Upload',
   data() {
     return {
-      imgs: [],
-      putExtra: { fname: "", params: {}, mimeType: [] || null },
-      config: { useCdnDomain: true },
+      images: [],
+      uploadOptions: {
+        putExtra: { fname: "", params: {}, mimeType: [] || null },
+        config: { useCdnDomain: true },
+      },
       imgLinkDomain: 'http://paxr4fk3y.bkt.clouddn.com/'
     }
   },
@@ -60,44 +63,59 @@ export default {
             src: reader.result,
             name: file.name,
           }
-          that.imgs.splice(that.imgs.length, 1, obj)
+          that.images.splice(that.images.length, 1, obj)
         }
       })      
     },
-    uploadFile() {
-      if (this.imgs.length === 0) {
+    uploadImage({token, image, index = 1, callback}) {
+      if (image.loadStatus === true) {
+        return
+      }
+      let that = this
+      let blob = this.dataURItoBlob(image.src)
+      let observable = qiniu.upload(blob, image.name, token, this.uploadOptions.putExtra, this.uploadOptions.config)
+      let subscription = observable.subscribe({ 
+        next(res) {
+          that.images.splice(index, 1, image)
+        },
+        error(err) { 
+          console.log('error:' + err)
+        }, 
+        complete(res) {
+          image.loadPercent = 100
+          image.loadStatus = true
+          callback ? callback(res) : false
+          that.images.splice(index, 1, image)
+        }
+      });
+    },
+    uploadAllImages() {
+      if (this.images.length === 0) {
         return;
       }
       let that = this, token, fileLinkData = {};
       this.$http.get('/api/upload/getUploadToken')
         .then((res) => {
-          console.log('res', res)
           token = res.data;
-          // that.imgs.forEach((img, index) => {
-          //   let blob = that.dataURItoBlob(img.src)
-          //   let observable = qiniu.upload(blob, img.name, token, that.putExtra, that.config);
-          //   let subscription = observable.subscribe({ 
-          //     next(res) { 
-          //       console.log('next:' + JSON.stringify(res));
-          //       img.loadPercent = Math.floor(res.total.percent)
-          //       that.imgs.splice(index, 1, img)
-          //     }, 
-          //     error(err) { 
-          //       console.log('error:' + err); 
-          //     }, 
-          //     complete(res) {
-          //       console.log('complete' + JSON.stringify(res));
-          //       fileLinkData[res.hash] = {
-          //         name: res.key,
-          //         link: that.imgLinkDomain + res.key
-          //       }
-          //       img.loadPercent = 100
-          //       img.loadStatus = true
-          //       that.imgs.splice(index, 1, img)
-          //       console.log(fileLinkData)
-          //     }
-          //   });
-          // })
+          (async () => {
+            for (let i = 0, len = that.images.length; i < len; i++) {
+              await that.uploadImage({
+                token, 
+                image: that.images[i],
+                index: i, 
+                callback: (uploadRes) => {
+                  fileLinkData[uploadRes.hash] = {
+                    name: uploadRes.key,
+                    link: that.imgLinkDomain + uploadRes.key
+                  }
+                }})
+            }
+          })()
+          that.$http.post('/api/upload/fileData', {
+            data: fileLinkData
+          }).then((response) => {
+            console.log(response)
+          })
         })
     },
     dataURItoBlob(dataURI) {
