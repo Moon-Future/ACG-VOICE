@@ -16,10 +16,8 @@ function getUploadToken() {
 
 function writeToFile(ctx) {
   let data = ctx.request.body.data
-  fs.writeFile(path.join(__dirname, './imageLink.js'), JSON.stringify(data), 'utf-8', () => {
-    console.log('图片链接文件写入完成')
-    ctx.body = {msg: '图片链接文件写入完成'}
-  })
+  fs.writeFileSync(path.join(__dirname, './imageLink.js'), JSON.stringify(data), 'utf-8')
+  ctx.body = {msg: '图片链接文件写入完成'}
 }
 
 module.exports = {
