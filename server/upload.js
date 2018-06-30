@@ -16,7 +16,7 @@ function getUploadToken() {
 
 function writeToFile(ctx) {
   let data = ctx.request.body.data
-  fs.writeFileSync(path.join(__dirname, './imageLink.js'), JSON.stringify(data), 'utf-8')
+  fs.writeFileSync(path.join(__dirname, `./imageLink${new Date().getTime()}.txt`), JSON.stringify(data), 'utf-8')
   ctx.body = {msg: '图片链接文件写入完成'}
 }
 
