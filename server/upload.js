@@ -73,7 +73,7 @@ function nodeUpload() {
   })()
 }
 
-nodeUpload()
+// nodeUpload()
 
 module.exports = {
   getUploadToken,
