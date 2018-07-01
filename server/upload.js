@@ -28,10 +28,11 @@ function writeToFile(ctx) {
 function uploadImage(filePath, fileName, callback) {
   let formUploader = new qiniu.form_up.FormUploader(formConfig)
   let putExtra = new qiniu.form_up.PutExtra()
+  let key = `英雄联盟/cl8023/${fileName}`
   let uploadToken
   (async () => {
     uploadToken = await getUploadToken()
-    formUploader.putFile(uploadToken, fileName, filePath, putExtra, (respErr, respBody, respInfo) => {
+    formUploader.putFile(uploadToken, key, filePath, putExtra, (respErr, respBody, respInfo) => {
       if (respErr) {
         throw respErr
       }
@@ -46,7 +47,11 @@ function uploadImage(filePath, fileName, callback) {
   })()
 }
 
+// var fileName = 'LOL-不祥之刃-卡特琳娜(cover).jpg', filePath = path.join(imagesPath, fileName);
+// uploadImage(filePath, fileName)
+
 function nodeUpload() {
+  return;
   let fileList = fs.readdirSync(imagesPath);
   let dataObj = {};
   (async () => {
@@ -69,7 +74,7 @@ function nodeUpload() {
         })
       })
     }
-    fs.writeFileSync(path.join(__dirname, `./imageLink-node-${new Date().getTime()}.json`), JSON.stringify(dataObj), 'utf-8')
+    fs.writeFileSync(path.join(__dirname, `./imageLink-node-压缩版-${new Date().getTime()}.json`), JSON.stringify(dataObj), 'utf-8')
   })()
 }
 
