@@ -1,12 +1,12 @@
 <template>
   <div class="acg-home">
     <search></search>
-    <swiper :list="swiperImgs" auto></swiper>
+    <swiper :list="swiperImgs" :loop="true" auto></swiper>
     <tab bar-active-color="#668599" :line-width="1">
       <tab-item v-for="(voiceType, i) in vocieTypes" :key="i">{{ voiceType }}</tab-item>
     </tab>
     <flexbox :gutter="0" wrap="wrap" class="character-list">
-      <flexbox-item class="character-item" :span="character.span" v-for="(character, i) in getCharacters" :key="i">
+      <flexbox-item class="character-item" :span="1/3" v-for="(character, i) in getCharacters" :key="i">
         <img :src="character.img" alt="">
         <p>
           <i class="iconfont" v-bind:class="[character.playOr ? 'icon-acg-timeout' : 'icon-acg-play-circle']"  @click="playVoice(character, i)"></i>{{ character.voiceText }}
@@ -108,28 +108,28 @@ export default {
   },
   computed: {
     getCharacters() {
-      let len = this.characters.length
-      let rest, newObj
-      this.characters.map((obj) => {
-        obj.span = 1/3
-      })
-      if (len === 1) {
-        this.characters.map((obj) => {
-          obj.span = 12
-        })
-      } else if (len === 2) {
-        this.characters.map((obj) => {
-          obj.span = 1/2
-        })
-      } else {
-        rest = len % 3
-        if (rest === 1) {
-          this.$set(this.characters[len - 1], 'span', 12)
-        } else if (rest === 2) {
-          this.$set(this.characters[len - 1], 'span', 1/2)
-          this.$set(this.characters[len - 2], 'span', 1/2)
-        }
-      }
+      // let len = this.characters.length
+      // let rest, newObj
+      // this.characters.map((obj) => {
+      //   obj.span = 1/3
+      // })
+      // if (len === 1) {
+      //   this.characters.map((obj) => {
+      //     obj.span = 12
+      //   })
+      // } else if (len === 2) {
+      //   this.characters.map((obj) => {
+      //     obj.span = 1/2
+      //   })
+      // } else {
+      //   rest = len % 3
+      //   if (rest === 1) {
+      //     this.$set(this.characters[len - 1], 'span', 12)
+      //   } else if (rest === 2) {
+      //     this.$set(this.characters[len - 1], 'span', 1/2)
+      //     this.$set(this.characters[len - 2], 'span', 1/2)
+      //   }
+      // }
       return this.characters
     }
   }
