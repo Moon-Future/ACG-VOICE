@@ -5,6 +5,7 @@ const { Character, Image } = require('./schema')
 const imagePath = path.join(__dirname, '../imageLink-node-压缩版-1530426812949.json')
 
 ;(async () => {
+	return;
 	await connect()
 	let imageInfo = JSON.parse(fs.readFileSync(imagePath, 'utf-8'))
 	let saveCount = 0
