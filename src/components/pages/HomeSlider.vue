@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import Slider from '../common/slider'
+import Slider from '../common/Slider'
 export default {
   name: 'Home',
   data() {

@@ -1,7 +1,7 @@
 <template>
   <div class="acg-home">
     <search></search>
-    <swiper :list="swiperImgs" :loop="true"></swiper>
+    <swiper :list="swiperImgs" :loop="true" auto></swiper>
     <tab bar-active-color="#668599" :line-width="1">
       <tab-item v-for="(voiceType, i) in vocieTypes" :key="i">{{ voiceType }}</tab-item>
     </tab>

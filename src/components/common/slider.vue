@@ -28,7 +28,7 @@ export default {
     },
     interval: {
       type: Number,
-      default: 4000
+      default: 3000
     }
   },
   data() {
