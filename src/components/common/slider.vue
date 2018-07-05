@@ -148,22 +148,25 @@ export default {
     }
     .dots {
       position: absolute;
-      right: 0;
-      left: 0;
+      left: 5%;
       bottom: 12px;
       text-align: center;
       font-size: 0;
+      background: rgba(255,255,255,0.3);
+      height: 13px;
+      line-height: 13px;
+      border-radius: 10px;
+      padding: 0 1px;
       .dot {
         display: inline-block;
-        margin: 0 4px;
-        width: 8px;
-        height: 8px;
+        margin: 0 2px;
+        width: 9px;
+        height: 9px;
         border-radius: 50%;
         background: $color-text-l;
+        vertical-align: middle;
         &.active {
-          width: 20px;
-          border-radius: 5px;
-          background: $color-text-ll;
+          background: #f40;
         }
       }
     }
