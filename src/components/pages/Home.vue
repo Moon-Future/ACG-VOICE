@@ -9,7 +9,6 @@
 </template>
 
 <script>
-let player = document.getElementById('home-palyer')
 import { Search, Swiper, Tab, TabItem, Flexbox, FlexboxItem } from 'vux'
 export default {
   name: 'Home',
