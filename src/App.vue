@@ -4,7 +4,6 @@
     <div class="top">
       <div class="logo">
         <img :src="logoImg" alt="logo">
-        <span>dudulu</span>
       </div>
       <div class="search">
         <i class="iconfont icon-acg-search"></i>
@@ -19,7 +18,7 @@ export default {
   name: 'App',
   data() {
     return {
-      logoImg: require('./assets/flower.png')
+      logoImg: 'http://paxr4fk3y.bkt.clouddn.com/logo/acgVoice-logo.png'
     }
   }
 }
@@ -33,6 +32,8 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
+    padding: 0 10px;
+    font-size: 0.875rem;
   }
   .top {
     height: 2rem;
@@ -42,14 +43,15 @@ export default {
     padding: 5px 0;
     .logo {
       display: flex;
+      justify-content: center;
       img {
-        width: 2rem;
+        width: 50%;
         margin-right: 3px;
       }
     }
     .search {
       position: absolute;
-      right: 3px;
+      right: 13px;
       i {
         font-size: 1.5rem;
         cursor: pointer;
