@@ -51,7 +51,7 @@ export default {
       }
       this.scroll = new BScroll(this.$refs.wrapper, {
         probeType: this.probeType,
-        click: this.click,
+        click: this.click
       })
 
       if (this.listenScroll) {
@@ -93,8 +93,10 @@ export default {
   },
   watch: {
     data() {
+      var self = this;
       setTimeout(() => {
-        this.refresh()
+        console.log(111, this.data, self.data)
+        self.refresh()
       }, this.refreshDelay)
     }
   }

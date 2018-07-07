@@ -29,6 +29,14 @@ export default {
     interval: {
       type: Number,
       default: 3000
+    },
+    data: {
+      type: Array,
+      default: null
+    },
+    refreshDelay: {
+      type: Number,
+      default: 20
     }
   },
   data() {
@@ -38,14 +46,11 @@ export default {
     }
   },
   mounted() {
+    if (!this.$refs.slider) {
+      return
+    }
     setTimeout(() => {
-      this.setsliderWidth()
-      this.initDots()
-      this.initslider()
-
-      if (this.autoPlay) {
-        this.play()
-      }
+      this.init()
     }, 20)
 
     window.addEventListener('resize', () => {
@@ -60,6 +65,15 @@ export default {
     clearTimeout(this.timer)
   },
   methods: {
+    init() {
+      this.setsliderWidth()
+      this.initDots()
+      this.initslider()
+
+      if (this.autoPlay) {
+        this.play()
+      }
+    },
     setsliderWidth(isResize) {
       this.children = this.$refs.sliderGroup.children
       let width = 0
@@ -116,6 +130,13 @@ export default {
     initDots() {
       this.dots = new Array(this.children.length)
     }
+  },
+  watch: {
+    data() {
+      setTimeout(() => {
+        this.init()
+      }, this.refreshDelay)
+    }
   }
 }
 </script>
@@ -124,7 +145,7 @@ export default {
   @import '../../common/css/variable';
 
   .slider {
-    // min-height: 1px;
+    min-height: 1px;
     .slider-group {
       position: relative;
       overflow: hidden;

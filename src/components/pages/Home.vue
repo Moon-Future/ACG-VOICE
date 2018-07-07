@@ -1,115 +1,85 @@
 <template>
-  <div class="home">
-    <div class="slider-wrapper">
-      <slider>
-        <div v-for="(recommend, i) in recommends" :key="i">
-          <a :href="recommend.linkUrl">
-            <img :src="recommend.imgSrc" alt="">
-          </a>
-        </div>
-      </slider>
-    </div>
-    <div class="tabs-wrapper">
-      <ul class="tabs">
-        <li>
-          <div><img src="../../assets/英雄联盟(LOL)全家福.jpg" alt=""></div>
-          <span>游戏</span>
-        </li>
-        <li>
-          <div><img src="../../assets/英雄联盟(LOL)全家福.jpg" alt=""></div>
-          <span>动漫</span>
-        </li>
-        <li>
-          <div><img src="../../assets/萝莉-1.jpeg" alt=""></div>
-          <span>萝莉</span>
-        </li>
-        <li>
-          <div><img src="../../assets/御姐-1.jpeg" alt=""></div>
-          <span>御姐</span>
-        </li>
-        <li>
-          <div><img src="../../assets/英雄联盟(LOL)全家福.jpg" alt=""></div>
-          <span>正太</span>
-        </li>
-        <li>
-          <div><img src="../../assets/英雄联盟(LOL)全家福.jpg" alt=""></div>
-          <span>大叔</span>
-        </li>
-      </ul>
-    </div>
-    <div class="recommend-wrapper">
-      <div class="recommend-head">
-        <div class="recommend-title">
-          <i class="iconfont icon-acg-huo"></i> 大家都在听
-        </div>
-        <div class="recommend-refresh">
-          <i class="iconfont icon-acg-shuaxin"></i>  换一换
-        </div>
+<div class="home">
+  <div class="slider-wrapper">
+    <slider :data="recommends">
+      <div v-for="(recommend, i) in recommends" :key="i">
+        <a :href="recommend.linkUrl">
+          <img :src="recommend.src" @load="loadImage" alt="">
+        </a>
       </div>
-      <div class="recommend-list">
-        <div class="recommend-voice">
-          <div class="voice-img">
-            <img src="http://paxr4fk3y.bkt.clouddn.com/英雄联盟/cl8023/LOL-不祥之刃-卡特琳娜(skin3).jpg" alt="pic">
-          </div>
-          <div class="voice-text">
-            我的大刀早已饥渴难
-          </div>
+    </slider>
+  </div>
+  <div class="tabs-wrapper">
+    <ul class="tabs">
+      <li v-for="(tabData, i) in  tabsData" :key="i">
+        <div><img :src="tabData.src" alt=""></div>
+        <span>{{ tabData.text }}</span>
+      </li>
+    </ul>
+  </div>
+  <div class="recommend-wrapper">
+    <div class="recommend-head">
+      <div class="recommend-title">
+        <i class="iconfont icon-acg-huo"></i> 大家都在听
+      </div>
+      <div class="recommend-refresh" @click="changeRecommendData">
+        <i class="iconfont icon-acg-shuaxin"></i>  换一换
+      </div>
+    </div>
+    <div class="recommend-list">
+      <div class="recommend-voice" v-for="(recommend, i) in recommends" :key="i">
+        <div class="voice-img">
+          <img :src="recommend.src" alt="pic">
         </div>
-        <div class="recommend-voice">
-          <div class="voice-img">
-            <img src="http://paxr4fk3y.bkt.clouddn.com/英雄联盟/cl8023/LOL-不祥之刃-卡特琳娜(skin3).jpg" alt="pic">
-          </div>
-          <div class="voice-text">
-            我的大刀早已饥渴难
-          </div>
-        </div>
-        <div class="recommend-voice">
-          <div class="voice-img">
-            <img src="http://paxr4fk3y.bkt.clouddn.com/英雄联盟/cl8023/LOL-不祥之刃-卡特琳娜(skin3).jpg" alt="pic">
-            <span class="paly-num"><i class="iconfont icon-acg-bofang"></i>33.2万</span>
-          </div>
-          <div class="voice-text">
-            我的大刀早已饥渴难
-          </div>
-        </div>
-        <div class="recommend-voice">
-          <div class="voice-img">
-            <img src="http://paxr4fk3y.bkt.clouddn.com/英雄联盟/cl8023/LOL-不祥之刃-卡特琳娜(skin3).jpg" alt="pic">
-          </div>
-          <div class="voice-text">
-            我的大刀早已饥渴难
-          </div>
+        <div class="voice-text">
+          {{ recommend.character }}
         </div>
       </div>
     </div>
   </div>
+  <div style="height:1500px;width:100%;background:red">
+
+  </div>
+</div>
 </template>
 
 <script>
 import Slider from '../common/Slider'
 import Scroll from '../common/Scroll';
+import { tabsData } from '../../common/js/data.js'
+import { setTimeout } from 'timers';
 export default {
   name: 'Home',
   data() {
     return {
-      recommends: [
-        {
-          imgSrc: 'http://paxr4fk3y.bkt.clouddn.com/英雄联盟/cl8023/LOL-不祥之刃-卡特琳娜(skin3).jpg',
-          linkUrl: 'www.baidu.com'
-        },
-        {
-          imgSrc: 'http://paxr4fk3y.bkt.clouddn.com/英雄联盟/cl8023/LOL-无双剑姬-菲奥娜(skin3).jpg',
-          linkUrl: 'www.baidu.com'
-        },
-        {
-          imgSrc: 'http://paxr4fk3y.bkt.clouddn.com/英雄联盟/cl8023/LOL-战争之王-潘森(skin3).jpg',
-          linkUrl: 'www.baidu.com'
-        }
-      ]
+      tabsData: tabsData,
+      recommends: []
+    }
+  },
+  created() {
+    this.getRecommend()
+  },
+  methods: {
+    getRecommend() {
+      this.$http.get('/api/getRecommend').then((res) => {
+        this.recommends = res.data
+      })
+    },
+    changeRecommendData() {
+      this.$http.get('/api/getRecommend').then((res) => {
+        this.recommends = res.data
+      })
+    },
+    loadImage() {
+      if (!this.checkLoaded) {
+        this.$refs.scroll.initScroll()
+      }
+      this.checkLoaded = true
     }
   },
   components: {
-    Slider
+    Slider,
+    Scroll
   }
 }
 </script>
