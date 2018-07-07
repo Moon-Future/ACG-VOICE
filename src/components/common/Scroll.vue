@@ -93,12 +93,14 @@ export default {
   },
   watch: {
     data() {
-      var self = this;
       setTimeout(() => {
-        console.log(111, this.data, self.data)
-        self.refresh()
+        this.refresh()
       }, this.refreshDelay)
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+
+</style>
