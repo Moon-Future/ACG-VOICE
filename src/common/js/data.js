@@ -22,6 +22,22 @@ export const tabsData = [
   {
     src: require('assets/EZ-1.jpeg'),
     text: '大叔'
+  },
+  {
+    src: require('assets/EZ-1.jpeg'),
+    text: '正太'
+  },
+  {
+    src: require('assets/EZ-1.jpeg'),
+    text: '大叔'
+  },
+  {
+    src: require('assets/EZ-1.jpeg'),
+    text: '正太'
+  },
+  {
+    src: require('assets/EZ-1.jpeg'),
+    text: '大叔'
   }
 ]
 

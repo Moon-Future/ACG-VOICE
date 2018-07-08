@@ -4,9 +4,9 @@
     <div class="home">
       <div class="nav-warpper">
         <ul>
-          <li>推荐</li>
-          <li>列表</li>
-          <li>歌单</li>
+          <li v-for="(nav, i) in menuNav" :key="i" :class="{active : i === navIndex}" @click="changeNav(i)">
+            {{ nav }}
+          </li>
         </ul>
       </div>
       <div class="slider-wrapper">
@@ -19,12 +19,18 @@
         </slider>
       </div>
       <div class="tabs-wrapper">
-        <ul class="tabs">
-          <li v-for="(tabData, i) in tabsData" :key="i">
-            <div><img :src="tabData.src" alt=""></div>
+        <tab>
+          <div v-for="(tabData, i) in tabsData" :key="i">
+            <!-- <div><img :src="tabData.src" alt=""></div> -->
             <span>{{ tabData.text }}</span>
-          </li>
-        </ul>
+          </div>
+          <!-- <ul class="tabs">
+            <li v-for="(tabData, i) in tabsData" :key="i">
+              <div><img :src="tabData.src" alt=""></div>
+              <span>{{ tabData.text }}</span>
+            </li>
+          </ul> -->
+        </tab>
       </div>
       <div class="recommend-wrapper">
         <div class="recommend-head">
@@ -53,16 +59,19 @@
 
 <script>
 import Slider from '../common/Slider'
-import Scroll from '../common/Scroll';
+import Scroll from '../common/Scroll'
+import Tab from '../common/Tab'
 import { tabsData, swiperData, recommendData } from '../../common/js/data.js'
-import { setTimeout } from 'timers';
+import { setTimeout } from 'timers'
 export default {
   name: 'Home',
   data() {
     return {
       tabsData: tabsData,
       swiperData: [],
-      recommends: []
+      recommends: [],
+      menuNav: ['推荐', '列表', '歌单'],
+      navIndex: 0
     }
   },
   created() {
@@ -96,11 +105,15 @@ export default {
       // this.$http.get('/api/getRecommend').then((res) => {
       //   this.recommends = res.data
       // })
+    },
+    changeNav(index) {
+      this.navIndex = index
     }
   },
   components: {
     Slider,
-    Scroll
+    Scroll,
+    Tab
   }
 }
 </script>
@@ -110,6 +123,7 @@ export default {
   .scroll-container {
     height: 100%;
     overflow: hidden;
+    padding: 0 10px;
     .scroll {
       height: 100%;
     }
