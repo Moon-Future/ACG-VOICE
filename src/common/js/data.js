@@ -60,5 +60,73 @@ export const recommendData = [
   {
     src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
     character: '黑暗之女-安妮'
+  },
+  {
+    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
+    character: '黑暗之女-安妮'
+  },
+  {
+    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
+    character: '黑暗之女-安妮'
+  },
+  {
+    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
+    character: '黑暗之女-安妮'
+  },
+  {
+    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
+    character: '黑暗之女-安妮'
+  },
+  {
+    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
+    character: '黑暗之女-安妮'
+  },
+  {
+    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
+    character: '黑暗之女-安妮'
+  },
+  {
+    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
+    character: '黑暗之女-安妮'
+  },
+  {
+    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
+    character: '黑暗之女-安妮'
+  },
+  {
+    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
+    character: '黑暗之女-安妮'
+  },
+  {
+    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
+    character: '黑暗之女-安妮'
+  },
+  {
+    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
+    character: '黑暗之女-安妮'
+  },
+  {
+    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
+    character: '黑暗之女-安妮'
+  },
+  {
+    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
+    character: '黑暗之女-安妮'
+  },
+  {
+    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
+    character: '黑暗之女-安妮'
+  },
+  {
+    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
+    character: '黑暗之女-安妮'
+  },
+  {
+    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
+    character: '黑暗之女-安妮'
+  },
+  {
+    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
+    character: '黑暗之女-安妮'
   }
 ]

@@ -34,6 +34,8 @@ export default {
     color: #2c3e50;
     padding: 0 10px;
     font-size: 0.875rem;
+    height: 100%;
+    overflow: hidden;
   }
   .top {
     height: 2rem;

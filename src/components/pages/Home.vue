@@ -1,127 +1,54 @@
 <template>
-<scroll :data="recommends" class="scroll">
-  <div class="home">
-    <div class="slider-wrapper">
-      <slider :data="swiperData">
-        <div v-for="(data, i) in swiperData" :key="i">
-          <a :href="data.linkUrl">
-            <img :src="data.src" @load="loadImage" alt="">
-          </a>
-        </div>
-      </slider>
-    </div>
-    <div class="tabs-wrapper">
-      <ul class="tabs">
-        <li v-for="(tabData, i) in tabsData" :key="i">
-          <div><img :src="tabData.src" alt=""></div>
-          <span>{{ tabData.text }}</span>
-        </li>
-      </ul>
-    </div>
-    <div class="recommend-wrapper">
-      <div class="recommend-head">
-        <div class="recommend-title">
-          <i class="iconfont icon-acg-huo"></i> 大家都在听
-        </div>
-        <div class="recommend-refresh" @click="changeRecommendData">
-          <i class="iconfont icon-acg-shuaxin"></i>  换一换
-        </div>
+<div class="scroll-container" ref="scrollContainer">
+  <scroll :data="recommends" class="scroll">
+    <div class="home">
+      <div class="nav-warpper">
+        <ul>
+          <li>推荐</li>
+          <li>列表</li>
+          <li>歌单</li>
+        </ul>
       </div>
-      <div class="recommend-list">
-        <div class="recommend-voice" v-for="(recommend, i) in recommends" :key="i">
-          <div class="voice-img">
-            <img v-lazy="recommend.src" alt="pic">
+      <div class="slider-wrapper">
+        <slider :data="swiperData">
+          <div v-for="(data, i) in swiperData" :key="i">
+            <a :href="data.linkUrl">
+              <img :src="data.src" alt="">
+            </a>
           </div>
-          <div class="voice-text">
-            {{ recommend.character }}
-          </div>
-        </div>
+        </slider>
       </div>
-    </div>
-
-    <div class="recommend-wrapper">
-      <div class="recommend-head">
-        <div class="recommend-title">
-          <i class="iconfont icon-acg-huo"></i> 大家都在听
-        </div>
-        <div class="recommend-refresh" @click="changeRecommendData">
-          <i class="iconfont icon-acg-shuaxin"></i>  换一换
-        </div>
+      <div class="tabs-wrapper">
+        <ul class="tabs">
+          <li v-for="(tabData, i) in tabsData" :key="i">
+            <div><img :src="tabData.src" alt=""></div>
+            <span>{{ tabData.text }}</span>
+          </li>
+        </ul>
       </div>
-      <div class="recommend-list">
-        <div class="recommend-voice" v-for="(recommend, i) in recommends" :key="i">
-          <div class="voice-img">
-            <img v-lazy="recommend.src" alt="pic">
+      <div class="recommend-wrapper">
+        <div class="recommend-head">
+          <div class="recommend-title">
+            <i class="iconfont icon-acg-huo"></i> 大家都在听
           </div>
-          <div class="voice-text">
-            {{ recommend.character }}
+          <div class="recommend-refresh" @click="changeRecommendData">
+            <i class="iconfont icon-acg-shuaxin"></i>  换一换
+          </div>
+        </div>
+        <div class="recommend-list">
+          <div class="recommend-voice" v-for="(recommend, i) in recommends" :key="i">
+            <div class="voice-img">
+              <img v-lazy="recommend.src" alt="pic">
+            </div>
+            <div class="voice-text">
+              {{ recommend.character }}
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="recommend-wrapper">
-      <div class="recommend-head">
-        <div class="recommend-title">
-          <i class="iconfont icon-acg-huo"></i> 大家都在听
-        </div>
-        <div class="recommend-refresh" @click="changeRecommendData">
-          <i class="iconfont icon-acg-shuaxin"></i>  换一换
-        </div>
-      </div>
-      <div class="recommend-list">
-        <div class="recommend-voice" v-for="(recommend, i) in recommends" :key="i">
-          <div class="voice-img">
-            <img v-lazy="recommend.src" alt="pic">
-          </div>
-          <div class="voice-text">
-            {{ recommend.character }}
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="recommend-wrapper">
-      <div class="recommend-head">
-        <div class="recommend-title">
-          <i class="iconfont icon-acg-huo"></i> 大家都在听
-        </div>
-        <div class="recommend-refresh" @click="changeRecommendData">
-          <i class="iconfont icon-acg-shuaxin"></i>  换一换
-        </div>
-      </div>
-      <div class="recommend-list">
-        <div class="recommend-voice" v-for="(recommend, i) in recommends" :key="i">
-          <div class="voice-img">
-            <img v-lazy="recommend.src" alt="pic">
-          </div>
-          <div class="voice-text">
-            {{ recommend.character }}
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="recommend-wrapper">
-      <div class="recommend-head">
-        <div class="recommend-title">
-          <i class="iconfont icon-acg-huo"></i> 大家都在听
-        </div>
-        <div class="recommend-refresh" @click="changeRecommendData">
-          <i class="iconfont icon-acg-shuaxin"></i>  换一换
-        </div>
-      </div>
-      <div class="recommend-list">
-        <div class="recommend-voice" v-for="(recommend, i) in recommends" :key="i">
-          <div class="voice-img">
-            <img v-lazy="recommend.src" alt="pic">
-          </div>
-          <div class="voice-text">
-            {{ recommend.character }}
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</scroll>
+  </scroll>
+</div>
 </template>
 
 <script>
@@ -142,7 +69,15 @@ export default {
     this.getSwiperData()
     this.getRecommend()
   },
+  mounted() {
+    this.setScollHeight()
+  },
   methods: {
+    setScollHeight() {
+      let scrollContainer = this.$refs.scrollContainer
+      let clientHeight = scrollContainer.clientHeight
+      scrollContainer.style.height = clientHeight - 42 + 'px'
+    },
     getSwiperData() {
       setTimeout(() => {
         this.swiperData = swiperData
@@ -161,12 +96,6 @@ export default {
       // this.$http.get('/api/getRecommend').then((res) => {
       //   this.recommends = res.data
       // })
-    },
-    loadImage() {
-      // if (!this.checkLoaded) {
-      //   this.$refs.scroll.initScroll()
-      // }
-      // this.checkLoaded = true
     }
   },
   components: {
@@ -178,13 +107,30 @@ export default {
 
 <style lang="scss" scoped>
   @import '../../common/css/variable';
-  .scroll {
+  .scroll-container {
     height: 100%;
     overflow: hidden;
+    .scroll {
+      height: 100%;
+    }
+  }
+  .nav-warpper {
+    padding: 5px 0;
+    ul {
+      display: flex;
+      justify-content: space-around;
+      li {
+        padding: 2px 5px;
+        &.active {
+          border-bottom: 1px solid red;
+        }
+      }
+    }
   }
   .slider-wrapper {
     position: relative;
     width: 100%;
+    height: 9.5rem;
     overflow: hidden;
   }
   .tabs-wrapper {
@@ -200,6 +146,7 @@ export default {
         flex: 0 0 25%;
         div {
           height: 2rem;
+          margin-bottom: 5px;
         }
         img {
           width: 2rem;
@@ -234,6 +181,7 @@ export default {
           position: relative;
           img {
             width: 100%;
+            height: 4.5rem;
             border-radius: 5px;
           }
           span {
