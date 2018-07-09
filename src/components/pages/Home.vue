@@ -1,72 +1,86 @@
 <template>
-<div class="scroll-container" ref="scrollContainer">
-  <scroll :data="hotsData" class="scroll">
-    <div class="home">
-      <div class="nav-warpper">
-        <ul>
-          <li v-for="(nav, i) in menuNav" :key="i" :class="{active : i === navIndex}" @click="changeNav(i)">
-            {{ nav }}
-          </li>
-        </ul>
-      </div>
-      <div class="slider-wrapper">
-        <slider :data="swiperData">
-          <div v-for="(data, i) in swiperData" :key="i">
-            <a :href="data.linkUrl">
+  <div class="scroll-container" ref="scrollContainer">
+    <scroll :data="hotData" class="scroll">
+      <div class="home">
+        <div class="nav-warpper">
+          <ul>
+            <li v-for="(nav, i) in menuNav" :key="i" :class="{active : i === navIndex}" @click="changeNav(i)">
+              {{ nav }}
+            </li>
+          </ul>
+        </div>
+        <div class="slider-wrapper">
+          <slider :data="swiperData">
+            <div v-for="(data, i) in swiperData" :key="i">
+              <a :href="data.linkUrl">
+                <img :src="data.src" alt="">
+              </a>
+            </div>
+          </slider>
+        </div>
+        <div class="tabs-wrapper">
+          <tab>
+            <div v-for="(data, i) in tabData" :key="i">
+              <div><img :src="data.src" alt=""></div>
+              <span>{{ data.text }}</span>
+            </div>
+          </tab>
+        </div>
+        <div class="hot-wrapper">
+          <div class="hot-head">
+            <div class="hot-title">
+              <i class="iconfont icon-acg-huo"></i> 大家都在听
+            </div>
+            <div class="hot-refresh" @click="changeHotData">
+              <i class="iconfont icon-acg-shuaxin"></i>  换一换
+            </div>
+          </div>
+          <div class="hot-list">
+            <div class="hot-voice" v-for="(data, i) in hotData" :key="i">
+              <div class="voice-img">
+                <img v-lazy="data.src" alt="pic">
+              </div>
+              <div class="voice-text">
+                {{ data.character }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="recommend-wrapper">
+          <div class="recommend-head">
+            <div class="recommend-title">
+              专辑
+            </div>
+          </div>
+          <div class="recommend-content" v-for="(data, i) in recommendData" :key="i">
+            <div class="recommend-img">
               <img :src="data.src" alt="">
-            </a>
-          </div>
-        </slider>
-      </div>
-      <div class="tabs-wrapper">
-        <tab>
-          <div v-for="(tabData, i) in tabsData" :key="i">
-            <div><img :src="tabData.src" alt=""></div>
-            <span>{{ tabData.text }}</span>
-          </div>
-        </tab>
-      </div>
-      <div class="hot-wrapper">
-        <div class="hot-head">
-          <div class="hot-title">
-            <i class="iconfont icon-acg-huo"></i> 大家都在听
-          </div>
-          <div class="hot-refresh" @click="changeHotData">
-            <i class="iconfont icon-acg-shuaxin"></i>  换一换
-          </div>
-        </div>
-        <div class="hot-list">
-          <div class="hot-voice" v-for="(hot, i) in hotsData" :key="i">
-            <div class="voice-img">
-              <img v-lazy="hot.src" alt="pic">
             </div>
-            <div class="voice-text">
-              {{ hot.character }}
+            <div class="recommend-descr">
+              <h1>英雄联盟</h1>
+              <p>ncvbvbvnifbsjvnfcvbvbvnifbsjvnfskbv哈哈哈ncvbvbvnifbsjvnfskbv哈哈哈</p>
             </div>
           </div>
         </div>
       </div>
-      <div class="recommend-wrapper">
-
-      </div>
-    </div>
-  </scroll>
-</div>
+    </scroll>
+  </div>
 </template>
 
 <script>
 import Slider from '../common/Slider'
 import Scroll from '../common/Scroll'
 import Tab from '../common/Tab'
-import { tabsData, swiperData, hotData } from '../../common/js/data.js'
+import { tabData, swiperData, hotData, recommendData } from '../../common/js/data.js'
 import { setTimeout } from 'timers'
 export default {
   name: 'Home',
   data() {
     return {
-      tabsData: tabsData,
+      tabData: tabData,
       swiperData: [],
-      hotsData: [],
+      hotData: [],
+      recommendData: [],
       menuNav: ['推荐', '列表', '歌单'],
       navIndex: 0
     }
@@ -74,7 +88,7 @@ export default {
   created() {
     this.getSwiperData()
     this.getHotData()
-    // this.getRecommendData()
+    this.getRecommendData()
   },
   mounted() {
     this.setScollHeight()
@@ -92,16 +106,21 @@ export default {
     },
     getHotData() {
       // this.$http.get('/api/getHot').then((res) => {
-      //   this.hotsData = res.data
+      //   this.hotData = res.data
       // })
       
       setTimeout(() => {
-        this.hotsData = hotData
+        this.hotData = hotData
+      }, 1000)
+    },
+    getRecommendData() {
+      setTimeout(() => {
+        this.recommendData = recommendData
       }, 1000)
     },
     changeHotData() {
       // this.$http.get('/api/getHot').then((res) => {
-      //   this.hotsData = res.data
+      //   this.hotData = res.data
       // })
     },
     changeNav(index) {
@@ -206,7 +225,38 @@ export default {
             }
           }
         }
-        
+      }
+    }
+  }
+  .recommend-wrapper {
+    padding: 5px;
+    margin-top: 10px;
+    display: flex;
+    flex-flow: column;
+    .recommend-head {
+      text-align: left;
+    }
+    .recommend-content {
+      background: #f8f6f5;
+      border-radius: 10px;
+      margin: 5px 0;
+      padding: 10px;
+      display: flex;
+      .recommend-img {
+        img {
+          width: 3rem;
+          height: 3rem;
+        }
+      }
+      .recommend-descr {
+        text-align: left;
+        padding: 0 10px;
+        font-size: 0.75rem;
+        line-height: 1rem;
+        h1 {
+          font-weight: bold;
+          margin-bottom: 3px;
+        }
       }
     }
   }
