@@ -1,6 +1,8 @@
 <template>
-  <div class="tab" ref="tab">
-    <slot></slot>
+  <div ref="tab">
+    <div class="tab" ref="tabGroup">
+      <slot></slot>
+    </div>
   </div>  
 </template>
 
@@ -24,7 +26,7 @@ export default {
     }
   },
   mounted() {
-    if (!this.$refs.slider) {
+    if (!this.$refs.tab) {
       return
     }
     setTimeout(() => {
@@ -34,18 +36,26 @@ export default {
   methods: {
     init() {
       this.setTabWidth()
+      this.initTab()
     },
     setTabWidth() {
       let clientWidth = this.$refs.tab.clientWidth
       let width = 0
-      this.children = this.$refs.tab.children
+      this.children = this.$refs.tabGroup.children
       for (let i = 0, len = this.children.length; i < len; i++) {
         let child = this.children[i]
         addClass(child, 'tab-item')
         width += child.clientWidth
       }
       width = width >= clientWidth ? width : clientWidth
-      this.$refs.tab.style.width = width + 'px'
+      this.$refs.tabGroup.style.width = width + 'px'
+    },
+    initTab() {
+      this.tab = new BScroll(this.$refs.tab, {
+        scrollX: true,
+        scrollY: false,
+        click: true
+      })
     }
   }
 }

@@ -16,28 +16,28 @@ export const tabsData = [
     text: '御姐'
   },
   {
-    src: require('assets/EZ-1.jpeg'),
-    text: '正太'
+    src: require('assets/御姐-1.jpeg'),
+    text: '御姐'
   },
   {
-    src: require('assets/EZ-1.jpeg'),
-    text: '大叔'
+    src: require('assets/御姐-1.jpeg'),
+    text: '御姐'
   },
   {
-    src: require('assets/EZ-1.jpeg'),
-    text: '正太'
+    src: require('assets/御姐-1.jpeg'),
+    text: '御姐'
   },
   {
-    src: require('assets/EZ-1.jpeg'),
-    text: '大叔'
+    src: require('assets/御姐-1.jpeg'),
+    text: '御姐'
   },
   {
-    src: require('assets/EZ-1.jpeg'),
-    text: '正太'
+    src: require('assets/御姐-1.jpeg'),
+    text: '御姐'
   },
   {
-    src: require('assets/EZ-1.jpeg'),
-    text: '大叔'
+    src: require('assets/御姐-1.jpeg'),
+    text: '御姐'
   }
 ]
 
@@ -60,7 +60,7 @@ export const swiperData = [
   }
 ]
 
-export const recommendData = [
+export const hotData = [
   {
     src: require('assets/LOL-殇之木乃伊-阿木木(skin5).jpg'),
     character: '殇之木乃伊-阿木木'

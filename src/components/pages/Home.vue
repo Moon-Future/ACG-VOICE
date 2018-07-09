@@ -1,6 +1,6 @@
 <template>
 <div class="scroll-container" ref="scrollContainer">
-  <scroll :data="recommends" class="scroll">
+  <scroll :data="hotsData" class="scroll">
     <div class="home">
       <div class="nav-warpper">
         <ul>
@@ -21,36 +21,33 @@
       <div class="tabs-wrapper">
         <tab>
           <div v-for="(tabData, i) in tabsData" :key="i">
-            <!-- <div><img :src="tabData.src" alt=""></div> -->
+            <div><img :src="tabData.src" alt=""></div>
             <span>{{ tabData.text }}</span>
           </div>
-          <!-- <ul class="tabs">
-            <li v-for="(tabData, i) in tabsData" :key="i">
-              <div><img :src="tabData.src" alt=""></div>
-              <span>{{ tabData.text }}</span>
-            </li>
-          </ul> -->
         </tab>
       </div>
-      <div class="recommend-wrapper">
-        <div class="recommend-head">
-          <div class="recommend-title">
+      <div class="hot-wrapper">
+        <div class="hot-head">
+          <div class="hot-title">
             <i class="iconfont icon-acg-huo"></i> 大家都在听
           </div>
-          <div class="recommend-refresh" @click="changeRecommendData">
+          <div class="hot-refresh" @click="changeHotData">
             <i class="iconfont icon-acg-shuaxin"></i>  换一换
           </div>
         </div>
-        <div class="recommend-list">
-          <div class="recommend-voice" v-for="(recommend, i) in recommends" :key="i">
+        <div class="hot-list">
+          <div class="hot-voice" v-for="(hot, i) in hotsData" :key="i">
             <div class="voice-img">
-              <img v-lazy="recommend.src" alt="pic">
+              <img v-lazy="hot.src" alt="pic">
             </div>
             <div class="voice-text">
-              {{ recommend.character }}
+              {{ hot.character }}
             </div>
           </div>
         </div>
+      </div>
+      <div class="recommend-wrapper">
+
       </div>
     </div>
   </scroll>
@@ -61,7 +58,7 @@
 import Slider from '../common/Slider'
 import Scroll from '../common/Scroll'
 import Tab from '../common/Tab'
-import { tabsData, swiperData, recommendData } from '../../common/js/data.js'
+import { tabsData, swiperData, hotData } from '../../common/js/data.js'
 import { setTimeout } from 'timers'
 export default {
   name: 'Home',
@@ -69,14 +66,15 @@ export default {
     return {
       tabsData: tabsData,
       swiperData: [],
-      recommends: [],
+      hotsData: [],
       menuNav: ['推荐', '列表', '歌单'],
       navIndex: 0
     }
   },
   created() {
     this.getSwiperData()
-    this.getRecommend()
+    this.getHotData()
+    // this.getRecommendData()
   },
   mounted() {
     this.setScollHeight()
@@ -92,18 +90,18 @@ export default {
         this.swiperData = swiperData
       }, 2000)
     },
-    getRecommend() {
-      // this.$http.get('/api/getRecommend').then((res) => {
-      //   this.recommends = res.data
+    getHotData() {
+      // this.$http.get('/api/getHot').then((res) => {
+      //   this.hotsData = res.data
       // })
       
       setTimeout(() => {
-        this.recommends = recommendData
+        this.hotsData = hotData
       }, 1000)
     },
-    changeRecommendData() {
-      // this.$http.get('/api/getRecommend').then((res) => {
-      //   this.recommends = res.data
+    changeHotData() {
+      // this.$http.get('/api/getHot').then((res) => {
+      //   this.hotsData = res.data
       // })
     },
     changeNav(index) {
@@ -170,23 +168,23 @@ export default {
       }
     }
   }
-  .recommend-wrapper {
+  .hot-wrapper {
     margin-top: 10px;
-    .recommend-head {
+    .hot-head {
       display: flex;
       justify-content: space-between;
       padding: 0 5px;
-      .recommend-title {
+      .hot-title {
         i {
           color: #d4237a
         }
       }
     }
-    .recommend-list {
+    .hot-list {
       display: flex;
       flex-wrap: wrap;
       text-align: left;
-      .recommend-voice {
+      .hot-voice {
         flex: 0 0 50%;
         box-sizing: border-box;
         padding: 5px;
