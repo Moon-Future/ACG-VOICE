@@ -1,15 +1,14 @@
 <template>
   <div class="character-info">
-    <!-- <div class="character-msg">
+    <div class="character-msg">
       <p>姓名：卡特琳娜</p>
       <p>昵称：不祥之刃</p>
       <p>来自：英雄联盟</p>
       <p>配音：xxx</p>
-    </div> -->
-    <!-- <div class="character-avatar"> -->
-      <!-- <img src="../../../static/spider/images/LOL/不祥之刃-卡特琳娜(head).jpg" alt="头像"> -->
-      <!-- <img src="../../../static/spider/images/LOL/不祥之刃-卡特琳娜(head).jpg" alt="头像"> -->
-    <!-- </div> -->
+    </div>
+    <div class="character-avatar">
+      <img src="../../../static/spider/images/LOL/不祥之刃-卡特琳娜(head).jpg" alt="头像">
+    </div>
     <!-- <swiper :list="swiperSkins" auto></swiper>
     <div class="character-voice-list">
       <flexbox orient="vertical">

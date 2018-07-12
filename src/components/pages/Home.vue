@@ -38,7 +38,7 @@
           <div class="hot-list">
             <div class="hot-voice" v-for="(data, i) in hotData" :key="i">
               <div class="voice-img">
-                <img v-lazy="data.src" alt="pic">
+                <router-link to="/characterInfo"><img v-lazy="data.src" alt="pic"></router-link>
               </div>
               <div class="voice-text">
                 {{ data.character }}
