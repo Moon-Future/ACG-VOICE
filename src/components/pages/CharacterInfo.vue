@@ -6,9 +6,9 @@
       <p>来自：英雄联盟</p>
       <p>配音：xxx</p>
     </div>
-    <div class="character-avatar">
+    <!-- <div class="character-avatar">
       <img src="../../../static/spider/images/LOL/不祥之刃-卡特琳娜(head).jpg" alt="头像">
-    </div>
+    </div> -->
     <!-- <swiper :list="swiperSkins" auto></swiper>
     <div class="character-voice-list">
       <flexbox orient="vertical">

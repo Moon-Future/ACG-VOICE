@@ -149,3 +149,10 @@ export const recommendData = [
     character: '黑暗之女-安妮'
   }
 ]
+
+export const characterData = [
+  {
+    name: '安妮',
+    nickName: '黑暗之女',
+  }
+]
