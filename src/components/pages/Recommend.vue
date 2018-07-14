@@ -17,6 +17,7 @@
         </div>
       </tab>
     </div>
+    <div class="devide-line"></div>
     <div class="hot-wrapper">
       <div class="hot-head">
         <div class="hot-title">
@@ -37,6 +38,7 @@
         </div>
       </div>
     </div>
+    <div class="devide-line"></div>
     <div class="recommend-wrapper">
       <div class="recommend-head">
         <div class="recommend-title">
@@ -112,6 +114,11 @@ export default {
 </script>
 
 <style lang="scss">
+  @import 'common/css/variable.scss';
+  @import 'common/css/mixin.scss';
+  .devide-line {
+    @include devide-line(5px);
+  }
   .slider-wrapper {
     position: relative;
     width: 100%;
@@ -142,7 +149,7 @@ export default {
     }
   }
   .hot-wrapper {
-    margin-top: 10px;
+    margin: 10px 0;
     .hot-head {
       display: flex;
       justify-content: space-between;
@@ -191,7 +198,8 @@ export default {
       text-align: left;
     }
     .recommend-content {
-      background: #f8f6f5;
+      background: $color-background-p;
+      color: $color-text;
       border-radius: 10px;
       margin: 5px 0;
       padding: 10px;

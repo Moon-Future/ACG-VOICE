@@ -1,5 +1,13 @@
 <template>
   <div class="home">
+    <div class="top">
+      <div class="logo">
+        <img :src="logoImg" alt="logo">
+      </div>
+      <div class="search">
+        <i class="iconfont icon-acg-search"></i>
+      </div>
+    </div>
     <div class="nav-warpper" ref="navWarpper">
       <ul>
         <router-link v-for="(nav, i) in menuNav" :key="i" :class="{active : i === navIndex}" @click.native="changeNav(i)" :to="nav.url" tag="li">{{ nav.name }}</router-link>
@@ -38,7 +46,8 @@ export default {
           url: '/voiceList'
         }
       ],
-      navIndex: 0
+      navIndex: 0,
+      logoImg: 'http://paxr4fk3y.bkt.clouddn.com/logo/acgVoice-logo.png'
     }
   },
   mounted() {
@@ -66,10 +75,32 @@ export default {
   .home {
     height: 100%;
   }
+  .top {
+    height: 2rem;
+    line-height: 2rem;
+    display: flex;
+    justify-content: center;
+    padding: 5px 0;
+    .logo {
+      display: flex;
+      justify-content: center;
+      img {
+        width: 50%;
+        margin-right: 3px;
+      }
+    }
+    .search {
+      position: absolute;
+      right: 13px;
+      i {
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+    }
+  }
   .scroll-container {
     height: 100%;
     overflow: hidden;
-    padding: 0 10px;
     .scroll {
       height: 100%;
     }
@@ -82,7 +113,7 @@ export default {
       li {
         padding: 2px 5px;
         &.active {
-          border-bottom: 1px solid red;
+          border-bottom: 2px solid #f298ae;
         }
       }
     }

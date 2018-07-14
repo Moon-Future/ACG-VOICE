@@ -4,7 +4,7 @@
       <slot>
       </slot>
     </div>
-    <div class="dots">
+    <div class="dots" v-if="dotShow">
       <span class="dot" :class="{active: currentPageIndex === index }" v-for="(item, index) in dots" :key="index"></span>
     </div>
   </div>  
@@ -37,6 +37,10 @@ export default {
     refreshDelay: {
       type: Number,
       default: 20
+    },
+    dotShow: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
