@@ -198,7 +198,7 @@ export default {
       text-align: left;
     }
     .recommend-content {
-      background: $color-background-p;
+      background: $color-background-purple;
       color: $color-text;
       border-radius: 10px;
       margin: 5px 0;

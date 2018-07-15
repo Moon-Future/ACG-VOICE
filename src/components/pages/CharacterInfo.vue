@@ -1,7 +1,7 @@
 <template>
   <div class="character-info">
     <div class="slider-wrapper">
-      <i class="iconfont icon-acg-zuo"></i>
+      <i class="iconfont icon-acg-zuo" @click="goBack()"></i>
       <slider :data="swiperData" :dotShow="false">
         <div v-for="(data, i) in swiperData" :key="i">
           <a :href="data.linkUrl">
@@ -10,19 +10,25 @@
         </div>
       </slider>
     </div>
-    <div class="play-all"><i class="iconfont icon-acg-play-circle"></i></div>
+    <!-- <div class="play-all"><i class="iconfont icon-acg-play-circle"></i></div> -->
     <div class="character-message">
       <div class="character-avatar">
         <img src="../../../static/spider/images/LOL/不祥之刃-卡特琳娜(head).jpg" alt="头像">
       </div>
       <div class="character-msg">
-        <p>姓名：卡特琳娜</p>
-        <p>昵称：不祥之刃</p>
-        <p>来自：英雄联盟</p>
-        <p>配音：xxx</p>
+        <p>卡特琳娜(不祥之刃) - 英雄联盟</p>
+        <p>
+          <span class="voice-num">Voices <span>20</span></span>
+          <span class="like-num">
+            <i class="iconfont icon-acg-like"></i> <span>70</span>
+          </span>
+        </p>
       </div>
     </div>
-    <div class="devide-line"></div>
+    <div class="voice-list">
+
+    </div>
+    <!-- <div class="devide-line"></div> -->
     <!-- <div class="character-voice-list">
       <flexbox orient="vertical">
         <flexbox-item style="margin-top: 2px" v-for="(voice, i) in voices" :key="i">
@@ -59,6 +65,9 @@ export default {
     getSwiperData() {
       this.swiperData = swiperData
     },
+    goBack() {
+      this.$router.go(-1)
+    }
   },
   components: {
     Slider
@@ -67,9 +76,14 @@ export default {
 </script>
 
 <style lang="scss">
+  @import 'common/css/variable.scss';
   @import 'common/css/mixin.scss';
   .devide-line {
     @include devide-line(2px);
+  }
+  .character-info {
+    height: 100%;
+    background: $color-background;
   }
   .slider-wrapper {
     position: relative;
@@ -93,25 +107,39 @@ export default {
   }
   .character-message {
     display: flex;
-    margin: 10px;
+    margin: 5%;
+    position: absolute;
+    background: $color-background-white;
+    width: 90%;
+    height: 4rem;
+    margin-top: -2rem;
+    border-radius: 5px;
     .character-avatar {
       display: flex;
       flex-flow: column;
       justify-content: center;
+      margin-left: 10px;
       img {
         border-radius: 50%;
-        width: 4rem;
-        height: 4rem;
+        width: 3rem;
+        height: 3rem;
       }
     }
     .character-msg {
-      padding: 0.5rem;
+      padding: 0.5rem 0.5rem 0.5rem 0;
       font-size: 0.8rem;
       display: flex;
       flex-flow: column;
       margin-left: 10px;
       p {
         padding: 3px 0;
+        span {
+          font-size: 0.5rem;
+          color: #c0c0c0;
+        }
+        .like-num {
+          margin-left: 20px;
+        }
       }
     }
   }
