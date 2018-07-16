@@ -13,7 +13,7 @@
     <!-- <div class="play-all"><i class="iconfont icon-acg-play-circle"></i></div> -->
     <div class="character-message">
       <div class="character-avatar">
-        <img src="../../../static/spider/images/LOL/不祥之刃-卡特琳娜(head).jpg" alt="头像">
+        <img src="../../assets/LOL-九尾妖狐-阿狸(head).jpg" alt="头像">
       </div>
       <div class="character-msg">
         <p>卡特琳娜(不祥之刃) - 英雄联盟</p>
@@ -24,53 +24,55 @@
           </span>
         </p>
       </div>
+      <div class="character-more">
+        <i class="iconfont icon-acg-switch"></i>
+      </div>
     </div>
-    <div class="voice-list">
-
-    </div>
-    <!-- <div class="devide-line"></div> -->
-    <!-- <div class="character-voice-list">
-      <flexbox orient="vertical">
-        <flexbox-item style="margin-top: 2px" v-for="(voice, i) in voices" :key="i">
-          <div class="character-voice">
-            <i class="iconfont icon-acg-play-circle"></i>
-            <span>{{ voice.text }}</span>
-          </div>
-        </flexbox-item>
-      </flexbox>
-    </div> -->
+    <scroll>
+      <div class="voice-list">
+        <ul>
+          <li v-for="(voice, i) in voiceData" :key="i">
+            <div class="list-num">{{ i + 1 }}</div>
+            <div class="list-text">
+              {{ voice.text }}
+            </div>
+          </li>
+        </ul>
+      </div>
+    </scroll>
   </div>
 </template>
 
 <script>
 import Slider from '../common/Slider'
-import { swiperData } from '../../common/js/data.js'
+import Scroll from '../common/Scroll'
+import { swiperData, voiceData } from '../../common/js/data.js'
 export default {
   name: 'characterInfo',
   data() {
     return {
       swiperData: [],
-      voices: [
-        {
-          voiceUrl: '',
-          text: '永远不要质疑我的忠诚，你不会了解我为之忍受的一切'
-        }, {}, {}, {}, {}
-      ]
+      voiceData: []
     }
   },
   created() {
     this.getSwiperData()
+    this.getVoiceData()
   },
   methods: {
     getSwiperData() {
       this.swiperData = swiperData
+    },
+    getVoiceData() {
+      this.voiceData = voiceData
     },
     goBack() {
       this.$router.go(-1)
     }
   },
   components: {
-    Slider
+    Slider,
+    Scroll
   },
 }
 </script>
@@ -142,16 +144,30 @@ export default {
         }
       }
     }
+    .character-more {
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+      i {
+        font-size: 2rem;
+      }
+    }
   }
-  .character-voice-list {
-    .character-voice {
-      padding: 0.3rem;
-      background-color: beige;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-      span {
-        font-size: 0.7rem;
+  .voice-list {
+    margin-top: 4rem;
+    li {
+      display: flex;
+      padding: 10px;
+      .list-num {
+        margin: 0 10px;
+        display: flex;
+        justify-content: center;
+        flex-flow: column;
+        color: #44a5bd;
+      }
+      .list-text {
+        line-height: 1rem;
+        color: #57463e;
       }
     }
   }
