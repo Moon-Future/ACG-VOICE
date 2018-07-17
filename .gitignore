@@ -14,9 +14,6 @@ yarn-error.log*
 *.sln
 
 package-lock.json
-server/spider/package-lock.json
 
-server/spider/node_modules/
-server/spider/files/
+tool/node_modules/
 server/secret.config.js
-static/spider/
