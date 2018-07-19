@@ -9,7 +9,7 @@ import VueLazyload from 'vue-lazyload'
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
 Vue.use(VueLazyload, {
-  // loading: require('assets/loading-1.gif')
+  loading: require('assets/loading-2.gif')
 })
 
 /* eslint-disable no-new */

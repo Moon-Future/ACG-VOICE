@@ -1,45 +1,49 @@
 <template>
   <div class="character-info">
-    <div class="slider-wrapper">
-      <i class="iconfont icon-acg-zuo" @click="goBack()"></i>
-      <slider :data="swiperData" :dotShow="false">
-        <div v-for="(data, i) in swiperData" :key="i">
-          <a :href="data.linkUrl">
-            <img :src="data.src" alt="">
-          </a>
+    <div class="character-descr">
+      <div class="slider-wrapper">
+        <i class="iconfont icon-acg-zuo" @click="goBack()"></i>
+        <slider :data="swiperData" :dotShow="false">
+          <div v-for="(data, i) in swiperData" :key="i">
+            <a :href="data.linkUrl">
+              <img :src="data.src" alt="">
+            </a>
+          </div>
+        </slider>
+      </div>
+      <!-- <div class="play-all"><i class="iconfont icon-acg-play-circle"></i></div> -->
+      <div class="character-message">
+        <div class="character-avatar">
+          <img src="../../assets/LOL-九尾妖狐-阿狸(head).jpg" alt="头像">
         </div>
-      </slider>
-    </div>
-    <!-- <div class="play-all"><i class="iconfont icon-acg-play-circle"></i></div> -->
-    <div class="character-message">
-      <div class="character-avatar">
-        <img src="../../assets/LOL-九尾妖狐-阿狸(head).jpg" alt="头像">
-      </div>
-      <div class="character-msg">
-        <p>卡特琳娜(不祥之刃) - 英雄联盟</p>
-        <p>
-          <span class="voice-num">Voices <span>20</span></span>
-          <span class="like-num">
-            <i class="iconfont icon-acg-like"></i> <span>70</span>
-          </span>
-        </p>
-      </div>
-      <div class="character-more">
-        <i class="iconfont icon-acg-switch"></i>
+        <div class="character-msg">
+          <p>卡特琳娜(不祥之刃) - 英雄联盟</p>
+          <p>
+            <span class="voice-num">Voices <span>20</span></span>
+            <span class="like-num">
+              <i class="iconfont icon-acg-like"></i> <span>70</span>
+            </span>
+          </p>
+        </div>
+        <div class="character-more">
+          <i class="iconfont icon-acg-switch"></i>
+        </div>
       </div>
     </div>
-    <scroll>
-      <div class="voice-list">
-        <ul>
-          <li v-for="(voice, i) in voiceData" :key="i">
-            <div class="list-num">{{ i + 1 }}</div>
-            <div class="list-text">
-              {{ voice.text }}
-            </div>
-          </li>
-        </ul>
-      </div>
-    </scroll>
+    <div class="scorll-container">
+      <scroll>
+        <div class="voice-list">
+          <ul>
+            <li v-for="(voice, i) in voiceData" :key="i">
+              <div class="list-num">{{ i + 1 }}</div>
+              <div class="list-text">
+                {{ voice.text }}
+              </div>
+            </li>
+          </ul>
+        </div>
+      </scroll>
+    </div>
   </div>
 </template>
 
@@ -83,20 +87,20 @@ export default {
   .devide-line {
     @include devide-line(2px);
   }
-  .character-info {
-    height: 100%;
-    background: $color-background;
-  }
   .slider-wrapper {
     position: relative;
     width: 100%;
     overflow: hidden;
+    z-index: 990;
     i {
       position: absolute;
       color: #fff;
-      z-index: 999;
       font-size: 2rem;
       margin: 10px;
+      z-index: 999;
+    }
+    img {
+      height: 10rem;
     }
   }
   .play-all {
@@ -116,6 +120,7 @@ export default {
     height: 4rem;
     margin-top: -2rem;
     border-radius: 5px;
+    z-index: 999;
     .character-avatar {
       display: flex;
       flex-flow: column;
@@ -153,21 +158,29 @@ export default {
       }
     }
   }
-  .voice-list {
-    margin-top: 4rem;
-    li {
-      display: flex;
-      padding: 10px;
-      .list-num {
-        margin: 0 10px;
+  .scorll-container {
+    position: fixed;
+    width: 100%;
+    top: 10rem;
+    bottom: 0;
+    padding-top: 3rem;
+    box-sizing: border-box;
+    background: $color-background;
+    .voice-list {
+      li {
         display: flex;
-        justify-content: center;
-        flex-flow: column;
-        color: #44a5bd;
-      }
-      .list-text {
-        line-height: 1rem;
-        color: #57463e;
+        padding: 10px;
+        .list-num {
+          margin: 0 10px;
+          display: flex;
+          justify-content: center;
+          flex-flow: column;
+          color: #44a5bd;
+        }
+        .list-text {
+          line-height: 1rem;
+          color: #57463e;
+        }
       }
     }
   }

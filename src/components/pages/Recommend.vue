@@ -173,7 +173,7 @@ export default {
           position: relative;
           img {
             width: 100%;
-            //height: 4.5rem;
+            height: 5rem;
             border-radius: 5px;
           }
           span {
