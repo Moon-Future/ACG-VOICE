@@ -51,7 +51,7 @@ export default {
     }
   },
   mounted() {
-    this.setScollHeight()
+    // this.setScollHeight()
   },
   methods: {
     setScollHeight() {
@@ -72,9 +72,6 @@ export default {
 
 <style lang="scss" scoped>
   @import '../../common/css/variable';
-  .home {
-    height: 100%;
-  }
   .top {
     height: 2rem;
     line-height: 2rem;
@@ -98,13 +95,6 @@ export default {
       }
     }
   }
-  .scroll-container {
-    height: 100%;
-    overflow: hidden;
-    .scroll {
-      height: 100%;
-    }
-  }
   .nav-warpper {
     padding: 5px 0;
     ul {
@@ -116,6 +106,16 @@ export default {
           border-bottom: 2px solid #f298ae;
         }
       }
+    }
+  }
+  .scroll-container {
+    position: fixed;
+    width: 100%;
+    top: 5rem;
+    bottom: 0;
+    .scroll {
+      height: 100%;
+      overflow: hidden;
     }
   }
 </style>
