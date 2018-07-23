@@ -1,7 +1,7 @@
 <template>
   <div class="character-list">
     <ul>
-      <!-- <li v-for="(character, i) in characters" :key="i">
+      <!-- <router-link to="/characterInfo" v-for="(character, i) in characters" :key="i" tag="li">
         <div class="avatar">
           <img v-lazy="avatar" alt="">
         </div>
@@ -9,16 +9,7 @@
           <p class="name">{{ character.name }} - {{ character.nickName }}</p>
           <p class="from">{{ character.from }}</p>
         </div>
-      </li> -->
-      <router-link to="/characterInfo" v-for="(character, i) in characters" :key="i" tag="li">
-        <div class="avatar">
-          <img v-lazy="avatar" alt="">
-        </div>
-        <div class="info">
-          <p class="name">{{ character.name }} - {{ character.nickName }}</p>
-          <p class="from">{{ character.from }}</p>
-        </div>
-      </router-link>
+      </router-link> -->
     </ul>
   </div>
 </template>
@@ -41,10 +32,25 @@ export default {
     getCharaterList() {
       this.$http.get(apiUrl.getCharacterList).then(res => {
         let data = res.data
+        let obj = {}
+        let map = {}
         data.sort((a, b) => {
           return a.firstLetter.charCodeAt(0) - b.firstLetter.charCodeAt(0)
         })
-        this.characters = data;
+        for (let i = 0, len = data.length; i < len; i++) {
+          let letter = data[i].firstLetter
+          if (obj[letter] === undefined) {
+            map.items === undefined || map.items.length === 0 ? false : this.characters.push(map)
+            map.items = []
+            obj.letter = true
+            map.letter = letter
+          }
+          map.items.push(data[i])
+          if (i === len - 1) {
+            this.characters.push(map)
+          }
+        }
+        console.log(this.characters)
       })
     }
   }
