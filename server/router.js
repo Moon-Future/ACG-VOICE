@@ -19,4 +19,9 @@ router.get('/getRecommend', async (ctx, next) => {
   ctx.body = result
 })
 
+router.get('/getCharacterList', async (ctx, next) => {
+  let result = await api.getCharacterList()
+  ctx.body = result
+})
+
 module.exports = router

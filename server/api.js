@@ -18,7 +18,7 @@ function getRandom(start, end, size) {
 
 const api = {
   getRecommend() {
-    return new Promise((resolve, reject) =>{
+    return new Promise((resolve, reject) => {
       Image.find({position: 'skin'}, (err, res) => {
         let length = res.length
         let indexs = getRandom(0, length, 4)
@@ -26,6 +26,27 @@ const api = {
         for (let i = 0, len = indexs.length; i < len; i++) {
           result.push(res[indexs[i]])
         }
+        resolve(result)
+      })
+    })
+  },
+  getCharacterList() {
+    return new Promise((resolve, reject) => {
+      Character.find({}, (err, res) => {
+        if (err) {
+          throw new Error()
+          return false
+        }
+        let result = []
+        res.forEach((ele) => {
+          result.push({
+            name: ele.name,
+            nickName: ele.nickName,
+            from: ele.from,
+            avatar: ele.avatar,
+            firstLetter: ele.spell.substr(0, 1).toLocaleUpperCase()
+          })
+        })
         resolve(result)
       })
     })

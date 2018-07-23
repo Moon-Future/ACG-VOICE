@@ -1,4 +1,6 @@
 const pinyin_dict_firstletter = require('./pinyin_dict_firstletter');
+const fs = require('fs');
+const path = require('path');
 /**
  * 汉字与拼音互转工具，根据导入的字典文件的不同支持不同
  * 对于多音字目前只是将所有可能的组合输出，准确识别多音字需要完善的词库，而词库文件往往比字库还要大，所以不太适合web环境。
@@ -369,5 +371,17 @@ const pinyin_dict_firstletter = require('./pinyin_dict_firstletter');
 	pinyinUtil.dict = dict;
 	window.pinyinUtil = pinyinUtil;
 
-	console.log('letter', pinyinUtil.getFirstLetter('卡特琳娜'));
+	const fileContent = JSON.parse(fs.readFileSync(path.join(__dirname, 'imageLink.json'), 'utf-8'))
+
+
+	for ( let key in fileContent) {
+		let fileName = fileContent[key].name;
+		let name = fileName.match(/-(.*)\(/)[1].split('-')[1];
+		let letter = pinyinUtil.getFirstLetter(name);
+		fileContent[key]['firstLetter'] = letter;
+	}
+	
+	fs.writeFileSync(path.join(__dirname, `./imageLink-letter.json`), JSON.stringify(fileContent), 'utf-8')
+
+	// console.log('letter', pinyinUtil.getFirstLetter('卡特琳娜'));
 });

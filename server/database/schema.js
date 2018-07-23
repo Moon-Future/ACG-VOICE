@@ -4,10 +4,12 @@ const curTime = new Date().getTime()
 
 const characterSchema = new Schema({
   name: { type: String, unique: true },
+  spell: {type: String, default: '#' },
   nickName: { type: String },
   from: { type: String },
   sex: { type: Number, default: 1 }, // 男 1, 女 0
-  age: { type: Number, default: 18 }
+  age: { type: Number, default: 18 },
+  avatar: { type: String, default: '#' }
 })
 
 const imgaeSchema = new Schema({

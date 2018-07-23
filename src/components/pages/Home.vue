@@ -1,17 +1,19 @@
 <template>
   <div class="home">
-    <div class="top">
-      <div class="logo">
-        <img :src="logoImg" alt="logo">
+    <div class="top-fixed">
+      <div class="top">
+        <div class="logo">
+          <img :src="logoImg" alt="logo">
+        </div>
+        <div class="search">
+          <i class="iconfont icon-acg-search"></i>
+        </div>
       </div>
-      <div class="search">
-        <i class="iconfont icon-acg-search"></i>
+      <div class="nav-warpper" ref="navWarpper">
+        <ul>
+          <router-link v-for="(nav, i) in menuNav" :key="i" :class="{active : i === navIndex}" @click.native="changeNav(i)" :to="nav.url" tag="li">{{ nav.name }}</router-link>
+        </ul>
       </div>
-    </div>
-    <div class="nav-warpper" ref="navWarpper">
-      <ul>
-        <router-link v-for="(nav, i) in menuNav" :key="i" :class="{active : i === navIndex}" @click.native="changeNav(i)" :to="nav.url" tag="li">{{ nav.name }}</router-link>
-      </ul>
     </div>
     <div class="scroll-container" ref="scrollContainer">
       <scroll class="scroll">
@@ -72,6 +74,9 @@ export default {
 
 <style lang="scss" scoped>
   @import '../../common/css/variable';
+  .top-fixed {
+    height: 5rem;
+  }
   .top {
     height: 2rem;
     line-height: 2rem;
