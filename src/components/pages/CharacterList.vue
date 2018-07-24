@@ -1,15 +1,20 @@
 <template>
   <div class="character-list">
     <ul>
-      <!-- <router-link to="/characterInfo" v-for="(character, i) in characters" :key="i" tag="li">
-        <div class="avatar">
-          <img v-lazy="avatar" alt="">
-        </div>
-        <div class="info">
-          <p class="name">{{ character.name }} - {{ character.nickName }}</p>
-          <p class="from">{{ character.from }}</p>
-        </div>
-      </router-link> -->
+      <li class="group" v-for="(character, i) in characters" :key="i">
+        <h1>{{ character.letter }}</h1>
+        <ul>
+          <router-link class="item" to="/characterInfo" v-for="(item, i) in character.items" :key="i" tag="li">
+            <div class="avatar">
+              <img v-lazy="avatar" alt="">
+            </div>
+            <div class="info">
+              <p class="name">{{ item.name }} - {{ item.nickName }}</p>
+              <p class="from">{{ item.from }}</p>
+            </div>
+          </router-link>
+        </ul>
+      </li>
     </ul>
   </div>
 </template>
@@ -32,25 +37,26 @@ export default {
     getCharaterList() {
       this.$http.get(apiUrl.getCharacterList).then(res => {
         let data = res.data
-        let obj = {}
-        let map = {}
+        let group = {}
         data.sort((a, b) => {
           return a.firstLetter.charCodeAt(0) - b.firstLetter.charCodeAt(0)
         })
         for (let i = 0, len = data.length; i < len; i++) {
           let letter = data[i].firstLetter
-          if (obj[letter] === undefined) {
-            map.items === undefined || map.items.length === 0 ? false : this.characters.push(map)
-            map.items = []
-            obj.letter = true
-            map.letter = letter
+          if (group[letter] === undefined) {
+            group[letter] = {
+              letter: letter,
+              items: []
+            }
           }
-          map.items.push(data[i])
-          if (i === len - 1) {
-            this.characters.push(map)
-          }
+          group[letter].items.push(data[i])
         }
-        console.log(this.characters)
+        for (let key in group) {
+          this.characters.push(group[key])
+        }
+        this.characters.sort((a, b) => {
+          return a.letter.charCodeAt(0) - b.letter.charCodeAt(0)
+        })
       })
     }
   }
@@ -59,7 +65,14 @@ export default {
 
 <style lang="scss">
   .character-list {
-    li {
+    li.group {
+      h1 {
+        line-height: 1.5rem;
+        background: #000;
+        color: yellow;
+      }
+    }
+    li.item {
       display: flex;
       padding: 3px;
       border: 1px solid #fbfbfb;
