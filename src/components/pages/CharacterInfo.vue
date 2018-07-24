@@ -166,6 +166,7 @@ export default {
     padding-top: 3rem;
     box-sizing: border-box;
     background: $color-background;
+    color: $color-text;
     .voice-list {
       li {
         display: flex;
@@ -175,11 +176,9 @@ export default {
           display: flex;
           justify-content: center;
           flex-flow: column;
-          color: #44a5bd;
         }
         .list-text {
           line-height: 1rem;
-          color: #57463e;
         }
       }
     }

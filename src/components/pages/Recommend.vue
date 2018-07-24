@@ -119,10 +119,13 @@ export default {
   .devide-line {
     @include devide-line(5px);
   }
+  .recommend {
+    background: $color-background-white;
+  }
   .slider-wrapper {
     position: relative;
     width: 100%;
-    //height: 9.5rem;
+    height: 10rem;
     overflow: hidden;
   }
   .tabs-wrapper {
@@ -198,7 +201,7 @@ export default {
       text-align: left;
     }
     .recommend-content {
-      background: $color-background-purple;
+      background: $color-background;
       color: $color-text;
       border-radius: 10px;
       margin: 5px 0;

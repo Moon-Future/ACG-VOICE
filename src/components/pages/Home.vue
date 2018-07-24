@@ -75,14 +75,16 @@ export default {
 <style lang="scss" scoped>
   @import '../../common/css/variable';
   .top-fixed {
-    height: 5rem;
+    height: 4rem;
+    background: $color-background;
+    color: $color-text;
   }
   .top {
     height: 2rem;
     line-height: 2rem;
     display: flex;
     justify-content: center;
-    padding: 5px 0;
+    // padding: 5px 0;
     .logo {
       display: flex;
       justify-content: center;
@@ -116,8 +118,9 @@ export default {
   .scroll-container {
     position: fixed;
     width: 100%;
-    top: 5rem;
+    top: 4rem;
     bottom: 0;
+    background: $color-background;
     .scroll {
       height: 100%;
       overflow: hidden;

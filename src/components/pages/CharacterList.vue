@@ -64,18 +64,20 @@ export default {
 </script>
 
 <style lang="scss">
+  @import '../../common/css/variable';
   .character-list {
+    color: $color-text;
     li.group {
       h1 {
         line-height: 1.5rem;
-        background: #000;
-        color: yellow;
+        background: $color-background-b;
+        padding-left: 1rem;
       }
     }
     li.item {
       display: flex;
       padding: 3px;
-      border: 1px solid #fbfbfb;
+      border: 1px solid #3e3e3e;
       .avatar {
         display: flex;
         padding: 0 1rem;
