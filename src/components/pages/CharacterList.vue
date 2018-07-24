@@ -97,7 +97,7 @@ export default {
       img {
         width: 3rem;
         height: 3rem;
-        border-radius: 50%;
+        // border-radius: 50%;
       }
     }
   }
