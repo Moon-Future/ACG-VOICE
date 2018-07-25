@@ -22,6 +22,14 @@ export const tabData = [
   {
     src: require('assets/御姐-1.jpeg'),
     text: '大叔'
+  },
+  {
+    src: require('assets/御姐-1.jpeg'),
+    text: '正太'
+  },
+  {
+    src: require('assets/御姐-1.jpeg'),
+    text: '大叔'
   }
 ]
 

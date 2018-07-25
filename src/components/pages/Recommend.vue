@@ -59,8 +59,8 @@
 </template>
 
 <script>
-import Slider from '../common/Slider'
-import Tab from '../common/Tab'
+import Slider from '@/components/common/Slider'
+import Tab from '@/components/common/Tab'
 import { tabData, swiperData, hotData, recommendData } from '../../common/js/data.js'
 import { setTimeout } from 'timers'
 export default {
@@ -131,25 +131,6 @@ export default {
   .tabs-wrapper {
     margin-top: 5px;
     overflow: hidden;
-    .tabs {
-      list-style: none;
-      display: flex;
-      li {
-        width: 25%;
-        display: flex;
-        flex-flow: column;
-        flex: 0 0 25%;
-        div {
-          height: 2rem;
-          margin-bottom: 5px;
-        }
-        img {
-          width: 2rem;
-          height: 2rem;
-          border-radius: 50%;
-        }
-      }
-    }
   }
   .hot-wrapper {
     margin: 10px 0;

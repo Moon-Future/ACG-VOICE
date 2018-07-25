@@ -119,7 +119,7 @@ export default {
     position: fixed;
     width: 100%;
     top: 4rem;
-    bottom: 0;
+    bottom: 2rem;
     background: $color-background;
     .scroll {
       height: 100%;

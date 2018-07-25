@@ -162,7 +162,7 @@ export default {
     position: fixed;
     width: 100%;
     top: 10rem;
-    bottom: 0;
+    bottom: 2rem;
     padding-top: 3rem;
     box-sizing: border-box;
     background: $color-background;

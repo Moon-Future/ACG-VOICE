@@ -1,13 +1,17 @@
 <template>
-  <div id="app">
-    <!-- <img src="./assets/logo.png"> -->
+  <div id="app" @touchmove.prevent>
     <router-view/>
+    <bottom-footer></bottom-footer>
   </div>
 </template>
 
 <script>
+import BottomFooter from '@/components/common/BottomFooter'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    BottomFooter
+  }
 }
 </script>
 
