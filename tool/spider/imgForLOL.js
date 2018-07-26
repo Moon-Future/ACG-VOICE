@@ -28,7 +28,10 @@ const baseUrl = 'http://lol.qq.com/web201310/info-heros.shtml';
 //   })
 // }
 
-async function getHerosHead() {
+async function getHerosHead(flag) {
+  const jsonDataPath = path.join(__dirname, 'File/LOL/Data');
+  const imagePath = path.join(__dirname, 'File/LOL/Image/Head');
+  const content = []
   let $ = await openPage(baseUrl);
   let herosLink = $('.imgtextlist').find('li');
   let length = herosLink.length;
@@ -39,11 +42,23 @@ async function getHerosHead() {
     let name = title.split(' ')[1];
     let imgUrl = $(ele).find('img').attr('src');
     let fileName = nickName + '-' + name + '(head).jpg';
-    let nameEn = imgUrl.split('/')[imgUrl.split('/') - 1];
-    // console.log(imgUrl);
-    console.log('共' + length + '张图片，正在下载第' + (i + 1) + '张，' + fileName, nameEn);
-    // download(imgUrl, path.join(imagePath, fileName));
+    let nameEn = imgUrl.split('/')[imgUrl.split('/').length - 1].split('.')[0];
+    let obj = {
+      name,
+      nameEn,
+      nickName,
+      spell: '#',
+      from: '英雄联盟(LOL)',
+      sex: '1', // 男 1, 女 0
+      age: 18,
+      avatar: '#',
+      avatarOfficial: imgUrl
+    }
+    content.push(obj);
+    console.log('共' + length + '张图片，正在下载第' + (i + 1) + '张，' + fileName);
+    flag ? download(imgUrl, path.join(imagePath, fileName)) : false;
   }
+  fs.writeFileSync(path.join(jsonDataPath, 'avatar.json'), JSON.stringify(content) ,'utf-8')
 }
 
 function getHerosCover() {
@@ -75,14 +90,14 @@ function getHerosCover() {
   })
 }
 
-async function getHerosSkin() {
+async function getHerosSkin(flag) {
+  const jsonDataPath = path.join(__dirname, 'File/LOL/Data');
+  const imagePath = path.join(__dirname, 'File/LOL/Image/Skin');
+  const content = []
   let $ = await openPage(baseUrl);
   let herosLink = $('.imgtextlist').find('li');
   let length = herosLink.length;
   for (let i = 0; i < length; i++) {
-    if (i < 64) {
-      continue;
-    }
     let ele = herosLink[i];
     let infoUrl = $(ele).find('a').attr('href');
     let title = $(ele).find('a').attr('title');
@@ -94,10 +109,27 @@ async function getHerosSkin() {
       imgSkinUrl = $2(imgLis[j]).find('a img').attr('src');
       imgSkinUrl = imgSkinUrl.replace('small', 'big');
       fileName = nickName + '-' + name + '(skin' + ( j + 1) + ').jpg';
+      let obj = {
+        character: name,
+        name: `英雄联盟/cl8023/LOL-${nickName}-${name}(skin${j+1}).jpg`,
+        type: 'image/jpeg',
+        position: 'skin',
+        from: '英雄联盟(LOL)',
+        src: '#',
+        size: '#',
+        lastUpd: 0,
+        bucket: 'acg-Image',
+        recommend: 0,
+        hot: 0,
+        skinOfficial: imgSkinUrl
+      }
+      content.push(obj);
       console.log('共'+length+'英雄，正在下载第'+(i+1)+'个英雄:'+name+'，当前英雄共'+len+'张皮肤，正在下载第'+(j+1)+'张皮肤');
-      download(imgSkinUrl, path.join(imagePath, fileName));
+      fs.writeFileSync(path.join(jsonDataPath, 'skin.json'), JSON.stringify(content) ,'utf-8')
+      flag ? download(imgSkinUrl, path.join(imagePath, fileName)) : false;
     }
   }
+  fs.writeFileSync(path.join(jsonDataPath, 'skin.json'), JSON.stringify(content) ,'utf-8')
 }
 
 function delay(second) {
@@ -143,11 +175,5 @@ function download(url, filePath) {
   })
 }
 
-getHerosHead();
-// getHerosSkin();
-
-
-// "cheerio": "^1.0.0-rc.2",
-//     "phantom": "^6.0.0",
-//     "request": "^2.87.0",
-//     "superagent": "^3.8.3"
+// getHerosHead();
+getHerosSkin();

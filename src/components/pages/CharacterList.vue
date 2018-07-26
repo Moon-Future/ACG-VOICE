@@ -5,13 +5,14 @@
             :probeType="probeType"
             @scroll="scroll">
       <div class="list-container">
+        <h1 class="character-length">{{ characterLength }}</h1>
         <ul class="character-list">
           <li class="group" v-for="(character, i) in characters" :key="i" ref="listGroup">
-            <h1>{{ character.letter }}</h1>
+            <h2>{{ character.letter }}</h2>
             <ul>
               <router-link class="item" to="" v-for="(item, i) in character.items" :key="i" tag="li">
                 <div class="avatar">
-                  <img v-lazy="avatar" alt="">
+                  <img v-lazy="item.avatarOfficial" alt="">
                 </div>
                 <div class="info">
                   <p class="name">{{ item.name }} - {{ item.nickName }}</p>
@@ -52,6 +53,7 @@
     data() {
       return {
         characters: [],
+        characterLength: 0,
         // avatar: avatar
         avatar: 'http://ossweb-img.qq.com/images/lol/img/champion/Ezreal.png',
         scrollY: -1,
@@ -76,6 +78,7 @@
       getCharaterList() {
         this.$http.get(apiUrl.getCharacterList).then(res => {
           let data = res.data
+          this.characterLength = data.length
           let group = {}
           data.sort((a, b) => {
             return a.firstLetter.charCodeAt(0) - b.firstLetter.charCodeAt(0)
@@ -166,9 +169,13 @@
     background: $color-background;
     color: $color-text;
   }
+  .character-length {
+    text-align: center;
+    color: $color-active;
+  }
   .character-list {
     li.group {
-      h1 {
+      h2 {
         line-height: 1.5rem;
         background: $color-background-b;
         padding-left: 1rem;

@@ -371,17 +371,14 @@ const path = require('path');
 	pinyinUtil.dict = dict;
 	window.pinyinUtil = pinyinUtil;
 
-	const fileContent = JSON.parse(fs.readFileSync(path.join(__dirname, 'imageLink.json'), 'utf-8'))
-
-
-	for ( let key in fileContent) {
-		let fileName = fileContent[key].name;
-		let name = fileName.match(/-(.*)\(/)[1].split('-')[1];
+	const fileContent = JSON.parse(fs.readFileSync(path.join(__dirname, 'avatar.json'), 'utf-8'))
+	fileContent.forEach((ele) => {
+		let name = ele.name
 		let letter = pinyinUtil.getFirstLetter(name);
-		fileContent[key]['firstLetter'] = letter;
-	}
-	
-	fs.writeFileSync(path.join(__dirname, `./imageLink-letter.json`), JSON.stringify(fileContent), 'utf-8')
+		ele['spell'] = letter
+	})
+
+	fs.writeFileSync(path.join(__dirname, `./avatar-letter.json`), JSON.stringify(fileContent), 'utf-8')
 
 	// console.log('letter', pinyinUtil.getFirstLetter('卡特琳娜'));
 });

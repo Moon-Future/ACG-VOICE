@@ -44,6 +44,7 @@ const api = {
             nickName: ele.nickName,
             from: ele.from,
             avatar: ele.avatar,
+            avatarOfficial: ele.avatarOfficial,
             firstLetter: ele.spell.substr(0, 1).toLocaleUpperCase()
           })
         })
