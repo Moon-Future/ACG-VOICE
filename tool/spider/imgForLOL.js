@@ -39,9 +39,10 @@ async function getHerosHead() {
     let name = title.split(' ')[1];
     let imgUrl = $(ele).find('img').attr('src');
     let fileName = nickName + '-' + name + '(head).jpg';
+    let nameEn = imgUrl.split('/')[imgUrl.split('/') - 1];
     // console.log(imgUrl);
-    console.log('共' + length + '张图片，正在下载第' + (i + 1) + '张，' + fileName);
-    download(imgUrl, path.join(imagePath, fileName));
+    console.log('共' + length + '张图片，正在下载第' + (i + 1) + '张，' + fileName, nameEn);
+    // download(imgUrl, path.join(imagePath, fileName));
   }
 }
 
@@ -142,5 +143,11 @@ function download(url, filePath) {
   })
 }
 
-// getHerosHead();
-getHerosSkin();
+getHerosHead();
+// getHerosSkin();
+
+
+// "cheerio": "^1.0.0-rc.2",
+//     "phantom": "^6.0.0",
+//     "request": "^2.87.0",
+//     "superagent": "^3.8.3"

@@ -1,12 +1,14 @@
 <template>
   <div id="app" @touchmove.prevent>
-    <router-view/>
+    <keep-alive>
+      <router-view/>
+    </keep-alive>
     <bottom-footer></bottom-footer>
   </div>
 </template>
 
 <script>
-import BottomFooter from '@/components/common/BottomFooter'
+import BottomFooter from 'components/common/BottomFooter'
 export default {
   name: 'App',
   components: {

@@ -1,34 +1,25 @@
 <template>
   <div class="home">
-    <div class="top-fixed">
-      <div class="top">
-        <div class="logo">
-          <img :src="logoImg" alt="logo">
-        </div>
-        <div class="search">
-          <i class="iconfont icon-acg-search"></i>
-        </div>
-      </div>
-      <div class="nav-warpper" ref="navWarpper">
-        <ul>
-          <router-link v-for="(nav, i) in menuNav" :key="i" :class="{active : i === navIndex}" @click.native="changeNav(i)" :to="nav.url" tag="li">{{ nav.name }}</router-link>
-        </ul>
-      </div>
+    <top-header></top-header>
+    <div class="nav-warpper" ref="navWarpper">
+      <ul>
+        <router-link v-for="(nav, i) in menuNav" :key="i" :class="{active : i === navIndex}" @click.native="changeNav(i)" :to="nav.url" tag="li">{{ nav.name }}</router-link>
+      </ul>
     </div>
-    <div class="scroll-container" ref="scrollContainer">
-      <scroll class="scroll">
-        <div>
-          <keep-alive>
-            <router-view></router-view>
-          </keep-alive>
-        </div>
-      </scroll>
-    </div>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
+    <!-- <div class="nav-content" ref="scrollContainer">
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
+    </div> -->
   </div>
 </template>
 
 <script>
-import Scroll from '../common/Scroll'
+import TopHeader from 'components/common/TopHeader'
+import Scroll from 'components/common/Scroll'
 import { setTimeout } from 'timers'
 export default {
   name: 'Home',
@@ -48,62 +39,33 @@ export default {
           url: '/voiceList'
         }
       ],
-      navIndex: 0,
-      logoImg: 'http://paxr4fk3y.bkt.clouddn.com/logo/acgVoice-logo.png'
+      navIndex: 0
     }
   },
-  mounted() {
-    // this.setScollHeight()
-  },
   methods: {
-    setScollHeight() {
-      let scrollContainer = this.$refs.scrollContainer
-      let clientHeight = scrollContainer.clientHeight
-      let navWarpperHeight = this.$refs.navWarpper.clientHeight
-      scrollContainer.style.height = clientHeight - 42 - navWarpperHeight + 'px'
-    },
     changeNav(index) {
       this.navIndex = index
     }
   },
   components: {
+    TopHeader,
     Scroll
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  @import '../../common/css/variable';
-  .top-fixed {
-    height: 4rem;
+  @import 'common/css/variable.scss';
+  .nav-warpper {
+    position: absolute;
+    top: 2rem;
+    padding: 5px 0;
+    height: 2rem;
+    width: 100%;
     background: $color-background;
     color: $color-text;
-  }
-  .top {
-    height: 2rem;
-    line-height: 2rem;
-    display: flex;
-    justify-content: center;
-    // padding: 5px 0;
-    .logo {
-      display: flex;
-      justify-content: center;
-      img {
-        width: 50%;
-        margin-right: 3px;
-      }
-    }
-    .search {
-      position: absolute;
-      right: 13px;
-      i {
-        font-size: 1.5rem;
-        cursor: pointer;
-      }
-    }
-  }
-  .nav-warpper {
-    padding: 5px 0;
+    box-sizing: border-box;
+    z-index: 999;
     ul {
       display: flex;
       justify-content: space-around;
@@ -115,15 +77,10 @@ export default {
       }
     }
   }
-  .scroll-container {
+  .nav-content {
     position: fixed;
     width: 100%;
     top: 4rem;
     bottom: 2rem;
-    background: $color-background;
-    .scroll {
-      height: 100%;
-      overflow: hidden;
-    }
   }
 </style>

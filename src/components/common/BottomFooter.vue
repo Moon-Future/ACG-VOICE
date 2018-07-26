@@ -16,7 +16,7 @@ export default {
     return {
       menu: [
         {
-          name: '声音'
+          name: '主页'
         },
         {
           name: '图片'

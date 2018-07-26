@@ -1,67 +1,72 @@
 <template>
-  <div class="recommend">
-    <div class="slider-wrapper">
-      <slider :data="swiperData">
-        <div v-for="(data, i) in swiperData" :key="i">
-          <a :href="data.linkUrl">
-            <img :src="data.src" alt="">
-          </a>
+  <div class="scroll-container">
+    <scroll>
+      <div class="content">
+        <div class="slider-wrapper">
+          <slider :data="swiperData">
+            <div v-for="(data, i) in swiperData" :key="i">
+              <a :href="data.linkUrl">
+                <img :src="data.src" alt="">
+              </a>
+            </div>
+          </slider>
         </div>
-      </slider>
-    </div>
-    <div class="tabs-wrapper">
-      <tab>
-        <div v-for="(data, i) in tabData" :key="i">
-          <div><img :src="data.src" alt=""></div>
-          <span>{{ data.text }}</span>
+        <div class="tabs-wrapper">
+          <tab>
+            <div v-for="(data, i) in tabData" :key="i">
+              <div><img :src="data.src" alt=""></div>
+              <span>{{ data.text }}</span>
+            </div>
+          </tab>
         </div>
-      </tab>
-    </div>
-    <div class="devide-line"></div>
-    <div class="hot-wrapper">
-      <div class="hot-head">
-        <div class="hot-title">
-          <i class="iconfont icon-acg-huo"></i> 大家都在听
-        </div>
-        <div class="hot-refresh" @click="changeHotData">
-          <i class="iconfont icon-acg-shuaxin"></i>  换一换
-        </div>
-      </div>
-      <div class="hot-list">
-        <div class="hot-voice" v-for="(data, i) in hotData" :key="i">
-          <div class="voice-img">
-            <router-link to="/characterInfo"><img v-lazy="data.src" alt="pic"></router-link>
+        <div class="devide-line"></div>
+        <div class="hot-wrapper">
+          <div class="hot-head">
+            <div class="hot-title">
+              <i class="iconfont icon-acg-huo"></i> 大家都在听
+            </div>
+            <div class="hot-refresh" @click="changeHotData">
+              <i class="iconfont icon-acg-shuaxin"></i>  换一换
+            </div>
           </div>
-          <div class="voice-text">
-            {{ data.character }}
+          <div class="hot-list">
+            <div class="hot-voice" v-for="(data, i) in hotData" :key="i">
+              <div class="voice-img">
+                <router-link to="/characterInfo"><img v-lazy="data.src" alt="pic"></router-link>
+              </div>
+              <div class="voice-text">
+                {{ data.character }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="devide-line"></div>
+        <div class="recommend-wrapper">
+          <div class="recommend-head">
+            <div class="recommend-title">
+              专辑
+            </div>
+          </div>
+          <div class="recommend-content" v-for="(data, i) in recommendData" :key="i">
+            <div class="recommend-img">
+              <img :src="data.src" alt="">
+            </div>
+            <div class="recommend-descr">
+              <h1>英雄联盟</h1>
+              <p>ncvbvbvnifbsjvnfcvbvbvnifbsjvnfskbv哈哈哈ncvbvbvnifbsjvnfskbv哈哈哈</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="devide-line"></div>
-    <div class="recommend-wrapper">
-      <div class="recommend-head">
-        <div class="recommend-title">
-          专辑
-        </div>
-      </div>
-      <div class="recommend-content" v-for="(data, i) in recommendData" :key="i">
-        <div class="recommend-img">
-          <img :src="data.src" alt="">
-        </div>
-        <div class="recommend-descr">
-          <h1>英雄联盟</h1>
-          <p>ncvbvbvnifbsjvnfcvbvbvnifbsjvnfskbv哈哈哈ncvbvbvnifbsjvnfskbv哈哈哈</p>
-        </div>
-      </div>
-    </div>
+    </scroll>
   </div>
 </template>
 
 <script>
-import Slider from '@/components/common/Slider'
-import Tab from '@/components/common/Tab'
-import { tabData, swiperData, hotData, recommendData } from '../../common/js/data.js'
+import Scroll from 'components/common/Scroll'
+import Slider from 'components/common/Slider'
+import Tab from 'components/common/Tab'
+import { tabData, swiperData, hotData, recommendData } from 'common/js/data.js'
 import { setTimeout } from 'timers'
 export default {
   name: 'recommend',
@@ -71,11 +76,25 @@ export default {
       swiperData: [],
       hotData: [],
       recommendData: [],
-      menuNav: ['推荐', '角色', '歌单'],
+      menuNav: [
+        {
+          name: '推荐',
+          url: '/recommend'
+        },
+        {
+          name: '角色',
+          url: '/characterList'
+        },
+        {
+          name: '歌单',
+          url: '/voiceList'
+        }
+      ],
       navIndex: 0
     }
   },
   components: {
+    Scroll,
     Slider,
     Tab
   },
@@ -119,8 +138,16 @@ export default {
   .devide-line {
     @include devide-line(5px);
   }
-  .recommend {
-    background: $color-background-white;
+  .scroll-container {
+    position: fixed;
+    top: 4rem;
+    bottom: 2rem;
+    width: 100%;
+    background: $color-background;
+    .content {
+      background: $color-background-white;
+      color: #000;
+    }
   }
   .slider-wrapper {
     position: relative;
