@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const request = require('request');
+const pinyin = require('../pinyin/pinyinUtil')
+const pinyinUtil = global.pinyinUtil
 const superagent = require('superagent');
 const cheerio = require('cheerio');
 const phantom = require('phantom');
@@ -35,6 +37,7 @@ async function getHerosHead(flag) {
   let $ = await openPage(baseUrl);
   let herosLink = $('.imgtextlist').find('li');
   let length = herosLink.length;
+  let from = '英雄联盟(LOL)'
   for (let i = 0; i < length; i++) {
     let ele = herosLink[i];
     let title = $(ele).find('a').attr('title');
@@ -43,16 +46,18 @@ async function getHerosHead(flag) {
     let imgUrl = $(ele).find('img').attr('src');
     let fileName = nickName + '-' + name + '(head).jpg';
     let nameEn = imgUrl.split('/')[imgUrl.split('/').length - 1].split('.')[0];
+    let spell = pinyinUtil.getFirstLetter(name)
     let obj = {
       name,
       nameEn,
       nickName,
-      spell: '#',
-      from: '英雄联盟(LOL)',
+      spell,
+      from,
       sex: '1', // 男 1, 女 0
       age: 18,
       avatar: '#',
-      avatarOfficial: imgUrl
+      avatarOfficial: imgUrl,
+      findKey: `${name}-${from}`
     }
     content.push(obj);
     console.log('共' + length + '张图片，正在下载第' + (i + 1) + '张，' + fileName);
@@ -97,6 +102,7 @@ async function getHerosSkin(flag) {
   let $ = await openPage(baseUrl);
   let herosLink = $('.imgtextlist').find('li');
   let length = herosLink.length;
+  let from = '英雄联盟(LOL)'
   for (let i = 0; i < length; i++) {
     let ele = herosLink[i];
     let infoUrl = $(ele).find('a').attr('href');
@@ -114,14 +120,15 @@ async function getHerosSkin(flag) {
         name: `英雄联盟/cl8023/LOL-${nickName}-${name}(skin${j+1}).jpg`,
         type: 'image/jpeg',
         position: 'skin',
-        from: '英雄联盟(LOL)',
+        from,
         src: '#',
         size: '#',
         lastUpd: 0,
         bucket: 'acg-Image',
         recommend: 0,
         hot: 0,
-        skinOfficial: imgSkinUrl
+        skinOfficial: imgSkinUrl,
+        findKey: `${name}-${from}`
       }
       content.push(obj);
       console.log('共'+length+'英雄，正在下载第'+(i+1)+'个英雄:'+name+'，当前英雄共'+len+'张皮肤，正在下载第'+(j+1)+'张皮肤');
@@ -176,4 +183,4 @@ function download(url, filePath) {
 }
 
 // getHerosHead();
-getHerosSkin();
+// getHerosSkin();

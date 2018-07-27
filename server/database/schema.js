@@ -11,7 +11,8 @@ const characterSchema = new Schema({
   sex: { type: Number, default: 1 }, // 男 1, 女 0
   age: { type: Number, default: 18 },
   avatar: { type: String, default: '#' },
-  avatarOfficial: { type: String, default: '#' }
+  avatarOfficial: { type: String, default: '#' },
+  findKey: { type: String, default: '#' },
 })
 
 const imgaeSchema = new Schema({

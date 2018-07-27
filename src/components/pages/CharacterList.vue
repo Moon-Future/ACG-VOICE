@@ -5,7 +5,6 @@
             :probeType="probeType"
             @scroll="scroll">
       <div class="list-container">
-        <h1 class="character-length">{{ characterLength }}</h1>
         <ul class="character-list">
           <li class="group" v-for="(character, i) in characters" :key="i" ref="listGroup">
             <h2>{{ character.letter }}</h2>
@@ -34,6 +33,9 @@
         </li>
       </ul>
     </div>
+    <div class="fixed-title" v-show="fixedTitle" ref="fixedTitle">
+      <h1>{{ fixedTitle }}</h1>
+    </div>
   </div>
 </template>
 
@@ -44,6 +46,7 @@
   import avatar from '@/assets/avatar_template.jpeg'
 
   const ANCHOR_HEIGHT = 18
+  const TITLE_HEIGHT = 28
 
   export default {
     name: 'CharacterList',
@@ -54,11 +57,11 @@
       return {
         characters: [],
         characterLength: 0,
-        // avatar: avatar
         avatar: 'http://ossweb-img.qq.com/images/lol/img/champion/Ezreal.png',
         scrollY: -1,
         currentIndex: 0,
-        probeType: 3
+        probeType: 3,
+        diff: -1
       }
     },
     created() {
@@ -72,6 +75,12 @@
         return this.characters.map(ele => {
             return ele.letter
           })
+      },
+      fixedTitle() {
+        if (this.scrollY > 0) {
+          return ''
+        }
+        return this.characters[this.currentIndex] ? this.characters[this.currentIndex].letter : ''
       }
     },
     methods: {
@@ -130,7 +139,16 @@
         }
       },
       _scrollTo(index) {
-        this.$refs.characterList.scrollToElement(this.$refs.listGroup[index], 1000)
+        if (!index && index !== 0) {
+          return
+        }
+        if (index < 0) {
+          index = 0
+        } else if (index > this.listHeight - 2) {
+          index = this.listHeight - 2
+        }
+        this.scrollY = -this.listHeight[index]
+        this.$refs.characterList.scrollToElement(this.$refs.listGroup[index])
       }
     },
     watch: {
@@ -150,10 +168,19 @@
           let height2 = listHeight[i + 1]
           if (-newY >= height1 && -newY < height2) {
             this.currentIndex = i
+            this.diff = height2 + newY
             return
           }
         }
         this.currentIndex = listHeight.length - 2
+      },
+      diff(newVal) {
+        let fixedTop = (newVal > 0 && newVal < TITLE_HEIGHT) ? newVal - TITLE_HEIGHT : 0
+        if (this.fixedTop === fixedTop) {
+          return
+        }
+        this.fixedTop = fixedTop
+        this.$refs.fixedTitle.style.transform = `translate3d(0, ${fixedTop}px, 0)`
       }
     }
   }
@@ -169,14 +196,10 @@
     background: $color-background;
     color: $color-text;
   }
-  .character-length {
-    text-align: center;
-    color: $color-active;
-  }
   .character-list {
     li.group {
       h2 {
-        line-height: 1.5rem;
+        line-height: 28px;
         background: $color-background-b;
         padding-left: 1rem;
       }
@@ -223,5 +246,13 @@
         font-weight: bold;
       }
     }
+  }
+  .fixed-title {
+    position: fixed;
+    top: 4rem;
+    width: 100%;
+    line-height: 28px;
+    background: $color-background-b;
+    padding-left: 1rem;
   }
 </style>

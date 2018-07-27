@@ -6,7 +6,7 @@
           <slider :data="swiperData">
             <div v-for="(data, i) in swiperData" :key="i">
               <a :href="data.linkUrl">
-                <img :src="data.src" alt="">
+                <img :src="data.srcOfficial" alt="">
               </a>
             </div>
           </slider>
@@ -25,14 +25,14 @@
             <div class="hot-title">
               <i class="iconfont icon-acg-huo"></i> 大家都在听
             </div>
-            <div class="hot-refresh" @click="changeHotData">
+            <div class="hot-refresh" @click="getHotData">
               <i class="iconfont icon-acg-shuaxin"></i>  换一换
             </div>
           </div>
           <div class="hot-list">
             <div class="hot-voice" v-for="(data, i) in hotData" :key="i">
-              <div class="voice-img">
-                <router-link to="/characterInfo"><img v-lazy="data.src" alt="pic"></router-link>
+              <div class="voice-img" @click="gotoInfo(data)">
+                <img v-lazy="data.srcOfficial" :src="data.srcOfficial" alt="pic">
               </div>
               <div class="voice-text">
                 {{ data.character }}
@@ -67,7 +67,8 @@ import Scroll from 'components/common/Scroll'
 import Slider from 'components/common/Slider'
 import Tab from 'components/common/Tab'
 import { tabData, swiperData, hotData, recommendData } from 'common/js/data.js'
-import { setTimeout } from 'timers'
+import apiUrl from '@/serviceAPI.config.js'
+import { mapMutations } from 'vuex'
 export default {
   name: 'recommend',
   data() {
@@ -105,29 +106,30 @@ export default {
   },
   methods: {
     getSwiperData() {
-      setTimeout(() => {
-        this.swiperData = swiperData
-      }, 2000)
+      this.$http.get(apiUrl.getHomeSwiper).then((res) => {
+        this.swiperData = res.data
+      })
     },
     getHotData() {
-      // this.$http.get('/api/getHot').then((res) => {
-      //   this.hotData = res.data
-      // })
-      
-      setTimeout(() => {
-        this.hotData = hotData
-      }, 1000)
+      this.$http.get(apiUrl.getHomeHot).then((res) => {
+        this.hotData = res.data
+      })
     },
     getRecommendData() {
       setTimeout(() => {
         this.recommendData = recommendData
       }, 1000)
     },
-    changeHotData() {
-      // this.$http.get('/api/getHot').then((res) => {
-      //   this.hotData = res.data
-      // })
+    gotoInfo(character) {
+      this.setCharacter(character)
+      this.$router.push('/characterInfo')
     },
+    ...mapMutations({
+      setCharacter: 'SET_CHARACTER'
+    })
+  },
+  computed: {
+
   }
 }
 </script>

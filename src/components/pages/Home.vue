@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <top-header></top-header>
-    <div class="nav-warpper" ref="navWarpper">
+    <div class="nav-wrapper" ref="navWrapper">
       <ul>
         <router-link v-for="(nav, i) in menuNav" :key="i" :class="{active : i === navIndex}" @click.native="changeNav(i)" :to="nav.url" tag="li">{{ nav.name }}</router-link>
       </ul>
@@ -56,7 +56,7 @@ export default {
 
 <style lang="scss" scoped>
   @import 'common/css/variable.scss';
-  .nav-warpper {
+  .nav-wrapper {
     position: absolute;
     top: 2rem;
     padding: 5px 0;

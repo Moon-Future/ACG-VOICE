@@ -5,9 +5,7 @@
         <i class="iconfont icon-acg-zuo" @click="goBack()"></i>
         <slider :data="swiperData" :dotShow="false">
           <div v-for="(data, i) in swiperData" :key="i">
-            <a :href="data.linkUrl">
-              <img :src="data.src" alt="">
-            </a>
+            <img :src="data.srcOfficial" alt="">
           </div>
         </slider>
       </div>
@@ -17,7 +15,7 @@
           <img src="../../assets/LOL-九尾妖狐-阿狸(head).jpg" alt="头像">
         </div>
         <div class="character-msg">
-          <p>卡特琳娜(不祥之刃) - 英雄联盟</p>
+          <p>{{ character.character }}</p>
           <p>
             <span class="voice-num">Voices <span>20</span></span>
             <span class="like-num">
@@ -51,6 +49,8 @@
 import Slider from '../common/Slider'
 import Scroll from '../common/Scroll'
 import { swiperData, voiceData } from '../../common/js/data.js'
+import apiUrl from '@/serviceAPI.config.js'
+import { mapGetters } from 'vuex'
 export default {
   name: 'characterInfo',
   data() {
@@ -62,6 +62,18 @@ export default {
   created() {
     this.getSwiperData()
     this.getVoiceData()
+    let findKey = this.character.findKey
+    this.$http.get(apiUrl.getCharacterSkin, {
+      params: {findKey}
+    }).then((res) => {
+      this.swiperData = res.data
+    })
+
+    this.$http.get(apiUrl.getCharacterSkinAndAvatar, {
+      params: {findKey}
+    }).then((res) => {
+      console.log(res)
+    })
   },
   methods: {
     getSwiperData() {
@@ -73,6 +85,9 @@ export default {
     goBack() {
       this.$router.go(-1)
     }
+  },
+  computed: {
+    ...mapGetters(['character'])
   },
   components: {
     Slider,
@@ -150,9 +165,10 @@ export default {
       }
     }
     .character-more {
-      display: flex;
-      flex-flow: column;
-      justify-content: center;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
       i {
         font-size: 2rem;
       }

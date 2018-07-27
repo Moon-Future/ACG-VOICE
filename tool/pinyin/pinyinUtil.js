@@ -13,8 +13,7 @@ const path = require('path');
 	} else {
 		factory(global);
 	}
-})(typeof window !== "undefined" ? window : this, function(window) {
-
+})(global, function(window) {
 	var toneMap = 
 	{
 		"ā": "a1",
@@ -371,14 +370,14 @@ const path = require('path');
 	pinyinUtil.dict = dict;
 	window.pinyinUtil = pinyinUtil;
 
-	const fileContent = JSON.parse(fs.readFileSync(path.join(__dirname, 'avatar.json'), 'utf-8'))
-	fileContent.forEach((ele) => {
-		let name = ele.name
-		let letter = pinyinUtil.getFirstLetter(name);
-		ele['spell'] = letter
-	})
+	// const fileContent = JSON.parse(fs.readFileSync(path.join(__dirname, 'avatar.json'), 'utf-8'))
+	// fileContent.forEach((ele) => {
+	// 	let name = ele.name
+	// 	let letter = pinyinUtil.getFirstLetter(name);
+	// 	ele['spell'] = letter
+	// })
 
-	fs.writeFileSync(path.join(__dirname, `./avatar-letter.json`), JSON.stringify(fileContent), 'utf-8')
+	// fs.writeFileSync(path.join(__dirname, `./avatar-letter.json`), JSON.stringify(fileContent), 'utf-8')
 
 	// console.log('letter', pinyinUtil.getFirstLetter('卡特琳娜'));
 });
