@@ -12,10 +12,10 @@
       <!-- <div class="play-all"><i class="iconfont icon-acg-play-circle"></i></div> -->
       <div class="character-message">
         <div class="character-avatar">
-          <img src="../../assets/LOL-九尾妖狐-阿狸(head).jpg" alt="头像">
+          <img :src="characterInfo.avatarOfficial" alt="头像">
         </div>
         <div class="character-msg">
-          <p>{{ character.character }}</p>
+          <p>{{ characterInfo.name }} - {{ characterInfo.nickName }}</p>
           <p>
             <span class="voice-num">Voices <span>20</span></span>
             <span class="like-num">
@@ -55,39 +55,42 @@ export default {
   name: 'characterInfo',
   data() {
     return {
+      characterInfo: {},
       swiperData: [],
-      voiceData: []
+      voiceData: [],
+      destory: false
     }
   },
   created() {
-    this.getSwiperData()
+    this.getData()
     this.getVoiceData()
-    let findKey = this.character.findKey
-    this.$http.get(apiUrl.getCharacterSkin, {
-      params: {findKey}
-    }).then((res) => {
-      this.swiperData = res.data
-    })
-
-    this.$http.get(apiUrl.getCharacterSkinAndAvatar, {
-      params: {findKey}
-    }).then((res) => {
-      console.log(res)
-    })
   },
   methods: {
-    getSwiperData() {
-      this.swiperData = swiperData
+    getData() {
+      let findKey = this.character.findKey
+      this.$http.get(apiUrl.getCharacterSkinAndAvatar, {
+        params: {findKey}
+      }).then((res) => {
+        let data = res.data
+        this.swiperData = data.skin.length === 0 ? swiperData : data.skin
+        this.characterInfo = data.avatar[0] || {}
+      })
     },
     getVoiceData() {
       this.voiceData = voiceData
     },
     goBack() {
+      this.destory = true
       this.$router.go(-1)
     }
   },
   computed: {
     ...mapGetters(['character'])
+  },
+  watch: {
+    character() {
+      this.getData()
+    }
   },
   components: {
     Slider,

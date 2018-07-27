@@ -45,10 +45,8 @@ router.get('/getCharacterAvatar', async (ctx, next) => {
 })
 
 router.get('/getCharacterSkinAndAvatar', async (ctx, next) => {
-  // api.getCharacterSkinAndAvatar(ctx.query).then((result) => {
-  //   console.log('result', result)
-  //   ctx.body = result
-  // })
+  let result = await api.getCharacterSkinAndAvatar(ctx.query)
+  ctx.body = result
 })
 
 module.exports = router
