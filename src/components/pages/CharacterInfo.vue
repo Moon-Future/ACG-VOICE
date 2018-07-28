@@ -1,7 +1,7 @@
 <template>
   <div class="character-info">
     <div class="character-skin">
-      <div class="slider-wrapper">
+      <div class="slider-wrapper" ref="slider">
         <i class="iconfont icon-acg-zuo" @click="goBack()"></i>
         <slider :data="swiperData" :dotShow="false">
           <div v-for="(data, i) in swiperData" :key="i">
@@ -10,7 +10,7 @@
         </slider>
       </div>
     </div>
-    <div class="character-container">
+    <div class="character-container" ref="message">
       <div class="character-message">
         <div class="character-avatar">
           <img :src="characterInfo.avatarOfficial" alt="头像">
@@ -28,75 +28,97 @@
           <i class="iconfont icon-acg-switch"></i>
         </div>
       </div>
-      <div class="scorll-container">
-        <scroll :listenScroll="listenScroll"
-                @scroll="scroll"
-                :probeType="probeType">
-          <voice-list :data="voiceData" :showRank="showRank"></voice-list>
-        </scroll>
-      </div>
+    </div>
+    <div class="scorll-container">
+      <scroll :listenScroll="listenScroll"
+              @scroll="scroll"
+              :probeType="probeType">
+        <voice-list :data="voiceData" :showRank="showRank"></voice-list>
+      </scroll>
     </div>
   </div>
 </template>
 
 <script>
-import Slider from 'components/common/Slider'
-import Scroll from 'components/common/Scroll'
-import VoiceList from 'components/common/VoiceList'
-import { swiperData, voiceData } from '../../common/js/data.js'
-import apiUrl from '@/serviceAPI.config.js'
-import { mapGetters } from 'vuex'
-export default {
-  name: 'characterInfo',
-  data() {
-    return {
-      characterInfo: {},
-      swiperData: [],
-      voiceData: [],
-      showRank: true,
-      probeType: 3,
-      listenScroll: true
-    }
-  },
-  created() {
-    this.getData()
-    this.getVoiceData()
-  },
-  methods: {
-    getData() {
-      let findKey = this.character.findKey
-      this.$http.get(apiUrl.getCharacterSkinAndAvatar, {
-        params: {findKey}
-      }).then((res) => {
-        let data = res.data
-        this.swiperData = data.skin.length === 0 ? swiperData : data.skin
-        this.characterInfo = data.avatar[0] || {}
-      })
+  import Slider from 'components/common/Slider'
+  import Scroll from 'components/common/Scroll'
+  import VoiceList from 'components/common/VoiceList'
+  import { swiperData, voiceData } from '../../common/js/data.js'
+  import apiUrl from '@/serviceAPI.config.js'
+  import { mapGetters } from 'vuex'
+
+  const MAX_HEIGHT = 100
+
+  export default {
+    name: 'characterInfo',
+    data() {
+      return {
+        characterInfo: {},
+        swiperData: [],
+        voiceData: [],
+        showRank: true,
+        probeType: 3,
+        listenScroll: true,
+        scrollY: 0
+      }
     },
-    getVoiceData() {
-      this.voiceData = voiceData
-    },
-    scroll(pos) {
-      // console.log(pos)
-    },
-    goBack() {
-      this.$router.back()
-    }
-  },
-  computed: {
-    ...mapGetters(['character'])
-  },
-  watch: {
-    character() {
+    created() {
       this.getData()
-    }
-  },
-  components: {
-    Slider,
-    Scroll,
-    VoiceList
-  },
-}
+      this.getVoiceData()
+    },
+    mounted() {
+      this.sliderHeight = this.$refs.slider.clientHeight
+      this.messageHeight = this.$refs.message.clientHeight
+    },
+    methods: {
+      getData() {
+        let findKey = this.character.findKey
+        this.$http.get(apiUrl.getCharacterSkinAndAvatar, {
+          params: {findKey}
+        }).then((res) => {
+          let data = res.data
+          this.swiperData = data.skin.length === 0 ? swiperData : data.skin
+          this.characterInfo = data.avatar[0] || {}
+        })
+      },
+      getVoiceData() {
+        this.voiceData = voiceData
+      },
+      scroll(pos) {
+        this.scrollY = pos.y
+      },
+      goBack() {
+        this.$router.back()
+      }
+    },
+    computed: {
+      ...mapGetters(['character'])
+    },
+    watch: {
+      character() {
+        this.getData()
+      },
+      scrollY(newY) {
+        let slider = this.$refs.slider
+        let message = this.$refs.message
+        if (newY >= 0) {
+          message.style.height = this.messageHeight + 'px'
+          slider.style.height = this.sliderHeight + 'px'
+          return
+        }
+        if (-newY >= MAX_HEIGHT) {
+          return
+        }
+        slider.style.height = this.sliderHeight + newY + 'px'
+        message.style.height = this.messageHeight - newY + 'px'
+      }
+    },
+    components: {
+      Slider,
+      Scroll,
+      VoiceList
+    },
+  }
 </script>
 
 <style lang="scss">
@@ -105,91 +127,82 @@ export default {
   .devide-line {
     @include devide-line(2px);
   }
-  .character-skin {
+  .slider-wrapper {
     position: relative;
     width: 100%;
     height: 10rem;
     overflow: hidden;
+    z-index: 20;
     i {
       position: absolute;
       color: #fff;
       font-size: 2rem;
       margin: 10px;
-      z-index: 10;
+      z-index: 999;
     }
   }
-
   .character-container {
     background: $color-background;
-    color: $color-text;
-    position: fixed;
-    top: 10rem;
-    bottom: 0;
-    z-index: 10;
-
-    .character-message {
+    position: relative;
+    height: 4rem;
+  }
+  .character-message {
+    display: flex;
+    margin: 0 5%;
+    position: relative;
+    background: $color-background-white;
+    width: 90%;
+    height: 4rem;
+    margin-top: -2rem;
+    border-radius: 5px;
+    z-index: 999;
+    .character-avatar {
       display: flex;
-      margin: 5%;
-      position: absolute;
-      background: $color-background-white;
-      width: 90%;
-      height: 4rem;
-      margin-top: -2rem;
-      border-radius: 5px;
-      z-index: 10;
-      .character-avatar {
-        display: flex;
-        flex-flow: column;
-        justify-content: center;
-        margin-left: 10px;
-        img {
-          border-radius: 50%;
-          width: 3rem;
-          height: 3rem;
-        }
+      flex-flow: column;
+      justify-content: center;
+      margin-left: 10px;
+      img {
+        border-radius: 50%;
+        width: 3rem;
+        height: 3rem;
       }
-      .character-msg {
-        padding: 0.5rem 0.5rem 0.5rem 0;
-        font-size: 0.8rem;
-        display: flex;
-        flex-flow: column;
-        margin-left: 10px;
-        p {
-          padding: 3px 0;
-          span {
-            font-size: 0.5rem;
-            color: #c0c0c0;
-          }
-          .like-num {
-            margin-left: 20px;
-          }
+    }
+    .character-msg {
+      padding: 0.5rem 0.5rem 0.5rem 0;
+      font-size: 0.8rem;
+      display: flex;
+      flex-flow: column;
+      margin-left: 10px;
+      p {
+        padding: 3px 0;
+        span {
+          font-size: 0.5rem;
+          color: #c0c0c0;
         }
-      }
-      .character-more {
-        position: absolute;
-        right: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        i {
-          font-size: 2rem;
+        .like-num {
+          margin-left: 20px;
         }
       }
     }
-
-    .scorll-container {
-      height: 100%;
-      margin-top: 2rem;
-      box-sizing: content-box;
+    .character-more {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      i {
+        font-size: 2rem;
+      }
     }
   }
-  // .scorll-container {
-  //   position: fixed;
-  //   width: 100%;
-  //   top: 10rem;
-  //   bottom: 2rem;
-  //   padding-top: 3rem;
-  //   box-sizing: border-box;
-  //   background: $color-background;
-  //   color: $color-text;
-  // }
+  .scorll-container {
+    position: fixed;
+    width: 100%;
+    top: 12rem;
+    bottom: 0rem;
+    padding-top: 1rem;
+    box-sizing: border-box;
+    z-index: 10;
+    background: $color-background;
+    color: $color-text;
+  }
 </style>
