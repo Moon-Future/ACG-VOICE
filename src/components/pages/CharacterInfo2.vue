@@ -1,6 +1,6 @@
 <template>
   <div class="character-info">
-    <div class="character-skin">
+    <div class="character-descr">
       <div class="slider-wrapper">
         <i class="iconfont icon-acg-zuo" @click="goBack()"></i>
         <slider :data="swiperData" :dotShow="false">
@@ -9,8 +9,6 @@
           </div>
         </slider>
       </div>
-    </div>
-    <div class="character-container">
       <div class="character-message">
         <div class="character-avatar">
           <img :src="characterInfo.avatarOfficial" alt="头像">
@@ -28,13 +26,13 @@
           <i class="iconfont icon-acg-switch"></i>
         </div>
       </div>
-      <div class="scorll-container">
-        <scroll :listenScroll="listenScroll"
-                @scroll="scroll"
-                :probeType="probeType">
-          <voice-list :data="voiceData" :showRank="showRank"></voice-list>
-        </scroll>
-      </div>
+    </div>
+    <div class="scorll-container">
+      <scroll :listenScroll="listenScroll"
+              @scroll="scroll"
+              :probeType="probeType">
+        <voice-list :data="voiceData" :showRank="showRank"></voice-list>
+      </scroll>
     </div>
   </div>
 </template>
@@ -105,91 +103,86 @@ export default {
   .devide-line {
     @include devide-line(2px);
   }
-  .character-skin {
+  .slider-wrapper {
     position: relative;
     width: 100%;
-    height: 10rem;
     overflow: hidden;
+    z-index: 990;
     i {
       position: absolute;
       color: #fff;
       font-size: 2rem;
       margin: 10px;
-      z-index: 10;
+      z-index: 999;
+    }
+    img {
+      height: 10rem;
     }
   }
-
-  .character-container {
+  .play-all {
+    position: absolute;
+    right: 25px;
+    margin-top: -1.5rem;
+    i {
+      font-size: 3rem;
+    }
+  }
+  .character-message {
+    display: flex;
+    margin: 5%;
+    position: absolute;
+    background: $color-background-white;
+    width: 90%;
+    height: 4rem;
+    margin-top: -2rem;
+    border-radius: 5px;
+    z-index: 999;
+    .character-avatar {
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+      margin-left: 10px;
+      img {
+        border-radius: 50%;
+        width: 3rem;
+        height: 3rem;
+      }
+    }
+    .character-msg {
+      padding: 0.5rem 0.5rem 0.5rem 0;
+      font-size: 0.8rem;
+      display: flex;
+      flex-flow: column;
+      margin-left: 10px;
+      p {
+        padding: 3px 0;
+        span {
+          font-size: 0.5rem;
+          color: #c0c0c0;
+        }
+        .like-num {
+          margin-left: 20px;
+        }
+      }
+    }
+    .character-more {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      i {
+        font-size: 2rem;
+      }
+    }
+  }
+  .scorll-container {
+    position: fixed;
+    width: 100%;
+    top: 10rem;
+    bottom: 2rem;
+    padding-top: 3rem;
+    box-sizing: border-box;
     background: $color-background;
     color: $color-text;
-    position: fixed;
-    top: 10rem;
-    bottom: 0;
-    z-index: 10;
-
-    .character-message {
-      display: flex;
-      margin: 5%;
-      position: absolute;
-      background: $color-background-white;
-      width: 90%;
-      height: 4rem;
-      margin-top: -2rem;
-      border-radius: 5px;
-      z-index: 10;
-      .character-avatar {
-        display: flex;
-        flex-flow: column;
-        justify-content: center;
-        margin-left: 10px;
-        img {
-          border-radius: 50%;
-          width: 3rem;
-          height: 3rem;
-        }
-      }
-      .character-msg {
-        padding: 0.5rem 0.5rem 0.5rem 0;
-        font-size: 0.8rem;
-        display: flex;
-        flex-flow: column;
-        margin-left: 10px;
-        p {
-          padding: 3px 0;
-          span {
-            font-size: 0.5rem;
-            color: #c0c0c0;
-          }
-          .like-num {
-            margin-left: 20px;
-          }
-        }
-      }
-      .character-more {
-        position: absolute;
-        right: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        i {
-          font-size: 2rem;
-        }
-      }
-    }
-
-    .scorll-container {
-      height: 100%;
-      margin-top: 2rem;
-      box-sizing: content-box;
-    }
   }
-  // .scorll-container {
-  //   position: fixed;
-  //   width: 100%;
-  //   top: 10rem;
-  //   bottom: 2rem;
-  //   padding-top: 3rem;
-  //   box-sizing: border-box;
-  //   background: $color-background;
-  //   color: $color-text;
-  // }
 </style>

@@ -12,8 +12,7 @@
 
 <script>
 import BScroll from 'better-scroll' 
-import { addClass } from '../../common/js/dom';
-import { setTimeout, clearTimeout } from 'timers';
+import { addClass } from 'common/js/dom'
 
 export default {
   name: 'slide',
@@ -206,7 +205,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '../../common/css/variable';
+  @import 'common/css/variable.scss';
 
   .slide {
     min-height: 1px;

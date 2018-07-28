@@ -9,7 +9,7 @@
           <li class="group" v-for="(character, i) in characters" :key="i" ref="listGroup">
             <h2>{{ character.letter }}</h2>
             <ul>
-              <router-link class="item" to="" v-for="(item, i) in character.items" :key="i" tag="li">
+              <li class="item" v-for="(item, i) in character.items" :key="i" @click="gotoInfo(item)">
                 <div class="avatar">
                   <img v-lazy="item.avatarOfficial" alt="">
                 </div>
@@ -17,7 +17,7 @@
                   <p class="name">{{ item.name }} - {{ item.nickName }}</p>
                   <p class="from">{{ item.from }}</p>
                 </div>
-              </router-link>
+              </li>
             </ul>
           </li>
         </ul>
@@ -44,6 +44,7 @@
   import { getData } from 'common/js/dom.js'
   import apiUrl from '@/serviceAPI.config.js'
   import avatar from '@/assets/avatar_template.jpeg'
+  import { mapMutations } from 'vuex'
 
   const ANCHOR_HEIGHT = 18
   const TITLE_HEIGHT = 28
@@ -127,6 +128,10 @@
         let anchorIndex = parseInt(this.touch.anchorIndex) + delta
         this._scrollTo(anchorIndex)
       },
+      gotoInfo(character) {
+        this.setCharacter(character)
+        this.$router.push('/characterInfo')
+      },
       _calculateHeight() {
         this.listHeight = []
         const list = this.$refs.listGroup
@@ -149,7 +154,10 @@
         }
         this.scrollY = -this.listHeight[index]
         this.$refs.characterList.scrollToElement(this.$refs.listGroup[index])
-      }
+      },
+      ...mapMutations({
+        setCharacter: 'SET_CHARACTER'
+      })
     },
     watch: {
       characters() {

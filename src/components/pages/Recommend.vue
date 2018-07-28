@@ -127,9 +127,6 @@ export default {
     ...mapMutations({
       setCharacter: 'SET_CHARACTER'
     })
-  },
-  computed: {
-
   }
 }
 </script>

@@ -3,17 +3,12 @@
     <top-header></top-header>
     <div class="nav-wrapper" ref="navWrapper">
       <ul>
-        <router-link v-for="(nav, i) in menuNav" :key="i" :class="{active : i === navIndex}" @click.native="changeNav(i)" :to="nav.url" tag="li">{{ nav.name }}</router-link>
+        <router-link v-for="(nav, i) in menuNav" :key="i" :to="nav.url" tag="li">{{ nav.name }}</router-link>
       </ul>
     </div>
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
-    <!-- <div class="nav-content" ref="scrollContainer">
-      <keep-alive>
-        <router-view></router-view>
-      </keep-alive>
-    </div> -->
   </div>
 </template>
 
@@ -71,8 +66,9 @@ export default {
       justify-content: space-around;
       li {
         padding: 2px 5px;
-        &.active {
-          border-bottom: 2px solid #f298ae;
+        &.router-link-active {
+          border-bottom: 2px solid $color-active;
+          color: $color-active;
         }
       }
     }
