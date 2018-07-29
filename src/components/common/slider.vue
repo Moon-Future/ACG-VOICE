@@ -212,7 +212,6 @@ export default {
       this.timer = setTimeout(() => {
         this.itemHeight === '' ? false : this._setItemHeight(true)
         this.slide.next()
-        console.log('currentPageIndex', this.currentPageIndex)
       }, this.interval)
     }
   },
