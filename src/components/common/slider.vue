@@ -48,6 +48,14 @@ export default {
     data: {
       type: Array,
       default: null
+    },
+    itemHeight: {
+      type: String,
+      default: ''
+    },
+    itemScale: {
+      type: Number,
+      default: 1
     }
   },
   data() {
@@ -134,12 +142,34 @@ export default {
         let child = this.children[i]
         addClass(child, 'slide-item')
         child.style.width = slideWidth + 'px'
+        this.itemHeight === '' ? false : child.style.height = this.itemHeight
         width += slideWidth
       }
       if (this.loop && !isResize) {
         width += 2 * slideWidth
       }
       this.$refs.slideGroup.style.width = width + 'px'
+    },
+    _setItemHeight(nextPage) {
+      let currentPageIndex
+      let length = this.children.length
+      let diff = this.loop ? 2 : 0
+      if (!nextPage) {
+        currentPageIndex = this.currentPageIndex
+      } else {
+        currentPageIndex = (this.currentPageIndex === length - diff) ? 0 : this.currentPageIndex + 1
+      }
+      for (let i = 0; i < this.children.length; i++) {
+        let child = this.children[i]
+        let itemScale
+        if ((this.loop && i === currentPageIndex + 1) || (!this.loop && i === currentPageIndex))  {
+          itemScale = this.itemScale
+        } else {
+          itemScale = 1
+        }
+        this.itemHeight === '' ? false : child.style.height = this.itemHeight
+        child.style.transform = `scale(${itemScale})`
+      }
     },
     _initSlide() {
       this.slide = new BScroll(this.$refs.slide, {
@@ -180,7 +210,9 @@ export default {
     _play() {
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
+        this.itemHeight === '' ? false : this._setItemHeight(true)
         this.slide.next()
+        console.log('currentPageIndex', this.currentPageIndex)
       }, this.interval)
     }
   },
@@ -199,7 +231,10 @@ export default {
     },
     data() {
       this.update()
-    }
+    },
+    itemHeight() {
+      this._setItemHeight()
+    },
   }
 }
 </script>
@@ -218,6 +253,7 @@ export default {
         box-sizing: border-box;
         overflow: hidden;
         text-align: center;
+        transform-origin: top;
         a {
           display: block;
           width: 100%;

@@ -1,20 +1,16 @@
 <template>
   <div class="character-info">
-    <div class="character-skin" ref="slider">
-      <i class="iconfont icon-acg-zuo" @click="goBack()"></i>
-      <slider :data="swiperData"
-              :dotShow="false"
-              :showDot="false"
-              :autoPlay="true"
-              :itemHeight="itemHeight"
-              :itemScale="itemScale">
-        <div v-for="(data, i) in swiperData" :key="i">
-          <img :src="data.srcOfficial" alt="">
-        </div>
-      </slider>
+    <div class="character-skin">
+      <div class="slider-wrapper" ref="slider">
+        <i class="iconfont icon-acg-zuo" @click="goBack()"></i>
+        <slider :data="swiperData" :dotShow="false" :showDot="false">
+          <div v-for="(data, i) in swiperData" :key="i">
+            <img :src="data.srcOfficial" alt="">
+          </div>
+        </slider>
+      </div>
     </div>
-    <div class="filter" ref="filter"></div>
-    <div class="container">
+    <div class="character-container" ref="container">
       <div class="character-message" ref="message">
         <div class="character-avatar">
           <img :src="characterInfo.avatarOfficial" alt="头像">
@@ -32,13 +28,13 @@
           <i class="iconfont icon-acg-switch"></i>
         </div>
       </div>
-      <div class="scorll-container" ref="scroll">
-        <scroll :listenScroll="listenScroll"
-                @scroll="scroll"
-                :probeType="probeType">
-          <voice-list :data="voiceData" :showRank="showRank"></voice-list>
-        </scroll>
-      </div>
+    </div>
+    <div class="scorll-container">
+      <scroll :listenScroll="listenScroll"
+              @scroll="scroll"
+              :probeType="probeType">
+        <voice-list :data="voiceData" :showRank="showRank"></voice-list>
+      </scroll>
     </div>
   </div>
 </template>
@@ -51,7 +47,7 @@
   import apiUrl from '@/serviceAPI.config.js'
   import { mapGetters } from 'vuex'
 
-  const RESERVED_HEIGHT = 80
+  const MAX_HEIGHT = 80
 
   export default {
     name: 'characterInfo',
@@ -63,9 +59,7 @@
         showRank: true,
         probeType: 3,
         listenScroll: true,
-        scrollY: 0,
-        itemHeight: '10rem',
-        itemScale: 1
+        scrollY: 0
       }
     },
     created() {
@@ -73,10 +67,8 @@
       this.getVoiceData()
     },
     mounted() {
-      this.messageTop = this.$refs.message.offsetTop
-      this.filterTop = this.$refs.filter.offsetTop
-      this.itemHeightPx = this.$refs.slider.clientHeight
-      this.$refs.slider.style.height = 'auto'
+      this.sliderHeight = this.$refs.slider.clientHeight
+      this.containerHeight = this.$refs.container.clientHeight
     },
     methods: {
       getData() {
@@ -107,21 +99,24 @@
         this.getData()
       },
       scrollY(newY) {
-        let filter = this.$refs.filter
-        let scroll = this.$refs.scroll
+        let slider = this.$refs.slider
+        let container = this.$refs.container
         let message = this.$refs.message
-        let reservedHeight = this.filterTop + newY
-        if (newY >= 0) {
-          this.itemHeight = this.itemHeightPx + newY + 'px'
-          this.itemScale = 1 + newY / this.itemHeightPx
+        if (newY > 0) {
+          let percent = 1 + newY/300
+          // percent = percent > 1.5 ? 1.5 : percent
+          container.style.height = this.containerHeight + 'px'
+          slider.style.height = this.sliderHeight + 'px'
+          slider.style.transform = `scale(${percent})`
+          container.style.top = newY + 'px'
+          console.log(newY)
+          return
         }
-
-        if (reservedHeight < RESERVED_HEIGHT) {
-          newY = RESERVED_HEIGHT - this.filterTop
+        if (-newY >= MAX_HEIGHT) {
+          newY = -MAX_HEIGHT
         }
-        this.itemHeight = this.itemHeightPx + newY + 'px'
-        message.style.marginTop = `${this.messageTop + newY}px`
-        filter.style.height = `${-newY}px`
+        slider.style.height = this.sliderHeight + newY + 'px'
+        container.style.height = this.containerHeight - newY + 'px'
       }
     },
     components: {
@@ -135,19 +130,19 @@
 <style lang="scss">
   @import 'common/css/variable.scss';
   @import 'common/css/mixin.scss';
-
   .devide-line {
     @include devide-line(2px);
   }
   .character-info {
     overflow: hidden;
   }
-  .character-skin {
+  .slider-wrapper {
     position: relative;
     width: 100%;
-    overflow: hidden;
     height: 10rem;
+    overflow: hidden;
     z-index: 20;
+    transform-origin: top;
     i {
       position: absolute;
       color: #fff;
@@ -156,20 +151,10 @@
       z-index: 999;
     }
   }
-  .filter {
-    background: #393232;
-    width: 100%;
-    position: relative;
-    height: 0;
-    top: 0;
-    // z-index: 25;
-  }
-  .container {
+  .character-container {
     background: $color-background;
-    width: 100%;
-    position: absolute;
-    top: 10rem;
-    bottom: 0;
+    position: relative;
+    height: 4rem;
   }
   .character-message {
     display: flex;
@@ -180,7 +165,7 @@
     height: 4rem;
     margin-top: -2rem;
     border-radius: 5px;
-    z-index: 30;
+    z-index: 999;
     .character-avatar {
       display: flex;
       flex-flow: column;
@@ -220,19 +205,14 @@
     }
   }
   .scorll-container {
-    // position: fixed;
-    // width: 100%;
-    // top: 12rem;
-    // bottom: 0rem;
-    // padding-top: 1rem;
+    position: fixed;
+    width: 100%;
+    top: 12rem;
+    bottom: 0rem;
+    padding-top: 1rem;
     box-sizing: border-box;
+    z-index: 10;
     background: $color-background;
     color: $color-text;
-
-    position: absolute;
-    width: 100%;
-    top: 3rem;
-    bottom: 0;
-    z-index: 10;
   }
 </style>
