@@ -1,6 +1,6 @@
 <template>
   <div class="slide" ref="slide">
-    <div class="slide-group" ref="slideGroup">
+    <div class="slide-group" ref="slideGroup" @click="goto">
       <slot>
       </slot>
     </div>
@@ -104,6 +104,10 @@ export default {
     clearTimeout(this.timer)
   },
   methods: {
+    goto() {
+      this.next()
+      console.log('currentPageIndex', this.currentPageIndex)
+    },
     update() {
       if (this.slide) {
         this.slide.destroy()
@@ -159,6 +163,7 @@ export default {
       } else {
         currentPageIndex = (this.currentPageIndex === length - diff) ? 0 : this.currentPageIndex + 1
       }
+      console.log(this.currentPageIndex)
       for (let i = 0; i < this.children.length; i++) {
         let child = this.children[i]
         let itemScale

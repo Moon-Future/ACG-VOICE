@@ -5,7 +5,8 @@
       <slider :data="swiperData"
               :dotShow="false"
               :showDot="false"
-              :autoPlay="true"
+              :autoPlay="false"
+              :loop="false"
               :itemHeight="itemHeight"
               :itemScale="itemScale">
         <div v-for="(data, i) in swiperData" :key="i">
