@@ -3,10 +3,8 @@
     <div class="character-skin" ref="slider">
       <i class="iconfont icon-acg-zuo" @click="goBack()"></i>
       <slider :data="swiperData"
-              :dotShow="false"
               :showDot="false"
-              :autoPlay="false"
-              :loop="false"
+              :autoPlay="true"
               :itemHeight="itemHeight"
               :itemScale="itemScale">
         <div v-for="(data, i) in swiperData" :key="i">
@@ -76,7 +74,6 @@
     mounted() {
       this.messageTop = this.$refs.message.offsetTop
       this.filterTop = this.$refs.filter.offsetTop
-      this.itemHeightPx = this.$refs.slider.clientHeight
       this.$refs.slider.style.height = 'auto'
     },
     methods: {
@@ -94,6 +91,7 @@
         this.voiceData = voiceData
       },
       scroll(pos) {
+        this.itemHeightPx = this.itemHeightPx == undefined ? this.$refs.slider.clientHeight : this.itemHeightPx
         this.scrollY = pos.y
       },
       goBack() {
@@ -112,9 +110,13 @@
         let scroll = this.$refs.scroll
         let message = this.$refs.message
         let reservedHeight = this.filterTop + newY
-        if (newY >= 0) {
+        if (newY > 0) {
           this.itemHeight = this.itemHeightPx + newY + 'px'
           this.itemScale = 1 + newY / this.itemHeightPx
+        }
+        if (newY === 0) {
+          this.itemHeight = this.itemHeightPx + 'px'
+          this.itemScale = 1
         }
 
         if (reservedHeight < RESERVED_HEIGHT) {
@@ -163,7 +165,7 @@
     position: relative;
     height: 0;
     top: 0;
-    // z-index: 25;
+    border: 1px solid;
   }
   .container {
     background: $color-background;
@@ -221,15 +223,9 @@
     }
   }
   .scorll-container {
-    // position: fixed;
-    // width: 100%;
-    // top: 12rem;
-    // bottom: 0rem;
-    // padding-top: 1rem;
     box-sizing: border-box;
     background: $color-background;
     color: $color-text;
-
     position: absolute;
     width: 100%;
     top: 3rem;

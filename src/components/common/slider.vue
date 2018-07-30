@@ -1,6 +1,6 @@
 <template>
   <div class="slide" ref="slide">
-    <div class="slide-group" ref="slideGroup" @click="goto">
+    <div class="slide-group" ref="slideGroup">
       <slot>
       </slot>
     </div>
@@ -104,10 +104,6 @@ export default {
     clearTimeout(this.timer)
   },
   methods: {
-    goto() {
-      this.next()
-      console.log('currentPageIndex', this.currentPageIndex)
-    },
     update() {
       if (this.slide) {
         this.slide.destroy()
@@ -154,20 +150,19 @@ export default {
       }
       this.$refs.slideGroup.style.width = width + 'px'
     },
-    _setItemHeight(nextPage) {
-      let currentPageIndex
-      let length = this.children.length
-      let diff = this.loop ? 2 : 0
-      if (!nextPage) {
-        currentPageIndex = this.currentPageIndex
-      } else {
-        currentPageIndex = (this.currentPageIndex === length - diff) ? 0 : this.currentPageIndex + 1
-      }
-      console.log(this.currentPageIndex)
-      for (let i = 0; i < this.children.length; i++) {
+    _setItemHeight() {
+      let currentPageIndex = this.slide.getCurrentPage().pageX
+      for (let i = 0, len = this.children.length; i < len; i++) {
         let child = this.children[i]
         let itemScale
-        if ((this.loop && i === currentPageIndex + 1) || (!this.loop && i === currentPageIndex))  {
+        let index
+        if (!this.loop) {
+          index = currentPageIndex
+        } else {
+          index = currentPageIndex === len - 2 ? 1 : currentPageIndex + 1
+        }
+        // loop: true 时，index = 1 和 index = len - 1 是同一张图片
+        if (i === index || (this.loop && currentPageIndex === len - 2 && i === len - 1 ))  {
           itemScale = this.itemScale
         } else {
           itemScale = 1
@@ -215,8 +210,8 @@ export default {
     _play() {
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
-        this.itemHeight === '' ? false : this._setItemHeight(true)
         this.slide.next()
+        this.itemHeight === '' ? false : this._setItemHeight()
       }, this.interval)
     }
   },
