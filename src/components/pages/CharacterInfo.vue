@@ -160,12 +160,12 @@
     }
   }
   .filter {
-    background: #393232;
+    background: $color-background;
     width: 100%;
     position: relative;
     height: 0;
     top: 0;
-    border: 1px solid;
+    border: 1px solid $color-background;
   }
   .container {
     background: $color-background;
