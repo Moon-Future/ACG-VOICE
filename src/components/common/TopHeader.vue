@@ -28,6 +28,7 @@ export default {
     position: fixed;
     top: 0;
     height: 2rem;
+    width: 100%;
     background: $color-background;
     color: $color-text;
     z-index: 999;
