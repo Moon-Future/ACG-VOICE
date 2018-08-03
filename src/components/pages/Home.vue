@@ -60,7 +60,7 @@ export default {
     background: $color-background;
     color: $color-text;
     box-sizing: border-box;
-    z-index: 999;
+    z-index: 99;
     ul {
       display: flex;
       justify-content: space-around;

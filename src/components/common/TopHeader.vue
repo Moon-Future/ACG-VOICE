@@ -31,7 +31,7 @@ export default {
     width: 100%;
     background: $color-background;
     color: $color-text;
-    z-index: 999;
+    z-index: 99;
   }
   .top {
     height: 2rem;

@@ -4,17 +4,20 @@
       <router-view/>
     </keep-alive>
     <bottom-footer></bottom-footer>
+    <player></player>
   </div>
 </template>
 
 <script>
-import BottomFooter from 'components/common/BottomFooter'
-export default {
-  name: 'App',
-  components: {
-    BottomFooter
+  import BottomFooter from 'components/common/BottomFooter'
+  import Player from 'components/common/Player'
+  export default {
+    name: 'App',
+    components: {
+      BottomFooter,
+      Player
+    }
   }
-}
 </script>
 
 <style lang="scss">
