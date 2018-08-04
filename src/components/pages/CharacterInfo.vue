@@ -35,7 +35,7 @@
         <scroll :listenScroll="listenScroll"
                 @scroll="scroll"
                 :probeType="probeType">
-          <voice-list :data="voiceData" :showRank="showRank"></voice-list>
+          <voice-list :data="voiceData" :showRank="showRank" @select="selectItem"></voice-list>
         </scroll>
       </div>
     </div>
@@ -48,7 +48,7 @@
   import VoiceList from 'components/common/VoiceList'
   import { swiperData, voiceData } from '../../common/js/data.js'
   import apiUrl from '@/serviceAPI.config.js'
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
 
   const RESERVED_HEIGHT = 80
 
@@ -96,7 +96,16 @@
       },
       goBack() {
         this.$router.back()
-      }
+      },
+      selectItem(item, index) {
+        this.selectPlay({
+          list: this.voiceData,
+          index
+        })
+      },
+      ...mapActions([
+        'selectPlay'
+      ])
     },
     computed: {
       ...mapGetters(['character'])

@@ -1,5 +1,5 @@
 <template>
-  <div class="player">
+  <div class="player" v-show="playlist.length>0">
     <div class="normal-player">
       播放器
       <div class="background">
@@ -33,6 +33,14 @@
       return {
         bgimg: 'http://ossweb-img.qq.com/images/lol/web201310/skin/big266002.jpg'
       }
+    },
+    computed: {
+      ...mapGetters([
+        'currentIndex',
+        'fullScreen',
+        'playing',
+        'playlist'
+      ])
     }
   }
 </script>

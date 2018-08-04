@@ -1,7 +1,7 @@
 <template>
   <div class="list-container">
     <ul class="voice-list">
-      <li v-for="(item, i) in data" :key="i">
+      <li v-for="(item, i) in data" :key="i" @click="selectItem(item, i)">
         <div class="list-num" v-if="showRank">{{ i + 1 }}</div>
         <div class="list-text">
           {{ item.text }}
@@ -22,6 +22,11 @@
       showRank: {
         type: Boolean,
         default: false
+      }
+    },
+    methods: {
+      selectItem(item, index) {
+        this.$emit('select', item, index)
       }
     }
   }
