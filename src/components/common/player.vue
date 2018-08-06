@@ -1,27 +1,29 @@
 <template>
   <div class="player" v-show="playlist.length>0">
-    <div class="normal-player">
-      播放器
-      <div class="background">
-        <img src="" alt="" width="100%" height="100%">
-      </div>
-      <div class="top">
-        <div class="back">
-          <i class="icontfont"></i>
+    <transition name="normal">
+      <div class="normal-player animated fadeInRight delay-3s" v-show="fullScreen">
+        播放器
+        <div class="background">
+          <img src="" alt="" width="100%" height="100%">
         </div>
-        <h1 class="title"></h1>
-        <h2 class="subtitle"></h2>
-      </div>
-      <div class="middle">
-        <div class="middle-l" ref="middleL">
-          <div class="cd-wrapper">
-            <div class="cd">
-              <img src="" alt="" class="image">
+        <div class="top">
+          <div class="back">
+            <i class="icontfont"></i>
+          </div>
+          <h1 class="title"></h1>
+          <h2 class="subtitle"></h2>
+        </div>
+        <div class="middle">
+          <div class="middle-l" ref="middleL">
+            <div class="cd-wrapper">
+              <div class="cd">
+                <img src="" alt="" class="image">
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </transition>  
     <div class="mini-player"></div>
   </div>
 </template>
