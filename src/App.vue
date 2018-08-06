@@ -1,8 +1,10 @@
 <template>
   <div id="app" @touchmove.prevent>
-    <keep-alive>
-      <router-view/>
-    </keep-alive>
+    <transition name="customer" enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutLeft">
+      <keep-alive>
+          <router-view/>
+      </keep-alive>
+    </transition>
     <bottom-footer></bottom-footer>
     <player></player>
   </div>

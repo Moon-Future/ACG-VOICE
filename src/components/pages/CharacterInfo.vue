@@ -1,45 +1,45 @@
 <template>
-  <div class="character-info">
-    <div class="character-skin" ref="slider">
-      <i class="iconfont icon-acg-arrow-left-" @click="goBack()"></i>
-      <slider :data="swiperData"
-              :showDot="false"
-              :autoPlay="true"
-              :itemHeight="itemHeight"
-              :itemScale="itemScale">
-        <div v-for="(data, i) in swiperData" :key="i">
-          <img :src="data.srcOfficial" alt="">
+    <div class="character-info">
+      <div class="character-skin" ref="slider">
+        <i class="iconfont icon-acg-arrow-left-" @click="goBack()"></i>
+        <slider :data="swiperData"
+                :showDot="false"
+                :autoPlay="true"
+                :itemHeight="itemHeight"
+                :itemScale="itemScale">
+          <div v-for="(data, i) in swiperData" :key="i">
+            <img :src="data.srcOfficial" alt="">
+          </div>
+        </slider>
+      </div>
+      <div class="filter" ref="filter"></div>
+      <div class="container">
+        <div class="character-message" ref="message">
+          <div class="character-avatar">
+            <img :src="characterInfo.avatarOfficial" alt="头像">
+          </div>
+          <div class="character-msg">
+            <p>{{ characterInfo.name }} - {{ characterInfo.nickName }}</p>
+            <p>
+              <span class="voice-num">Voices <span>20</span></span>
+              <span class="like-num">
+                <i class="iconfont icon-acg-like"></i> <span>70</span>
+              </span>
+            </p>
+          </div>
+          <div class="character-more">
+            <i class="iconfont icon-acg-switch"></i>
+          </div>
         </div>
-      </slider>
-    </div>
-    <div class="filter" ref="filter"></div>
-    <div class="container">
-      <div class="character-message" ref="message">
-        <div class="character-avatar">
-          <img :src="characterInfo.avatarOfficial" alt="头像">
-        </div>
-        <div class="character-msg">
-          <p>{{ characterInfo.name }} - {{ characterInfo.nickName }}</p>
-          <p>
-            <span class="voice-num">Voices <span>20</span></span>
-            <span class="like-num">
-              <i class="iconfont icon-acg-like"></i> <span>70</span>
-            </span>
-          </p>
-        </div>
-        <div class="character-more">
-          <i class="iconfont icon-acg-switch"></i>
+        <div class="scorll-container" ref="scroll">
+          <scroll :listenScroll="listenScroll"
+                  @scroll="scroll"
+                  :probeType="probeType">
+            <voice-list :data="voiceData" :showRank="showRank" @select="selectItem"></voice-list>
+          </scroll>
         </div>
       </div>
-      <div class="scorll-container" ref="scroll">
-        <scroll :listenScroll="listenScroll"
-                @scroll="scroll"
-                :probeType="probeType">
-          <voice-list :data="voiceData" :showRank="showRank" @select="selectItem"></voice-list>
-        </scroll>
-      </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -153,6 +153,11 @@
   }
   .character-info {
     overflow: hidden;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
   .character-skin {
     position: relative;
