@@ -1,8 +1,13 @@
 <template>
   <div class="player" v-show="playlist.length>0">
-    <transition name="normal">
-      <div class="normal-player animated fadeInRight delay-3s" v-show="fullScreen">
+    <transition 
+      name="normal"
+      enter-active-class="animated fadeInRight"
+      leave-active-class="animated fadeOutDown"
+    >
+      <div class="normal-player" v-show="fullScreen">
         播放器
+        <i class="iconfont icon-acg-arrow-down-" @click="goDown"></i>
         <div class="background">
           <img src="" alt="" width="100%" height="100%">
         </div>
@@ -43,6 +48,14 @@
         'playing',
         'playlist'
       ])
+    },
+    methods: {
+      goDown() {
+        this.setFullScreen(false)
+      },
+      ...mapMutations({
+        setFullScreen: 'SET_FULL_SCREEN'
+      }),
     }
   }
 </script>

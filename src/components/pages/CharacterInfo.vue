@@ -1,7 +1,7 @@
 <template>
   <div class="character-info">
     <div class="character-skin" ref="slider">
-      <i class="iconfont icon-acg-zuo" @click="goBack()"></i>
+      <i class="iconfont icon-acg-arrow-left-" @click="goBack()"></i>
       <slider :data="swiperData"
               :showDot="false"
               :autoPlay="true"
