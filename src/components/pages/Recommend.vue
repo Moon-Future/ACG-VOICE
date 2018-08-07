@@ -63,72 +63,72 @@
 </template>
 
 <script>
-import Scroll from 'components/common/Scroll'
-import Slider from 'components/common/Slider'
-import Tab from 'components/common/Tab'
-import { tabData, swiperData, hotData, recommendData } from 'common/js/data.js'
-import apiUrl from '@/serviceAPI.config.js'
-import { mapMutations } from 'vuex'
-export default {
-  name: 'recommend',
-  data() {
-    return {
-      tabData: tabData,
-      swiperData: [],
-      hotData: [],
-      recommendData: [],
-      menuNav: [
-        {
-          name: '推荐',
-          url: '/recommend'
-        },
-        {
-          name: '角色',
-          url: '/characterList'
-        },
-        {
-          name: '歌单',
-          url: '/voiceList'
-        }
-      ],
-      navIndex: 0
+  import Scroll from 'components/common/Scroll'
+  import Slider from 'components/common/Slider'
+  import Tab from 'components/common/Tab'
+  import { tabData, swiperData, hotData, recommendData } from 'common/js/data.js'
+  import apiUrl from '@/serviceAPI.config.js'
+  import { mapMutations } from 'vuex'
+  export default {
+    name: 'recommend',
+    data() {
+      return {
+        tabData: tabData,
+        swiperData: [],
+        hotData: [],
+        recommendData: [],
+        menuNav: [
+          {
+            name: '推荐',
+            url: '/recommend'
+          },
+          {
+            name: '角色',
+            url: '/characterList'
+          },
+          {
+            name: '歌单',
+            url: '/voiceList'
+          }
+        ],
+        navIndex: 0
+      }
+    },
+    components: {
+      Scroll,
+      Slider,
+      Tab
+    },
+    created() {
+      this.getSwiperData()
+      this.getHotData()
+      this.getRecommendData()
+    },
+    methods: {
+      getSwiperData() {
+        this.$http.get(apiUrl.getHomeSwiper).then((res) => {
+          this.swiperData = res.data
+        })
+      },
+      getHotData() {
+        this.$http.get(apiUrl.getHomeHot).then((res) => {
+          this.hotData = res.data
+        })
+      },
+      getRecommendData() {
+        setTimeout(() => {
+          this.recommendData = recommendData
+        }, 1000)
+      },
+      gotoInfo(character) {
+        this.setCharacter(character)
+        this.$router.push('/characterInfo')
+      },
+      ...mapMutations({
+        setCharacter: 'SET_CHARACTER'
+      })
     }
-  },
-  components: {
-    Scroll,
-    Slider,
-    Tab
-  },
-  created() {
-    this.getSwiperData()
-    this.getHotData()
-    this.getRecommendData()
-  },
-  methods: {
-    getSwiperData() {
-      this.$http.get(apiUrl.getHomeSwiper).then((res) => {
-        this.swiperData = res.data
-      })
-    },
-    getHotData() {
-      this.$http.get(apiUrl.getHomeHot).then((res) => {
-        this.hotData = res.data
-      })
-    },
-    getRecommendData() {
-      setTimeout(() => {
-        this.recommendData = recommendData
-      }, 1000)
-    },
-    gotoInfo(character) {
-      this.setCharacter(character)
-      this.$router.push('/characterInfo')
-    },
-    ...mapMutations({
-      setCharacter: 'SET_CHARACTER'
-    })
   }
-}
 </script>
 
 <style lang="scss">

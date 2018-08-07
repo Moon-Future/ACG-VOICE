@@ -1,7 +1,7 @@
 <template>
     <div class="character-info">
       <div class="character-skin" ref="slider">
-        <i class="iconfont icon-acg-arrow-left-" @click="goBack()"></i>
+        <i class="iconfont icon-acg-arrow-left- icon-back" @click="goBack()"></i>
         <slider :data="swiperData"
                 :showDot="false"
                 :autoPlay="true"
@@ -46,8 +46,9 @@
   import Slider from 'components/common/Slider'
   import Scroll from 'components/common/Scroll'
   import VoiceList from 'components/common/VoiceList'
-  import { swiperData, voiceData } from '../../common/js/data.js'
+  import { swiperData, voiceData } from 'common/js/data.js'
   import apiUrl from '@/serviceAPI.config.js'
+  import { getRandomInt } from 'common/js/util.js'
   import { mapGetters, mapActions } from 'vuex'
 
   const RESERVED_HEIGHT = 80
@@ -84,9 +85,10 @@
         }).then((res) => {
           let data = res.data
           this.swiperData = data.skin.length === 0 ? swiperData : data.skin
+          let bgimg = this.swiperData[getRandomInt(0, this.swiperData.length)].srcOfficial
           this.characterInfo = data.avatar[0] || {}
           this.voiceData.forEach((ele) => {
-            Object.assign(ele, this.characterInfo)
+            Object.assign(ele, this.characterInfo, {bgimg})
           })
         })
       },
@@ -168,7 +170,7 @@
     overflow: hidden;
     height: 10rem;
     z-index: 20;
-    i {
+    i.icon-back {
       position: absolute;
       color: #fff;
       font-size: 2rem;
