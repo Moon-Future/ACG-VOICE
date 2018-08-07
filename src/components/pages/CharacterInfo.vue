@@ -85,6 +85,9 @@
           let data = res.data
           this.swiperData = data.skin.length === 0 ? swiperData : data.skin
           this.characterInfo = data.avatar[0] || {}
+          this.voiceData.forEach((ele) => {
+            Object.assign(ele, this.characterInfo)
+          })
         })
       },
       getVoiceData() {

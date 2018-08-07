@@ -4,7 +4,7 @@
       <div class="content">
         <div class="slider-wrapper">
           <slider :data="swiperData">
-            <div v-for="(data, i) in swiperData" :key="i">
+            <div v-for="(data, i) in swiperData" :key="i" @click="gotoInfo(data)">
               <a :href="data.linkUrl">
                 <img :src="data.srcOfficial" alt="">
               </a>

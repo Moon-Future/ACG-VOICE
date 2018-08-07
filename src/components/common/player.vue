@@ -6,7 +6,7 @@
       leave-active-class="animated fadeOutDown"
     >
       <div class="normal-player" v-show="fullScreen">
-        播放器
+        播放器 {{ currentSong.name }}
         <i class="iconfont icon-acg-arrow-down-" @click="goDown"></i>
         <div class="background">
           <img src="" alt="" width="100%" height="100%">
@@ -44,6 +44,7 @@
     computed: {
       ...mapGetters([
         'currentIndex',
+        'currentSong',
         'fullScreen',
         'playing',
         'playlist'

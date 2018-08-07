@@ -1,8 +1,8 @@
 <template>
   <div id="app" @touchmove.prevent>
-    <transition name="customer" enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutLeft">
+    <transition :enter-active-class="enterAcitve" :leave-active-class="leaveActive">
       <keep-alive>
-          <router-view/>
+          <router-view class="router-view"/>
       </keep-alive>
     </transition>
     <bottom-footer></bottom-footer>
@@ -15,9 +15,26 @@
   import Player from 'components/common/Player'
   export default {
     name: 'App',
+    data() {
+      return {
+        enterAcitve: 'animated slideInRight',
+        leaveActive: 'animated slideOutLeft'
+      }
+    },
     components: {
       BottomFooter,
       Player
+    },
+    watch: {
+      $route(to, from) {
+        if (to.name === 'CharacterInfo') {
+          this.enterAcitve = 'animated slideInRight'
+          this.leaveActive = 'animated slideOutLeft'
+        } else {
+          this.enterAcitve = 'animated slideInLeft'
+          this.leaveActive = 'animated slideOutRight'
+        }
+      }
     }
   }
 </script>
@@ -32,5 +49,10 @@
     // text-align: center;
     // color: #2c3e50;
     font-size: 0.875rem;
+    .router-view {
+      // position: absolute;
+      // width: 100%;
+      // height: 100%;
+    }
   }
 </style>
