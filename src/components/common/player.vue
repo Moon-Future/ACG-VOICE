@@ -1,9 +1,9 @@
 <template>
   <div class="player" v-show="playlist.length>0">
-    <transition 
+    <transition
       name="normal"
-      enter-active-class="animated fadeInRight"
-      leave-active-class="animated fadeOutDown"
+      enter-active-class="animated fadeInRight faster"
+      leave-active-class="animated fadeOutDown faster"
     >
       <div class="normal-player" v-show="fullScreen">
         <div class="background">
@@ -13,12 +13,14 @@
           <div class="back">
             <i class="iconfont icon-acg-arrow-down- icon-back" @click="goDown"></i>
           </div>
-          <h1 class="title">{{ currentSong.name }}</h1>
-          <h2 class="subtitle">{{ currentSong.name }}</h2>
+          <div class="song-title animated bounceInDown">
+            <h1 class="title">{{ currentSong.name }}</h1>
+            <h2 class="subtitle">{{ currentSong.name }}</h2>
+          </div>
         </div>
         <div class="middle">
           <div class="middle-l" ref="middleL">
-            <div class="cd-wrapper">
+            <div class="cd-wrapper animated zoomIn">
               <div class="cd">
                 <img :src="currentSong.bgimg" alt="" class="image">
               </div>
@@ -132,13 +134,6 @@
       background: $color-background;
       color: $color-text;
       z-index: 150;
-      i.normal-hide {
-        position: absolute;
-        color: $color-active;
-        font-size: 2rem;
-        margin: 10px;
-        z-index: 999;
-      }
       .background {
         position: absolute;
         left: 0;
