@@ -1,5 +1,6 @@
 <template>
   <div id="app" @touchmove.prevent>
+    <top-header></top-header>
     <transition :enter-active-class="enterAcitve" :leave-active-class="leaveActive">
       <keep-alive>
           <router-view class="router-view"/>
@@ -11,6 +12,7 @@
 </template>
 
 <script>
+  import TopHeader from 'components/common/TopHeader'
   import BottomFooter from 'components/common/BottomFooter'
   import Player from 'components/common/Player'
   export default {
@@ -22,6 +24,7 @@
       }
     },
     components: {
+      TopHeader,
       BottomFooter,
       Player
     },

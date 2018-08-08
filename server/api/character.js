@@ -17,7 +17,7 @@ const characterAPI = {
             avatar: ele.avatar,
             avatarOfficial: ele.avatarOfficial,
             firstLetter: ele.spell.substr(0, 1).toLocaleUpperCase(),
-            findKey: ele.findKey
+            key: ele.key
           })
         })
         resolve(result)
@@ -25,9 +25,9 @@ const characterAPI = {
     })
   },
   getCharacterSkin(params) {
-    let findKey = params.findKey
+    let key = params.key
     return new Promise((resolve, reject) => {
-      Image.find({findKey: findKey}, (err, res) => {
+      Image.find({key: key}, (err, res) => {
         if (err) {
           throw new Error()
           return false
@@ -37,9 +37,9 @@ const characterAPI = {
     })
   },
   getCharacterAvatar(params) {
-    let findKey = params.findKey
+    let key = params.key
     return new Promise((resolve, reject) => {
-      Character.find({findKey: findKey}, (err, res) => {
+      Character.find({key}, (err, res) => {
         if (err) {
           throw new Error()
           return false

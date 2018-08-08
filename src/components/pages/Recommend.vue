@@ -106,12 +106,8 @@
         }, 1000)
       },
       gotoInfo(character) {
-        this.setCharacter(character)
-        this.$router.push('/character/na')
-      },
-      ...mapMutations({
-        setCharacter: 'SET_CHARACTER'
-      })
+        this.$router.push({path: `/characterInfo/${character.key}`})
+      }
     }
   }
 </script>

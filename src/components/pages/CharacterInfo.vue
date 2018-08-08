@@ -65,11 +65,11 @@
         listenScroll: true,
         scrollY: 0,
         itemHeight: '10rem',
-        itemScale: 1
+        itemScale: 1,
+        key: ''
       }
     },
     created() {
-      this.getData()
       this.getVoiceData()
     },
     mounted() {
@@ -77,15 +77,17 @@
       this.filterTop = this.$refs.filter.offsetTop
       this.$refs.slider.style.height = 'auto'
     },
+    activated() {
+      this.key = this.$route.params.name
+    },
     methods: {
       getData() {
-        let findKey = this.character.findKey
         this.$http.get(apiUrl.getCharacterSkinAndAvatar, {
-          params: {findKey}
+          params: {key: this.key}
         }).then((res) => {
           let data = res.data
           this.swiperData = data.skin.length === 0 ? swiperData : data.skin
-          let bgimg = this.swiperData[getRandomInt(0, this.swiperData.length)].srcOfficial
+          let bgimg = this.swiperData[getRandomInt(0, this.swiperData.length - 1)].srcOfficial
           this.characterInfo = data.avatar[0] || {}
           this.voiceData.forEach((ele) => {
             Object.assign(ele, this.characterInfo, {bgimg})
@@ -116,7 +118,7 @@
       ...mapGetters(['character'])
     },
     watch: {
-      character() {
+      key() {
         this.getData()
       },
       scrollY(newY) {
@@ -158,11 +160,12 @@
   }
   .character-info {
     overflow: hidden;
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
+    z-index: 120;
   }
   .character-skin {
     position: relative;

@@ -16,32 +16,24 @@ export default new Router({
       redirect: '/recommend'
     },
     {
-      path: '/',
-      name: 'Home',
-      component: Home,
-      children: [
-        {
-          path: 'recommend',
-          name: 'Recommend',
-          component: Recommend
-        },
-        {
-          path: '/character',
-          name: 'CharacterList',
-          component: CharacterList,
-          children: [
-            {
-              path: ':name',
-              component: CharacterInfo
-            }
-          ]
-        },
-        {
-          path: '/voiceList',
-          name: 'VoiceList',
-          component: VoiceList
-        }
-      ]
+      path: '/recommend',
+      name: 'Recommend',
+      component: Recommend
+    },
+    {
+      path: '/character',
+      name: 'CharacterList',
+      component: CharacterList
+    },
+    {
+      path: '/characterInfo/:name',
+      name: 'CharacterInfo',
+      component: CharacterInfo
+    },
+    {
+      path: '/voiceList',
+      name: 'VoiceList',
+      component: VoiceList
     },
     {
       path: '/upload',

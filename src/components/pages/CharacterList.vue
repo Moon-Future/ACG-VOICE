@@ -129,8 +129,7 @@
         this._scrollTo(anchorIndex)
       },
       gotoInfo(character) {
-        this.setCharacter(character)
-        this.$router.push('/characterInfo')
+        this.$router.push(`/characterInfo/${character.key}`)
       },
       _calculateHeight() {
         this.listHeight = []
@@ -154,10 +153,7 @@
         }
         this.scrollY = -this.listHeight[index]
         this.$refs.characterList.scrollToElement(this.$refs.listGroup[index])
-      },
-      ...mapMutations({
-        setCharacter: 'SET_CHARACTER'
-      })
+      }
     },
     watch: {
       characters() {
