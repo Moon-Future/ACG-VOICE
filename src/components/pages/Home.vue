@@ -27,7 +27,7 @@ export default {
         },
         {
           name: '角色',
-          url: '/characterList'
+          url: '/character'
         },
         {
           name: '歌单',

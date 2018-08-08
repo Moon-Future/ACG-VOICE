@@ -12,7 +12,7 @@ const characterSchema = new Schema({
   age: { type: Number, default: 18 },
   avatar: { type: String, default: '#' },
   avatarOfficial: { type: String, default: '#' },
-  findKey: { type: String, default: '#' },
+  key: { type: String, default: '#' },
 })
 
 const imgaeSchema = new Schema({
@@ -27,7 +27,7 @@ const imgaeSchema = new Schema({
   hot: { type: Number, default: 0 },
   position: { type: String, default: '' }, // head, cover, skin,
   from: { type: String, default: '英雄联盟(LOL)' },
-  findKey: { type: String, default: '#' },
+  key: { type: String, default: '#' },
   srcOfficial: { type: String, default: '#' }
 })
 

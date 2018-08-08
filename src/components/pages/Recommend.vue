@@ -76,22 +76,7 @@
         tabData: tabData,
         swiperData: [],
         hotData: [],
-        recommendData: [],
-        menuNav: [
-          {
-            name: '推荐',
-            url: '/recommend'
-          },
-          {
-            name: '角色',
-            url: '/characterList'
-          },
-          {
-            name: '歌单',
-            url: '/voiceList'
-          }
-        ],
-        navIndex: 0
+        recommendData: []
       }
     },
     components: {
@@ -122,7 +107,7 @@
       },
       gotoInfo(character) {
         this.setCharacter(character)
-        this.$router.push('/characterInfo')
+        this.$router.push('/character/na')
       },
       ...mapMutations({
         setCharacter: 'SET_CHARACTER'

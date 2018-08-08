@@ -13,6 +13,7 @@ async function importLOLSkin() {
 		let item = content[i]
 		let from = item.from || '#'
 		let oneImage = new Image({
+			key: `${item.character}-${from}`,
 			character: item.character,
 			name: item.name,
 			src: item.src || '#',
@@ -22,8 +23,7 @@ async function importLOLSkin() {
 			bucket: item.bucket || 'acg-Image',
 			position: item.position || '#',
 			from: from,
-			srcOfficial: item.skinOfficial || '#',
-			findKey: `${item.character}-${from}`
+			srcOfficial: item.skinOfficial || '#'
 		})
 		oneImage.save().then(() => {
 			saveCount++
@@ -44,14 +44,14 @@ async function importLOLHead() {
 		let from = item.from || '#'
 		let name = item.name
 		let oneCharacter = new Character({
+			key: `${name}-${from}`,
 			name: name,
 			nameEn: item.nameEn,
 			spell: item.spell,
 			nickName: item.nickName,
 			from: from,
 			avatar: item.avatar,
-			avatarOfficial: item.avatarOfficial,
-			findKey: `${name}-${from}`
+			avatarOfficial: item.avatarOfficial
 		})
 		if (nameObj[name] === undefined) {
 			oneCharacter.save().then(() => {
@@ -67,4 +67,21 @@ async function importLOLHead() {
 }
 
 // importLOLSkin()
-importLOLHead()
+// importLOLHead()
+
+const funcMap = {
+	importLOLHead,
+	importLOLSkin
+}
+
+let argv = process.argv
+argv.splice(0, 2)
+if (argv.length === 0) {
+	return;
+}
+
+try {
+	funcMap[argv[0]]();
+} catch(e) {
+	throw new Error(e)
+}

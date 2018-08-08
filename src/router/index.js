@@ -26,9 +26,15 @@ export default new Router({
           component: Recommend
         },
         {
-          path: '/characterList',
+          path: '/character',
           name: 'CharacterList',
-          component: CharacterList
+          component: CharacterList,
+          children: [
+            {
+              path: ':name',
+              component: CharacterInfo
+            }
+          ]
         },
         {
           path: '/voiceList',
@@ -36,11 +42,6 @@ export default new Router({
           component: VoiceList
         }
       ]
-    },
-    {
-      path: '/characterInfo',
-      name: 'CharacterInfo',
-      component: CharacterInfo
     },
     {
       path: '/upload',
