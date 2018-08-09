@@ -14,8 +14,8 @@
             <i class="iconfont icon-acg-arrow-down- icon-back" @click="goDown"></i>
           </div>
           <div class="song-title animated bounceInDown">
-            <h1 class="title">{{ currentSong.name }}</h1>
-            <h2 class="subtitle">{{ currentSong.name }}</h2>
+            <h1 class="title">{{ currentSong.text }}</h1>
+            <h2 class="subtitle">{{ currentSong.name }} ></h2>
           </div>
         </div>
         <div class="middle">
@@ -48,7 +48,7 @@
               
             </div>  
           </div>
-          <div class="operators">
+          <div class="operators animated slideInUp">
             <div class="icon i-left">
               <i class="iconfont icon-acg-sequence"></i>
             </div>
@@ -56,7 +56,7 @@
               <i class="iconfont icon-acg-prev"></i>
             </div>
             <div class="icon i-center">
-              <i class="iconfont icon-acg-play-circle"></i>
+              <i class="iconfont" :class="playIco" @click="play"></i>
             </div>
             <div class="icon i-right">
               <i class="iconfont icon-acg-next"></i>
@@ -85,7 +85,7 @@
         </div>
       </div>
     </transition>
-    <audio src=""></audio>
+    <audio :src="voiceSrc" ref="audio"></audio>
   </div>
 </template>
 
@@ -95,21 +95,30 @@
   export default {
     data() {
       return {
-        bgimg: 'http://ossweb-img.qq.com/images/lol/web201310/skin/big266002.jpg'
+        bgimg: 'http://ossweb-img.qq.com/images/lol/web201310/skin/big266002.jpg',
+        voiceSrc: require('assets/星辰陨落，只为坠入爱河.wav'),
+        playing: false
       }
     },
     computed: {
+      playIco() {
+        return this.playing ? 'icon-acg-pause' : 'icon-acg-play'
+      },
       ...mapGetters([
         'currentIndex',
         'currentSong',
         'fullScreen',
-        'playing',
+        // 'playing',
         'playlist'
       ])
     },
     methods: {
       goDown() {
         this.setFullScreen(false)
+      },
+      play() {
+        this.playing = !this.playing
+        this.playing ? this.$refs.audio.play() : this.$refs.audio.pause()
       },
       ...mapMutations({
         setFullScreen: 'SET_FULL_SCREEN'
@@ -163,6 +172,9 @@
           line-height: 40px;
           text-align: center;
           font-size: $font-size-large;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
         }
         .subtitle {
           line-height: 20px;

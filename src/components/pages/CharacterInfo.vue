@@ -176,7 +176,7 @@
     i.icon-back {
       position: absolute;
       color: #fff;
-      font-size: 2rem;
+      font-size: $font-size-large-x;
       margin: 10px;
       z-index: 999;
     }
