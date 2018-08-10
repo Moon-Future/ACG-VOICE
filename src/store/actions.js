@@ -21,3 +21,10 @@ export const selectPlay = function({commit, state}, {list, index}) {
   commit(types.SET_FULL_SCREEN, true)
   commit(types.SET_PALYING_STATE, true)
 }
+
+export const selectOne = function({commit, state}, voice) {
+  commit(types.SET_PLAYLIST, voice)
+  commit(types.SET_SEQUENCE_LIST, voice)
+  commit(types.SET_CURRENT_INDEX, state.playlist.length - 1)
+  commit(types.SET_FULL_SCREEN, true)
+}

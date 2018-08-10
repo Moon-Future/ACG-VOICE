@@ -68,7 +68,7 @@
   import Tab from 'components/common/Tab'
   import { tabData, swiperData, hotData, recommendData } from 'common/js/data.js'
   import apiUrl from '@/serviceAPI.config.js'
-  import { mapMutations } from 'vuex'
+  import { mapMutations, mapActions } from 'vuex'
   export default {
     name: 'recommend',
     data() {
@@ -106,8 +106,11 @@
         }, 1000)
       },
       gotoInfo(character) {
-        this.$router.push({path: `/characterInfo/${character.key}`})
-      }
+        this.selectOne(character)
+      },
+      ...mapActions([
+        'selectOne'
+      ])
     }
   }
 </script>
