@@ -9,7 +9,14 @@ var homeAPI = {
         let indexs = getRandom(0, length, 4)
         let result = []
         for (let i = 0, len = indexs.length; i < len; i++) {
-          result.push(res[indexs[i]])
+          let tmp = res[indexs[i]]
+          let obj = {
+            character: tmp.character,
+            form: tmp.from,
+            key: tmp.key,
+            src: tmp.src === '#' ? tmp.srcOfficial : tmp.src
+          }
+          result.push(obj)
         }
         resolve(result)
       })
@@ -22,7 +29,14 @@ var homeAPI = {
         let indexs = getRandom(0, length, 6)
         let result = []
         for (let i = 0, len = indexs.length; i < len; i++) {
-          result.push(res[indexs[i]])
+          let tmp = res[indexs[i]]
+          let obj = {
+            character: tmp.character,
+            form: tmp.from,
+            key: tmp.key,
+            src: tmp.src === '#' ? tmp.srcOfficial : tmp.src
+          }
+          result.push(obj)
         }
         resolve(result)
       })

@@ -14,8 +14,7 @@ const characterAPI = {
             name: ele.name,
             nickName: ele.nickName,
             from: ele.from,
-            avatar: ele.avatar,
-            avatarOfficial: ele.avatarOfficial,
+            avatar: ele.avatar === '#' ? ele.avatarOfficial : ele.avatar,
             firstLetter: ele.spell.substr(0, 1).toLocaleUpperCase(),
             key: ele.key
           })

@@ -11,7 +11,7 @@
             <ul>
               <li class="item" v-for="(item, i) in character.items" :key="i" @click="gotoInfo(item)">
                 <div class="avatar">
-                  <img v-lazy="item.avatarOfficial" alt="">
+                  <img v-lazy="item.avatar" alt="">
                 </div>
                 <div class="info">
                   <p class="name">{{ item.name }} - {{ item.nickName }}</p>

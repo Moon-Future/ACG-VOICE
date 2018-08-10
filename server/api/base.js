@@ -1,4 +1,4 @@
-function  getRandom(start, end, size) {
+function getRandom(start, end, size) {
   let allRandms = []
   size = size ? (size > end - start ? end - start : size) : 1
   for (let i = start; i <= end; i++) {

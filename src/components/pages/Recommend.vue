@@ -6,7 +6,7 @@
           <slider :data="swiperData">
             <div v-for="(data, i) in swiperData" :key="i" @click="gotoInfo(data)">
               <a :href="data.linkUrl">
-                <img :src="data.srcOfficial" alt="">
+                <img :src="data.src" alt="">
               </a>
             </div>
           </slider>
@@ -32,7 +32,7 @@
           <div class="hot-list">
             <div class="hot-voice" v-for="(data, i) in hotData" :key="i">
               <div class="voice-img" @click="gotoInfo(data)">
-                <img v-lazy="data.srcOfficial" :src="data.srcOfficial" alt="pic">
+                <img v-lazy="data.src" :src="data.src" alt="pic">
               </div>
               <div class="voice-text">
                 {{ data.character }}
