@@ -85,7 +85,7 @@
         </div>
       </div>
     </transition>
-    <audio :src="voiceSrc" ref="audio"></audio>
+    <audio :src="voiceSrc" ref="audio" @timeupdate="updateTime"></audio>
   </div>
 </template>
 
@@ -97,7 +97,8 @@
       return {
         bgimg: 'http://ossweb-img.qq.com/images/lol/web201310/skin/big266002.jpg',
         voiceSrc: require('assets/星辰陨落，只为坠入爱河.wav'),
-        playIco: 'icon-acg-pause'
+        playIco: 'icon-acg-pause',
+        currentTime: 0
       }
     },
     computed: {
@@ -128,7 +129,12 @@
       },
       currentSong() {
         // console.log('currentSong', this.currentSong)
-        // this.$refs.audio.play()
+        this.$refs.audio.play()
+        this.currentTime = this.$refs.audio.currentTime
+        console.log('currentTime', this.currentTime)
+      },
+      currentTime() {
+        console.log('qq', this.currentTime)
       }
     },
     components: {
