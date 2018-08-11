@@ -125,6 +125,10 @@
     watch: {
       playing() {
         this.playIco = this.playing ? 'icon-acg-pause' : 'icon-acg-play'
+      },
+      currentSong() {
+        // console.log('currentSong', this.currentSong)
+        // this.$refs.audio.play()
       }
     },
     components: {

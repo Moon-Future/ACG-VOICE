@@ -19,7 +19,7 @@ const imgaeSchema = new Schema({
   character: { type: String },
   name: { type: String, unique: true },
   src: { type: String },
-  size: { type: String },
+  size: { type: String, default: '#' },
   type: { type: String, default: 'image/jpeg' },
   lastUpd: { type: Number, default: curTime },
   bucket: { type: String, default: 'acg-Image' },
@@ -31,7 +31,23 @@ const imgaeSchema = new Schema({
   srcOfficial: { type: String, default: '#' }
 })
 
+const voiceSchema = new Schema({
+  character: { type: String },
+  name: { type: String, unique: true },
+  src: { type: String },
+  srcOfficial: { type: String, default: '#' },
+  lyric: { type: String, default: '#' },
+  size: { type: String, default: '#' },
+  type: { type: String, default: 'wav' },
+  lastUpd: { type: Number, default: curTime },
+  recommend: { type: Number, default: 0 },
+  hot: { type: Number, default: 0 },
+  from: { type: String, default: '英雄联盟(LOL)' },
+  key: { type: String, default: '#' }
+})
+
 module.exports = {
   Character: mongoose.model('Character', characterSchema, 'character'),
-  Image: mongoose.model('Image', imgaeSchema, 'image')
+  Image: mongoose.model('Image', imgaeSchema, 'image'),
+  Voice: mongoose.model('Voice', voiceSchema, 'voice')
 }
