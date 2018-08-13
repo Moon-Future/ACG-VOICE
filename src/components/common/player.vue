@@ -98,7 +98,8 @@
         bgimg: 'http://ossweb-img.qq.com/images/lol/web201310/skin/big266002.jpg',
         voiceSrc: require('assets/星辰陨落，只为坠入爱河.wav'),
         playIco: 'icon-acg-pause',
-        currentTime: 0
+        currentTime: 0,
+        duration: 0
       }
     },
     computed: {
@@ -118,6 +119,13 @@
         this.setPlaying(!this.playing)
         this.playing ? this.$refs.audio.play() : this.$refs.audio.pause()
       },
+      updateTime() {
+        const audio = this.$refs.audio
+        this.currentTime = audio.currentTime
+        if (this.currentTime === this.duration) {
+          this.setPlaying(false)
+        }
+      },
       ...mapMutations({
         setFullScreen: 'SET_FULL_SCREEN',
         setPlaying: 'SET_PALYING_STATE'
@@ -128,13 +136,10 @@
         this.playIco = this.playing ? 'icon-acg-pause' : 'icon-acg-play'
       },
       currentSong() {
-        // console.log('currentSong', this.currentSong)
-        this.$refs.audio.play()
-        this.currentTime = this.$refs.audio.currentTime
-        console.log('currentTime', this.currentTime)
-      },
-      currentTime() {
-        console.log('qq', this.currentTime)
+        const audio = this.$refs.audio
+        audio.play()
+        this.currentTime = audio.currentTime
+        this.duration = audio.duration
       }
     },
     components: {
