@@ -43,20 +43,19 @@
         this._triggerPercent()
       },
       progressTouchEnd() {
-        this.initiated = false
-        this._triggerPercent()
+        this.touch.initiated = false
+        this._triggerPercent(true)
       },
       progressClick(e) {
-        console.log(e.target)
         const rect = this.$refs.progressBar.getBoundingClientRect()
         const offsetWidth = e.pageX - rect.left
         this._offset(offsetWidth)
         this._triggerPercent()
       },
-      _triggerPercent() {
+      _triggerPercent(flag = false) {
         const barWidth = this.$refs.progressBar.clientWidth - progressBtnWidth
         const percent = this.$refs.progress.clientWidth / barWidth
-        this.$emit('percentChange', percent)
+        this.$emit('percentChange', {percent, flag})
       },
       _offset(offsetWidth, flag = false) {
         this.$refs.progress.style.width = `${offsetWidth}px`

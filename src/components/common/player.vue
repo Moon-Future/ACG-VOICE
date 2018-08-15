@@ -98,15 +98,19 @@
     data() {
       return {
         bgimg: 'http://ossweb-img.qq.com/images/lol/web201310/skin/big266002.jpg',
-        voiceSrc: require('assets/星辰陨落，只为坠入爱河.wav'),
+        // voiceSrc: require('assets/星辰陨落，只为坠入爱河.wav'),
+        voiceSrc: 'http://www.ytmp3.cn/down/50965.mp3',
         playIco: 'icon-acg-pause',
         currentTime: 0,
         duration: 0,
-        percent: 0,
+        moveing: false,
         rate: 1
       }
     },
     computed: {
+      percent() {
+        return this.currentTime / this.duration
+      },
       ...mapGetters([
         'currentIndex',
         'currentSong',
@@ -120,20 +124,23 @@
         this.setFullScreen(false)
       },
       play() {
-        this.setPlaying(!this.playing)
-        this.playing ? this.$refs.audio.play() : this.$refs.audio.pause()
-      },
-      updateTime() {
         const audio = this.$refs.audio
-        this.currentTime = audio.currentTime
-        this.percent = this.currentTime / this.duration
-        if (this.currentTime === this.duration) {
-          this.setPlaying(false)
+        this.setPlaying(!this.playing)
+        this.playing ? audio.play() : audio.pause()
+      },
+      updateTime(e) {
+        if (!this.moveing) {
+          this.currentTime = e.target.currentTime
         }
       },
-      percentChange(percent) {
-        this.percent = percent
-        this.currentTime = this.duration * percent
+      percentChange({percent, flag}) {
+        if (flag === true) {
+          this.moveing = false
+          this.$refs.audio.currentTime = this.duration * percent
+        } else {
+          this.moveing = true
+          this.currentTime = this.duration * percent
+        }
       },
       format(interval) {
         interval = interval | 0
@@ -160,10 +167,13 @@
       },
       currentSong() {
         const audio = this.$refs.audio
-        audio.play()
-        this.currentTime = audio.currentTime
-        this.duration = audio.duration
-        this.rate = this.currentTime / this.duration
+        // clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
+          this.currentTime = audio.currentTime
+          this.duration = audio.duration
+          this.rate = this.currentTime / this.duration
+          audio.play()
+        }, 1000)
       }
     },
     components: {
