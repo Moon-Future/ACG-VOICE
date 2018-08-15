@@ -127,7 +127,6 @@
         const audio = this.$refs.audio
         this.currentTime = audio.currentTime
         this.percent = this.currentTime / this.duration
-        console.log(this.currentTime, this.percent)
         if (this.currentTime === this.duration) {
           this.setPlaying(false)
         }

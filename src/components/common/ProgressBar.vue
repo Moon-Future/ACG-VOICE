@@ -58,9 +58,12 @@
         const percent = this.$refs.progress.clientWidth / barWidth
         this.$emit('percentChange', percent)
       },
-      _offset(offsetWidth) {
+      _offset(offsetWidth, flag = false) {
         this.$refs.progress.style.width = `${offsetWidth}px`
         this.$refs.progressBtn.style[transform] = `translate3d(${offsetWidth}px,0,0)`
+        // if (flag) {
+        //   this.$refs.progress.style
+        // }
       }
     },
     watch: {
@@ -88,6 +91,7 @@
       .progress {
         position: absolute;
         height: 100%;
+        transition-property: width;
         // background: $color-background-green;
         background: linear-gradient(to right, #f38f00, #f1e000, $color-background-green)
       }
