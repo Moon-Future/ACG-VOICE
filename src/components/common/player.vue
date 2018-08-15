@@ -43,10 +43,11 @@
             <span class="dot"></span>
           </div>
           <div class="progress-wrapper">
-            <span class="time time-l"></span>
+            <span class="time time-l">{{ format(currentTime) }}</span>
             <div class="progress-bar-wrapper">
-              
-            </div>  
+              <progress-bar :percent="percent" @percentChange="percentChange"></progress-bar>
+            </div>
+            <span class="time time-r">{{ format(duration) }}</span>
           </div>
           <div class="operators animated slideInUp">
             <div class="icon i-left">
@@ -91,6 +92,7 @@
 
 <script>
   import Scroll from 'components/common/Scroll'
+  import ProgressBar from 'components/common/ProgressBar'
   import {mapGetters, mapMutations, mapActions} from 'vuex'
   export default {
     data() {
@@ -99,7 +101,9 @@
         voiceSrc: require('assets/星辰陨落，只为坠入爱河.wav'),
         playIco: 'icon-acg-pause',
         currentTime: 0,
-        duration: 0
+        duration: 0,
+        percent: 0,
+        rate: 1
       }
     },
     computed: {
@@ -122,9 +126,29 @@
       updateTime() {
         const audio = this.$refs.audio
         this.currentTime = audio.currentTime
+        this.percent = this.currentTime / this.duration
+        console.log(this.currentTime, this.percent)
         if (this.currentTime === this.duration) {
           this.setPlaying(false)
         }
+      },
+      percentChange(percent) {
+        this.percent = percent
+        this.currentTime = this.duration * percent
+      },
+      format(interval) {
+        interval = interval | 0
+        const minute = interval / 60 | 0
+        const second = this._pad(interval % 60)
+        return `${minute}:${second}`
+      },
+      _pad(num, n = 2) {
+        let len = num.toString().length
+        while (len < n) {
+          num = '0' + num
+          len++
+        }
+        return num
       },
       ...mapMutations({
         setFullScreen: 'SET_FULL_SCREEN',
@@ -140,10 +164,12 @@
         audio.play()
         this.currentTime = audio.currentTime
         this.duration = audio.duration
+        this.rate = this.currentTime / this.duration
       }
     },
     components: {
-      Scroll
+      Scroll,
+      ProgressBar
     }
   }
 </script>
@@ -298,7 +324,7 @@
         .progress-wrapper {
           display: flex;
           align-items: center;
-          width: 80%;
+          width: 85%;
           margin: 0px auto;
           padding: 10px 0;
           .time {
@@ -308,9 +334,11 @@
             width: 30px;
             &.time-l {
               text-align: left;
+              margin-right: 5px;
             }
             &.time-r {
-              text-align: right
+              text-align: right;
+              margin-left: 5px;
             }
           }
           .progress-bar-wrapper {
