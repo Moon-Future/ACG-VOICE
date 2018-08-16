@@ -2,7 +2,7 @@
   <div class="progress-bar" ref="progressBar" @click.stop="progressClick">
     <div class="bar-inner">
       <div class="progress" ref="progress"></div>
-      <div class="loading" ref="loading"></div>
+      <canvas class="progress-buffered" id="progress-buffered" height="4"></canvas>
       <div class="progress-btn" ref="progressBtn"
           @touchstart.prevent="progressTouchStart"
           @touchmove.prevent="progressTouchMove"
@@ -24,9 +24,9 @@
         type: Number,
         default: 0
       },
-      loading: {
-        type: Number,
-        default: 0
+      buffered: {
+        type: Array,
+        default: []
       }
     },
     created() {
@@ -57,6 +57,26 @@
         this._offset(offsetWidth)
         this._triggerPercent(true)
       },
+      draw(x, y) {
+        const canvas = document.getElementById('progress-buffered')
+        const width = this.$refs.progressBar.clientWidth
+        let ctx
+        if (canvas.getContext) {
+          ctx = canvas.getContext('2d')
+        }
+        if (!ctx) {
+          return;
+        }
+        x = width * x
+        y = width * y
+        ctx.fillStyle = '#c0c0c0'
+        ctx.strokeStyle = '#c0c0c0'
+        ctx.globalAlpha = 0.5
+        ctx.clearRect(x, 0, y - x, 4)
+        ctx.clearRect(x, 0, y - x, 4)
+        ctx.fillRect(x, 0, y - x, 4)
+        ctx.strokeRect(x, 0, y - x, 4)
+      },
       _triggerPercent(flag = false) {
         const barWidth = this.$refs.progressBar.clientWidth - progressBtnWidth
         const percent = this.$refs.progress.clientWidth / barWidth
@@ -76,6 +96,11 @@
           const barWidth = this.$refs.progressBar.clientWidth - progressBtnWidth
           const offsetWidth = newPercent * barWidth
           this._offset(offsetWidth)
+        }
+      },
+      buffered() {
+        for (let i = 0, len = this.buffered.length; i < len; i++) {
+          this.draw(this.buffered[i].x, this.buffered[i].y)
         }
       }
     }
@@ -100,11 +125,8 @@
         // background: $color-background-green;
         background: linear-gradient(to right, #f38f00, #f1e000, $color-background-green)
       }
-      .loading {
+      .progress-buffered {
         position: absolute;
-        height: 100%;
-        background: $color-background-gray;
-        opacity: 0.5;
       }
       .progress-btn {
         position: absolute;

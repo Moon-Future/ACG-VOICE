@@ -45,7 +45,7 @@
           <div class="progress-wrapper">
             <span class="time time-l">{{ format(currentTime) }}</span>
             <div class="progress-bar-wrapper">
-              <progress-bar :percent="percent" @percentChange="percentChange"></progress-bar>
+              <progress-bar :percent="percent" :buffered="buffered" @percentChange="percentChange"></progress-bar>
             </div>
             <span class="time time-r">{{ format(duration) }}</span>
           </div>
@@ -86,11 +86,10 @@
         </div>
       </div>
     </transition>
-    <audio :src="voiceSrc" ref="audio" 
-        @play="ready"
+    <audio :src="voiceSrc" ref="audio"
         @timeupdate="updateTime"
-        @loadeddata="loadeddata"
         @progress="progress"
+        @canplay="canplay"
         @ended="end">
     </audio>
   </div>
@@ -105,12 +104,13 @@
       return {
         bgimg: 'http://ossweb-img.qq.com/images/lol/web201310/skin/big266002.jpg',
         // voiceSrc: require('assets/星辰陨落，只为坠入爱河.wav'),
-        voiceSrc: 'http://www.ytmp3.cn/down/50965.mp3',
+        voiceSrc: '#',
         currentTime: 0,
         duration: 0,
         songReady: false,
         moveing: false,
-        rate: 1
+        buffered: [],
+        readyState: 0,
       }
     },
     computed: {
@@ -128,6 +128,12 @@
         'playlist'
       ])
     },
+    created() {
+      this.$nextTick(() => {
+        this.audio = this.$refs.audio
+        this.readyState = this.audio.readyState
+      })
+    },
     methods: {
       goDown() {
         this.setFullScreen(false)
@@ -141,17 +147,24 @@
         if (!this.moveing) {
           this.currentTime = e.target.currentTime
         }
+        this.readyState = this.audio.readyState
       },
       progress() {
         const audio = this.$refs.audio
-        // console.log('progress', audio.buffered.length, audio.buffered.end(audio.buffered.length - 1))
+        const buffered = audio.buffered
+        const len = buffered.length
+        this.buffered = []
+        for (let i = 0; i < len; i++) {
+          this.buffered.push({
+            x: buffered.start(i) / this.duration,
+            y: buffered.end(i) / this.duration
+          })
+        }
       },
-      loadeddata() {
-        // console.log('loadeddata', arguments)
-      },
-      ready() {
+      canplay() {
+        this.duration = this.audio.duration
+        console.log('canplay', this.readyState, this.duration)
         this.songReady = true
-        this.duration = this.$refs.audio.duration
       },
       end() {
         this.setPlaying(false)
@@ -160,11 +173,12 @@
       percentChange({percent, flag}) {
         if (flag === true) {
           this.moveing = false
-          this.$refs.audio.currentTime = this.duration * percent
+          this.audio.currentTime = this.duration * percent
         } else {
           this.moveing = true
           this.currentTime = this.duration * percent
         }
+        this.readyState = this.audio.readyState
       },
       format(interval) {
         interval = interval | 0
@@ -190,8 +204,17 @@
 
       },
       currentSong() {
-        const audio = this.$refs.audio
-        audio.play()
+        this.voiceSrc = 'http://www.ytmp3.cn/down/50965.mp3'
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
+          this.audio.play()
+        }, 1000)
+      },
+      readyState(newState, oldState) {
+        // if (this.readyState) {
+
+        // }
+        console.log('readyState', newState, oldState)
       }
     },
     components: {
