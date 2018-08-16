@@ -211,9 +211,6 @@
         }, 1000)
       },
       readyState(newState, oldState) {
-        // if (this.readyState) {
-
-        // }
         console.log('readyState', newState, oldState)
       }
     },
