@@ -108,6 +108,7 @@
         voiceSrc: 'http://www.ytmp3.cn/down/50965.mp3',
         currentTime: 0,
         duration: 0,
+        songReady: false,
         moveing: false,
         rate: 1
       }
@@ -149,12 +150,8 @@
         // console.log('loadeddata', arguments)
       },
       ready() {
-        const audio = this.$refs.audio
-        console.log('ready', arguments)
-        this.currentTime = audio.currentTime
-        this.duration = audio.duration
-        this.rate = this.currentTime / this.duration
-        console.log('audio.duration', audio.duration)
+        this.songReady = true
+        this.duration = this.$refs.audio.duration
       },
       end() {
         this.setPlaying(false)
@@ -194,18 +191,7 @@
       },
       currentSong() {
         const audio = this.$refs.audio
-        // clearTimeout(this.timer)
-        // this.timer = setTimeout(() => {
-        //   this.currentTime = audio.currentTime
-        //   this.duration = audio.duration
-        //   this.rate = this.currentTime / this.duration
-        //   audio.play()
-        // }, 1000)
-        // this.currentTime = audio.currentTime
-        // this.duration = audio.duration
-        // this.rate = this.currentTime / this.duration
         audio.play()
-        // console.log('audio.duration', audio.duration)
       }
     },
     components: {

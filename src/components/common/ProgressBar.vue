@@ -55,7 +55,7 @@
         const rect = this.$refs.progressBar.getBoundingClientRect()
         const offsetWidth = e.pageX - rect.left
         this._offset(offsetWidth)
-        this._triggerPercent()
+        this._triggerPercent(true)
       },
       _triggerPercent(flag = false) {
         const barWidth = this.$refs.progressBar.clientWidth - progressBtnWidth
