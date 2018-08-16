@@ -2,6 +2,7 @@
   <div class="progress-bar" ref="progressBar" @click.stop="progressClick">
     <div class="bar-inner">
       <div class="progress" ref="progress"></div>
+      <div class="loading" ref="loading"></div>
       <div class="progress-btn" ref="progressBtn"
           @touchstart.prevent="progressTouchStart"
           @touchmove.prevent="progressTouchMove"
@@ -20,6 +21,10 @@
   export default {
     props: {
       percent: {
+        type: Number,
+        default: 0
+      },
+      loading: {
         type: Number,
         default: 0
       }
@@ -89,10 +94,17 @@
       background: rgba(0, 0, 0, 0.3);
       .progress {
         position: absolute;
+        z-index: 10;
         height: 100%;
         transition-property: width;
         // background: $color-background-green;
         background: linear-gradient(to right, #f38f00, #f1e000, $color-background-green)
+      }
+      .loading {
+        position: absolute;
+        height: 100%;
+        background: $color-background-gray;
+        opacity: 0.5;
       }
       .progress-btn {
         position: absolute;
