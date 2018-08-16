@@ -7,6 +7,7 @@
           @touchstart.prevent="progressTouchStart"
           @touchmove.prevent="progressTouchMove"
           @touchend="progressTouchEnd">
+          <i class="iconfont icon-acg-loading icon-loading" v-show="loadingShow"></i>
       </div>
     </div>
   </div>
@@ -27,6 +28,10 @@
       buffered: {
         type: Array,
         default: []
+      },
+      loadingShow: {
+        type: Boolean,
+        default: false
       }
     },
     created() {
@@ -83,7 +88,7 @@
         this.$emit('percentChange', {percent, flag})
       },
       _offset(offsetWidth, flag = false) {
-        this.$refs.progress.style.width = `${offsetWidth}px`
+        this.$refs.progress.style.width = `${offsetWidth + 1}px`
         this.$refs.progressBtn.style[transform] = `translate3d(${offsetWidth}px,0,0)`
         // if (flag) {
         //   this.$refs.progress.style
@@ -137,6 +142,14 @@
         border: 4px solid #fff;
         border-radius: 50%;
         background: $color-background-green;
+        z-index: 10;
+      }
+      .icon-loading {
+        font-size: $font-size-small;
+        top: -4px;
+        left: -4px;
+        position: relative;
+        color: $color-text-gray;
       }
     }
   }

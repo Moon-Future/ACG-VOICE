@@ -45,7 +45,13 @@
           <div class="progress-wrapper">
             <span class="time time-l">{{ format(currentTime) }}</span>
             <div class="progress-bar-wrapper">
-              <progress-bar :percent="percent" :buffered="buffered" @percentChange="percentChange"></progress-bar>
+              <progress-bar 
+                :percent="percent"
+                :buffered="buffered"
+                :loadingShow="loadingShow"
+                @percentChange="percentChange"
+              >
+              </progress-bar>
             </div>
             <span class="time time-r">{{ format(duration) }}</span>
           </div>
@@ -111,6 +117,7 @@
         moveing: false,
         buffered: [],
         readyState: 0,
+        loadingShow: true
       }
     },
     computed: {
@@ -163,7 +170,6 @@
       },
       canplay() {
         this.duration = this.audio.duration
-        console.log('canplay', this.readyState, this.duration)
         this.songReady = true
       },
       end() {
@@ -174,6 +180,7 @@
         if (flag === true) {
           this.moveing = false
           this.audio.currentTime = this.duration * percent
+          this.currentTime = this.duration * percent
         } else {
           this.moveing = true
           this.currentTime = this.duration * percent
@@ -210,8 +217,8 @@
           this.audio.play()
         }, 1000)
       },
-      readyState(newState, oldState) {
-        console.log('readyState', newState, oldState)
+      readyState() {
+        this.loadingShow = this.readyState >= 3 ? false : true
       }
     },
     components: {
