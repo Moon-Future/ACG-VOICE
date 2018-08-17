@@ -4,7 +4,7 @@ const curTime = new Date().getTime()
 
 const characterSchema = new Schema({
   name: { type: String, unique: true },
-  nameEn: { type: String, default: '#' },
+  alias: { type: String, default: '#' },
   spell: {type: String, default: '#' },
   nickName: { type: String },
   from: { type: String },
@@ -33,7 +33,7 @@ const imgaeSchema = new Schema({
 
 const voiceSchema = new Schema({
   character: { type: String },
-  name: { type: String, unique: true },
+  name: { type: String },
   src: { type: String },
   srcOfficial: { type: String, default: '#' },
   lyric: { type: String, default: '#' },
