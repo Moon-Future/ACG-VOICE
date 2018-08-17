@@ -46,7 +46,6 @@
   import Slider from 'components/common/Slider'
   import Scroll from 'components/common/Scroll'
   import VoiceList from 'components/common/VoiceList'
-  import { swiperData, voiceData } from 'common/js/data.js'
   import apiUrl from '@/serviceAPI.config.js'
   import { getRandomInt } from 'common/js/util.js'
   import { mapGetters, mapActions } from 'vuex'
@@ -69,9 +68,6 @@
         key: ''
       }
     },
-    created() {
-      this.getVoiceData()
-    },
     mounted() {
       this.messageTop = this.$refs.message.offsetTop
       this.filterTop = this.$refs.filter.offsetTop
@@ -89,13 +85,21 @@
           this.swiperData = data.skin.length === 0 ? swiperData : data.skin
           let bgimg = this.swiperData[getRandomInt(0, this.swiperData.length - 1)].srcOfficial
           this.characterInfo = data.avatar[0] || {}
-          this.voiceData.forEach((ele) => {
-            Object.assign(ele, this.characterInfo, {bgimg})
-          })
+          // this.voiceData.forEach((ele) => {
+          //   Object.assign(ele, this.characterInfo, {bgimg})
+          // })
         })
       },
       getVoiceData() {
-        this.voiceData = voiceData
+        this.$http.get(apiUrl.getCharacterVoice, {
+          params: {key: this.key}
+        }).then((res) => {
+          this.voiceData = res.data
+
+          this.voiceData.forEach((voice) => {
+            voice.src = 'http://www.ytmp3.cn/down/50965.mp3'
+          })
+        })
       },
       scroll(pos) {
         this.itemHeightPx = this.itemHeightPx == undefined ? this.$refs.slider.clientHeight : this.itemHeightPx
@@ -120,6 +124,7 @@
     watch: {
       key() {
         this.getData()
+        this.getVoiceData()
       },
       scrollY(newY) {
         let filter = this.$refs.filter

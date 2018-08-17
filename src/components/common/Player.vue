@@ -211,7 +211,8 @@
 
       },
       currentSong() {
-        this.voiceSrc = 'http://www.ytmp3.cn/down/50965.mp3'
+        // this.voiceSrc = 'http://www.ytmp3.cn/down/50965.mp3'
+        this.voiceSrc = this.currentSong.src
         clearTimeout(this.timer)
         this.timer = setTimeout(() => {
           this.audio.play()

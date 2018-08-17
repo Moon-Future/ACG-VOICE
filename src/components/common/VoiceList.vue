@@ -4,7 +4,7 @@
       <li v-for="(item, i) in data" :key="i" @click="selectItem(item, i)">
         <div class="list-num" v-if="showRank">{{ i + 1 }}</div>
         <div class="list-text">
-          {{ item.text }}
+          {{ item.name }}
         </div>
       </li>
     </ul>

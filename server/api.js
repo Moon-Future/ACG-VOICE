@@ -32,7 +32,10 @@ const api = {
         resolve(result)
       })
     })
-  }
+  },
+  getCharacterVoice(params) {
+    return characterAPI.getCharacterVoice(params)
+  },
 }
 
 module.exports = api

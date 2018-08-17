@@ -90,20 +90,22 @@ async function importLOLVoice() {
 		let indexs = getRandomInt(0, songListLen - 1, 10)
 		indexs.forEach(index => {
 			let song = songList[index]
-			let oneVoice = new Voice({
-				key: `${item.name}-${comeFrom}`,
-				character: item.name,
-				name: song.name,
-				src: song.url || '#',
-				srcOfficial: song.url || '#',
-			})
-			oneVoice.save().then(() => {
-				console.log('插入成功 ' + saveCount)
-			}).catch(err => {
-				console.log('插入失败' + err)
-			})
+			if (song.url) {
+				let oneVoice = new Voice({
+					key: `${item.name}-${comeFrom}`,
+					character: item.name,
+					name: song.name,
+					src: song.url || '#',
+					srcOfficial: song.url || '#',
+				})
+				oneVoice.save().then(() => {
+					saveCount++
+					console.log('插入成功 ' + saveCount)
+				}).catch(err => {
+					console.log('插入失败' + err)
+				})
+			}
 		})
-		saveCount++
 	}
 }
 

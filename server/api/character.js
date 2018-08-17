@@ -1,4 +1,4 @@
-const { Character, Image } = require('../database/schema')
+const { Character, Image, Voice } = require('../database/schema')
 
 const characterAPI = {
   getCharacterList() {
@@ -47,6 +47,18 @@ const characterAPI = {
       })
     })
   },
+  getCharacterVoice(params) {
+    let key = params.key
+    return new Promise((resolve, reject) => {
+      Voice.find({key}, (err, res) => {
+        if (err) {
+          throw new Error()
+          return false
+        }
+        resolve(res)
+      })
+    })
+  }
 }
 
 module.exports = characterAPI

@@ -3,7 +3,8 @@ const apiUrl = {
   getHomeHot: 'api/getHomeHot',
   getCharacterList: 'api/getCharacterList',
   getCharacterSkin: 'api/getCharacterSkin',
-  getCharacterSkinAndAvatar: 'api/getCharacterSkinAndAvatar'
+  getCharacterSkinAndAvatar: 'api/getCharacterSkinAndAvatar',
+  getCharacterVoice: 'api/getCharacterVoice'
 }
 
 module.exports = apiUrl
