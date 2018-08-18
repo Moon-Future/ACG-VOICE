@@ -80,23 +80,25 @@ async function importLOLHead() {
 
 async function importLOLVoice() {
 	await connect()
-	const songList = JSON.parse(fs.readFileSync(path.join(__dirname, './songlist.json'), 'utf-8'))
+	// const songList = JSON.parse(fs.readFileSync(path.join(__dirname, './songlist.json'), 'utf-8'))
+	const songList = JSON.parse(fs.readFileSync(path.join(__dirname, './song.json'), 'utf-8'))
 	const songListLen = songList.length
 	const characterList = JSON.parse(fs.readFileSync(path.join(filePath, 'LOL/Data/avatar.json')))
 	let saveCount = 0
+	console.log('songList', songList)
 	for (let i = 0, len = characterList.length; i < len; i++) {
 		let item = characterList[i]
 		let comeFrom = item.from || '#'
 		let indexs = getRandomInt(0, songListLen - 1, 10)
 		indexs.forEach(index => {
 			let song = songList[index]
-			if (song.url) {
+			if (song.src) {
 				let oneVoice = new Voice({
 					key: `${item.name}-${comeFrom}`,
 					character: item.name,
 					name: song.name,
-					src: song.url || '#',
-					srcOfficial: song.url || '#',
+					src: song.src || '#',
+					srcOfficial: song.src || '#',
 				})
 				oneVoice.save().then(() => {
 					saveCount++
