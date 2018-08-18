@@ -95,10 +95,6 @@
           params: {key: this.key}
         }).then((res) => {
           this.voiceData = res.data
-
-          this.voiceData.forEach((voice) => {
-            voice.src = 'http://www.ytmp3.cn/down/50965.mp3'
-          })
         })
       },
       scroll(pos) {

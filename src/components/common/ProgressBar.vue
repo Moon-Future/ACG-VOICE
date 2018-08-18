@@ -3,11 +3,11 @@
     <div class="bar-inner">
       <div class="progress" ref="progress"></div>
       <canvas class="progress-buffered" id="progress-buffered" height="4"></canvas>
-      <div class="progress-btn" ref="progressBtn"
+      <div class="progress-btn" :class="{'progress-btn-loading': loadingShow}" ref="progressBtn"
           @touchstart.prevent="progressTouchStart"
           @touchmove.prevent="progressTouchMove"
           @touchend="progressTouchEnd">
-          <i class="iconfont icon-acg-loading icon-loading" v-show="loadingShow"></i>
+          <!-- <i class="iconfont icon-acg-loading icon-loading" v-show="loadingShow"></i> -->
       </div>
     </div>
   </div>
@@ -143,6 +143,10 @@
         border-radius: 50%;
         background: $color-background-green;
         z-index: 10;
+      }
+      .progress-btn-loading {
+        border-width: 0;
+        background: url('../../assets/loading-mini.gif') no-repeat 50%;
       }
       .icon-loading {
         font-size: $font-size-small;
