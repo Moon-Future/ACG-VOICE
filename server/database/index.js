@@ -89,7 +89,7 @@ async function importLOLVoice() {
 	for (let i = 0, len = characterList.length; i < len; i++) {
 		let item = characterList[i]
 		let comeFrom = item.from || '#'
-		let indexs = getRandomInt(0, songListLen - 1, 10)
+		let indexs = getRandomInt(0, songListLen - 1, 11)
 		indexs.forEach(index => {
 			let song = songList[index]
 			if (song.src) {

@@ -62,7 +62,7 @@
         this._offset(offsetWidth)
         this._triggerPercent(true)
       },
-      draw(x, y) {
+      draw(x, y, flag = false) {
         const canvas = document.getElementById('progress-buffered')
         const width = this.$refs.progressBar.clientWidth
         let ctx
@@ -70,7 +70,11 @@
           ctx = canvas.getContext('2d')
         }
         if (!ctx) {
-          return;
+          return
+        }
+        if (flag) {
+          ctx.clearRect(0, 0, width, 4)
+          return
         }
         x = width * x
         y = width * y
@@ -104,6 +108,9 @@
         }
       },
       buffered() {
+        if (this.buffered.length === 0) {
+          this.draw('x', 'y', true)
+        }
         for (let i = 0, len = this.buffered.length; i < len; i++) {
           this.draw(this.buffered[i].x, this.buffered[i].y)
         }
