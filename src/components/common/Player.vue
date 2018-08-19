@@ -1,11 +1,11 @@
 <template>
-  <div class="player" v-show="playlist.length>0">
+  <div class="player" v-show="playlist.length>0" @touchstart.stop="hidePlayList">
     <transition
       name="normal"
       enter-active-class="animated fadeInRight faster"
       leave-active-class="animated fadeOutDown faster"
     >
-      <div class="normal-player" v-show="fullScreen">
+      <div class="normal-player" v-show="fullScreen" ref="normalPlayer">
         <div class="background">
           <img :src="currentSong.bgimg" alt="" width="100%" height="100%">
         </div>
@@ -60,23 +60,23 @@
               <i class="iconfont icon-acg-sequence"></i>
             </div>
             <div class="icon i-left">
-              <i class="iconfont icon-acg-prev"></i>
+              <i class="iconfont icon-acg-prev" @click="prev"></i>
             </div>
             <div class="icon i-center">
               <i class="iconfont" :class="playIco" @click="play"></i>
             </div>
             <div class="icon i-right">
-              <i class="iconfont icon-acg-next"></i>
+              <i class="iconfont icon-acg-next" @click="next"></i>
             </div>
             <div class="icon i-right">
-              <i class="iconfont icon-acg-playlist"></i>
+              <i class="iconfont icon-acg-playlist" @click="showPlayList"></i>
             </div>
           </div>
         </div>
       </div>
     </transition>
     <transition name="mini">
-      <div class="mini-player">
+      <div class="mini-player" ref="miniPlayer">
         <div class="mini-player">
           <div class="icon">
             <img src="" alt="" width="40" height="40">
@@ -92,6 +92,15 @@
         </div>
       </div>
     </transition>
+    <transition 
+      name="play-list"
+      enter-active-class="animated slideInUp faster"
+      leave-active-class="animated slideOutDown faster"
+    >
+      <div class="play-list" v-show="playListShow">
+        <voice-list :data="playlist"></voice-list>
+      </div>
+    </transition>
     <audio :src="voiceSrc" ref="audio"
         @timeupdate="updateTime"
         @progress="progress"
@@ -104,6 +113,8 @@
 <script>
   import Scroll from 'components/common/Scroll'
   import ProgressBar from 'components/common/ProgressBar'
+  import VoiceList from 'components/common/VoiceList'
+  import { playMode } from 'common/js/config'
   import {mapGetters, mapMutations, mapActions} from 'vuex'
   export default {
     data() {
@@ -117,7 +128,8 @@
         moveing: false,
         buffered: [],
         readyState: 0,
-        loadingShow: true
+        loadingShow: true,
+        playListShow: false
       }
     },
     computed: {
@@ -132,7 +144,8 @@
         'currentSong',
         'fullScreen',
         'playing',
-        'playlist'
+        'playlist',
+        'mode'
       ])
     },
     created() {
@@ -145,10 +158,35 @@
       goDown() {
         this.setFullScreen(false)
       },
+      hidePlayList(e) {
+        const target = e.target
+        if (this.$refs.normalPlayer.contains(target) || this.$refs.miniPlayer.contains(target)) {
+          this.playListShow = false
+        }
+      },
+      prev() {
+        let currentIndex = 0
+        if (this.mode !== playMode.random) {
+          currentIndex = this.currentIndex === 0 ? this.playlist.length - 1 : this.currentIndex - 1
+        }
+        this.setCurrentIndex(currentIndex)
+        this.setPlaying(true)
+      },
       play() {
         const audio = this.$refs.audio
         this.setPlaying(!this.playing)
         this.playing ? audio.play() : audio.pause()
+      },
+      next() {
+        let currentIndex = 0
+        if (this.mode !== playMode.random) {
+          currentIndex = this.currentIndex === this.playlist.length - 1 ? 0 : this.currentIndex + 1
+        }
+        this.setCurrentIndex(currentIndex)
+        this.setPlaying(true)
+      },
+      showPlayList() {
+        this.playListShow = !this.playListShow
       },
       updateTime(e) {
         if (!this.moveing) {
@@ -203,7 +241,8 @@
       },
       ...mapMutations({
         setFullScreen: 'SET_FULL_SCREEN',
-        setPlaying: 'SET_PALYING_STATE'
+        setPlaying: 'SET_PALYING_STATE',
+        setCurrentIndex: 'SET_CURRENT_INDEX'
       }),
     },
     watch: {
@@ -225,7 +264,8 @@
     },
     components: {
       Scroll,
-      ProgressBar
+      ProgressBar,
+      VoiceList
     }
   }
 </script>
@@ -429,6 +469,14 @@
           }
         }
       }
+    }
+    .play-list {
+      z-index: 200;
+      position: fixed;
+      background: #fff;
+      bottom: 0;
+      left: 0;
+      right: 0;
     }
   }
 </style>
