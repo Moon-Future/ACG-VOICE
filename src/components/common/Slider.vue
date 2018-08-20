@@ -13,7 +13,6 @@
 <script>
 import BScroll from 'better-scroll' 
 import { addClass } from 'common/js/dom'
-
 export default {
   name: 'slide',
   props: {
@@ -240,7 +239,6 @@ export default {
 
 <style lang="scss" scoped>
   @import 'common/css/variable.scss';
-
   .slide {
     min-height: 1px;
     .slide-group {
