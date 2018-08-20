@@ -45,6 +45,9 @@
       }
       .list-text {
         line-height: 1rem;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
     }
   }

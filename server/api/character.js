@@ -51,34 +51,37 @@ const characterAPI = {
   getCharacterVoice(params) {
     let key = params.key
     return new Promise((resolve, reject) => {
-      Voice.find({key}, (err, res) => {
+      Voice.find({key}).lean().exec((err, res) => {
         if (err) {
           throw new Error()
           return false
         }
-        
-        res.forEach(ele => {
-          ele.bgimg = '222'
-          ele.coverimg = '333'
-          ele['aaaaa'] = '666'
+        characterAPI.getCharacterSkin({key}).then((skins) => {
+          const len = skins.length
+          res.forEach(ele => {
+            const index = getRandom(0, len - 1, 1)[0]
+            const skin = skins[index]
+            ele.bgimg = (skin.src == '#' ? skin.srcOfficial : skin.src)
+            ele.coverimg = (skin.src == '#' ? skin.srcOfficial : skin.src)
+          })
+          resolve(res)
         })
-
-        console.log(res)
-
-        resolve(res)
-        // characterAPI.getCharacterSkin({key}).then((skins) => {
-        //   const len = skins.length
-        //   res.forEach(ele => {
-        //     const index = getRandom(0, len - 1, 1)[0]
-        //     const skin = skins[index]
-        //     ele.bgimg = (skin.src == '#' ? skin.srcOfficial : skin.src)
-        //     ele.coverimg = (skin.src == '#' ? skin.srcOfficial : skin.src)
-        //   })
-        //   resolve(res)
-        // })
       })
     })
   }
 }
 
 module.exports = characterAPI
+
+/*
+  Voice.find({key}, (err, res) => {}) mongoose 查找得到的数据不能修改
+解决方式：
+  1:
+    Voice.find({key}).lean().exec((err, res) => {})
+  2: 
+    Voice.find({key}, (err, res) => {
+      res = res.map(function (ele) {
+        return ele.toObject();
+      })
+    })
+*/

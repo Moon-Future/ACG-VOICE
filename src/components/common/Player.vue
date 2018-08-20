@@ -14,14 +14,20 @@
             <i class="iconfont icon-acg-arrow-down- icon-back" @click="goDown"></i>
           </div>
           <div class="song-title animated bounceInDown">
-            <h1 class="title">{{ currentSong.name }}</h1>
+            <h1 class="title">
+              <div class="word-loop">
+                <span>{{ currentSong.name }}</span>
+                <span>{{ currentSong.name }}</span>
+                <span>{{ currentSong.name }}</span>
+              </div>
+            </h1>
             <h2 class="subtitle">{{ currentSong.character }} ></h2>
           </div>
         </div>
         <div class="middle">
           <div class="middle-l" ref="middleL">
             <div class="cd-wrapper animated zoomIn">
-              <div class="cd">
+              <div class="cd" :class="[playing ? 'play' : 'play pause']">
                 <img :src="currentSong.coverimg" alt="" class="image">
               </div>
             </div>
@@ -312,9 +318,13 @@
           line-height: 40px;
           text-align: center;
           font-size: $font-size-large;
-          text-overflow: ellipsis;
+          // text-overflow: ellipsis;
           white-space: nowrap;
           overflow: hidden;
+          .word-loop {
+            display: inline-block;
+            animation: 10s wordsLoop linear infinite normal
+          }
         }
         .subtitle {
           line-height: 20px;
@@ -352,7 +362,7 @@
                 animation: rotate 20s linear infinite;
               }
               &.pause {
-                 animation-play-state: paused;
+                animation-play-state: paused;
               }
               .image {
                 position: absolute;
@@ -478,5 +488,14 @@
       left: 0;
       right: 0;
     }
+  }
+
+  @keyframes rotate {
+    0% {transform: rotate(0)}
+    100% {transform: rotate(360deg)}
+  }
+  @keyframes wordsLoop {
+    0% {transform: translateX(0px)}
+    100% {transform: translateX(-33.3%)}
   }
 </style>
