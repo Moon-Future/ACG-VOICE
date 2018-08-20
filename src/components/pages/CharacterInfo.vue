@@ -85,9 +85,6 @@
           this.swiperData = data.skin.length === 0 ? swiperData : data.skin
           let bgimg = this.swiperData[getRandomInt(0, this.swiperData.length - 1)].srcOfficial
           this.characterInfo = data.avatar[0] || {}
-          // this.voiceData.forEach((ele) => {
-          //   Object.assign(ele, this.characterInfo, {bgimg})
-          // })
         })
       },
       getVoiceData() {

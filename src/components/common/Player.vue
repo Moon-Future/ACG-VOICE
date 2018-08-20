@@ -14,19 +14,19 @@
             <i class="iconfont icon-acg-arrow-down- icon-back" @click="goDown"></i>
           </div>
           <div class="song-title animated bounceInDown">
-            <h1 class="title">{{ currentSong.text }}</h1>
-            <h2 class="subtitle">{{ currentSong.name }} ></h2>
+            <h1 class="title">{{ currentSong.name }}</h1>
+            <h2 class="subtitle">{{ currentSong.character }} ></h2>
           </div>
         </div>
         <div class="middle">
           <div class="middle-l" ref="middleL">
             <div class="cd-wrapper animated zoomIn">
               <div class="cd">
-                <img :src="currentSong.bgimg" alt="" class="image">
+                <img :src="currentSong.coverimg" alt="" class="image">
               </div>
             </div>
             <div class="playing-lyric-wrapper">
-              <div class="playing-lyric">{{ currentSong.text }}</div>
+              <div class="playing-lyric">{{ currentSong.lyric }}</div>
             </div>
           </div>
           <scroll class="middle-r">

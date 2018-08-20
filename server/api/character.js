@@ -1,4 +1,5 @@
 const { Character, Image, Voice } = require('../database/schema')
+const { getRandom } = require('./base')
 
 const characterAPI = {
   getCharacterList() {
@@ -55,7 +56,26 @@ const characterAPI = {
           throw new Error()
           return false
         }
+        
+        res.forEach(ele => {
+          ele.bgimg = '222'
+          ele.coverimg = '333'
+          ele['aaaaa'] = '666'
+        })
+
+        console.log(res)
+
         resolve(res)
+        // characterAPI.getCharacterSkin({key}).then((skins) => {
+        //   const len = skins.length
+        //   res.forEach(ele => {
+        //     const index = getRandom(0, len - 1, 1)[0]
+        //     const skin = skins[index]
+        //     ele.bgimg = (skin.src == '#' ? skin.srcOfficial : skin.src)
+        //     ele.coverimg = (skin.src == '#' ? skin.srcOfficial : skin.src)
+        //   })
+        //   resolve(res)
+        // })
       })
     })
   }
