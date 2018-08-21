@@ -339,12 +339,13 @@
       .top {
         position: relative;
         margin-bottom: 2rem;
+        line-height: 2rem;
         .back {
           position: absolute;
           z-index: 50;
           .icon-back {
             display: block;
-            padding: 10px;
+            padding: 0 10px;
             font-size: $font-size-large-x;
             color: $color-active;
           }
@@ -352,7 +353,6 @@
         .title {
           width: 70%;
           margin: 0 auto;
-          line-height: 40px;
           text-align: center;
           font-size: $font-size-large;
           white-space: nowrap;
@@ -371,7 +371,6 @@
           }
         }
         .subtitle {
-          line-height: 20px;
           text-align: center;
           font-size: $font-size-medium;
         }
@@ -379,8 +378,8 @@
       .middle {
         position: fixed;
         width: 100%;
-        top: 80px;
-        bottom: 170px;
+        top: 6rem;
+        bottom: 8rem;
         white-space: nowrap;
         font-size: 0;
         .middle-l {
@@ -453,34 +452,35 @@
       }
       .bottom {
         position: absolute;
-        bottom: 50px;
+        bottom: 1rem;
         width: 100%;
-        .dot-wrapper {
-          text-align: center;
-          font-size: 0;
-          .dot {
-            display: inline-block;
-            vertical-align: middle;
-            margin: 0 4px;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            &.active {
-              width: 20px;
-              border-radius: 5px;
-            }
-          }
-        }
+        // .dot-wrapper {
+        //   text-align: center;
+        //   font-size: 0;
+        //   .dot {
+        //     display: inline-block;
+        //     vertical-align: middle;
+        //     margin: 0 4px;
+        //     width: 8px;
+        //     height: 8px;
+        //     border-radius: 50%;
+        //     &.active {
+        //       width: 20px;
+        //       border-radius: 5px;
+        //     }
+        //   }
+        // }
         .progress-wrapper {
           display: flex;
           align-items: center;
           width: 85%;
           margin: 0px auto;
-          padding: 10px 0;
+          padding: 1rem 0;
+          height: 2rem;
           .time {
             font-size: $font-size-small;
             flex: 0 0 30px;
-            line-height: 30px;
+            line-height: 2rem;
             width: 30px;
             &.time-l {
               text-align: left;
@@ -498,6 +498,7 @@
         .operators {
           display: flex;
           align-items: center;
+          height: 3rem;
           .icon {
             flex: 1;
             &.disable {

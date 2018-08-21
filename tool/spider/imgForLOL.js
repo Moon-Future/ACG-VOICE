@@ -13,7 +13,7 @@ const baseUrl = 'http://lol.qq.com/web201310/info-heros.shtml';
 // function getHerosHead() {
 //   superagent.get(spiderUrl).end((err, res) => {
 //     if (err) {
-//       throw Erroe(err);
+//       throw Error(err);
 //     }
 //     let $ = cheerio.load(res.text);
 //     let herosLink = $('.tabbed-contents .tabbed').filter('.cur').find('a');
@@ -69,7 +69,7 @@ async function getHerosHead(flag) {
 function getHerosCover() {
   superagent.get(spiderUrl).end((err, res) => {
     if (err) {
-      throw Erroe(err);
+      throw Error(err);
     }
     let $ = cheerio.load(res.text);
     let herosLink = $('.tabbed-contents .tabbed').filter('.cur').find('a');
@@ -82,7 +82,7 @@ function getHerosCover() {
       if (infoUrl.indexOf('champion') !== -1) {
         superagent.get(infoUrl).end((err, res) => {
           if (err) {
-            throw Erroe(err);
+            throw Error(err);
           }
           let $ = cheerio.load(res.text);
           let imgCoverUrl = $('.hero-info-img').find('a img').attr('src');
