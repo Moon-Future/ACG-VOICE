@@ -8,6 +8,7 @@
     </transition>
     <bottom-footer></bottom-footer>
     <player></player>
+    <playing-lines></playing-lines>
   </div>
 </template>
 
@@ -15,6 +16,7 @@
   import TopHeader from 'components/common/TopHeader'
   import BottomFooter from 'components/common/BottomFooter'
   import Player from 'components/common/Player'
+  import PlayingLines from 'components/common/PlayingLines' 
   export default {
     name: 'App',
     data() {
@@ -26,7 +28,8 @@
     components: {
       TopHeader,
       BottomFooter,
-      Player
+      Player,
+      PlayingLines
     },
     watch: {
       $route(to, from) {

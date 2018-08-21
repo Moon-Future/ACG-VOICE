@@ -11,7 +11,7 @@
         </div>
         <div class="top">
           <div class="back">
-            <i class="iconfont icon-acg-arrow-down- icon-back" @click="goDown"></i>
+            <i class="iconfont icon-acg-arrow-down- icon-back" @click="goBack"></i>
           </div>
           <div class="song-title animated bounceInDown">
             <h1 class="title" ref="title">
@@ -32,8 +32,11 @@
                 <img :src="currentSong.coverimg" alt="" class="image">
               </div>
             </div>
-            <div class="playing-lyric-wrapper">
+            <!-- <div class="playing-lyric-wrapper">
               <div class="playing-lyric">{{ currentSong.lyric }}</div>
+            </div> -->
+            <div class="operate">
+              <div class="like"><i class="iconfont icon-acg-like"></i></div>
             </div>
           </div>
           <scroll class="middle-r">
@@ -83,19 +86,23 @@
       </div>
     </transition>
     <transition name="mini">
-      <div class="mini-player" ref="miniPlayer">
+      <div class="mini-player" v-if="miniPlayer" v-show="!fullScreen" ref="miniPlayer">
         <div class="mini-player">
           <div class="icon">
-            <img src="" alt="" width="40" height="40">
+            <img :src="currentSong.coverimg" alt="" width="40" height="40" @click="goFullScreen">
           </div>
           <div class="text">
-            <h2 class="name"></h2>
-            <p class="desc"></p>
+            <h2 class="name" v-html="currentSong.name"></h2>
+            <p class="desc" v-html="currentSong.character"></p>
+          </div>
+          <div class="control" @click="play">
+            <progress-circle :percent="percent">
+              <i class="iconfont icon-play" :class="playIco"></i>
+            </progress-circle>
           </div>
           <div class="control">
-
-          </div>
-          <div class="control"></div>
+            <i class="iconfont icon-acg-playlist icon-playlist" @click="showPlayList"></i>
+          </div>  
         </div>
       </div>
     </transition>
@@ -120,9 +127,10 @@
 <script>
   import Scroll from 'components/common/Scroll'
   import ProgressBar from 'components/common/ProgressBar'
+  import ProgressCircle from 'components/common/ProgressCircle'
   import VoiceList from 'components/common/VoiceList'
   import { playMode } from 'common/js/config'
-  import {mapGetters, mapMutations, mapActions} from 'vuex'
+  import { mapGetters, mapMutations, mapActions } from 'vuex'
   export default {
     data() {
       return {
@@ -137,7 +145,8 @@
         readyState: 0,
         loadingShow: true,
         playListShow: false,
-        wordsLoop: false
+        wordsLoop: false,
+        miniPlayer: false
       }
     },
     computed: {
@@ -163,7 +172,13 @@
       })
     },
     methods: {
-      goDown() {
+      goMini() {
+        this.setFullScreen(false)
+      },
+      goFullScreen() {
+        this.setFullScreen(true)
+      },
+      goBack() {
         this.setFullScreen(false)
       },
       hidePlayList(e) {
@@ -219,8 +234,17 @@
         this.songReady = true
       },
       end() {
-        this.setPlaying(false)
-        this.currentTime = 0
+        if (this.mode === playMode.sequence && this.currentIndex === this.playlist.length - 1) {
+          this.setPlaying(false)
+          this.currentTime = 0
+          return
+        }
+        let currentIndex = 0
+        if (this.mode !== playMode.random) {
+          currentIndex = this.currentIndex === this.playlist.length - 1 ? 0 : this.currentIndex + 1
+        }
+        this.setCurrentIndex(currentIndex)
+        this.setPlaying(true)
       },
       percentChange({percent, flag}) {
         if (flag === true) {
@@ -261,7 +285,6 @@
 
       },
       currentSong() {
-        // this.voiceSrc = 'http://www.ytmp3.cn/down/50965.mp3'
         this.buffered = []
         this.voiceSrc = this.currentSong.src
         clearTimeout(this.timer)
@@ -284,6 +307,7 @@
     components: {
       Scroll,
       ProgressBar,
+      ProgressCircle,
       VoiceList
     }
   }
@@ -314,7 +338,7 @@
       }
       .top {
         position: relative;
-        margin-bottom: 25px;
+        margin-bottom: 2rem;
         .back {
           position: absolute;
           z-index: 50;
@@ -331,7 +355,6 @@
           line-height: 40px;
           text-align: center;
           font-size: $font-size-large;
-          // text-overflow: ellipsis;
           white-space: nowrap;
           overflow: hidden;
           .words {
@@ -498,6 +521,70 @@
           .i-right {
             text-align: left;
           }
+        }
+      }
+    }
+    .mini-player {
+      display: flex;
+      align-items: center;
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      z-index: 200;
+      width: 100%;
+      height: 3rem;
+      background: $color-deepgray;
+      color: $color-white;
+      .icon {
+        padding: 0 10px;
+        img {
+          border-radius: 50%;
+          width: 3.5rem;
+          height: 3.5rem;
+          margin-top: -1rem;
+          &.play {
+            animation: rotate 10s linear infinite;
+          }
+          &.pause {
+            animation-play-state: paused;
+          }
+        }
+      }
+      .text {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
+        line-height: 20px;
+        overflow: hidden;
+        white-space: nowrap;
+        .name {
+          margin-bottom: 2px;
+          font-size: $font-size-medium;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+        .desc {
+          font-size: $font-size-small;
+          color: $color-gray;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+      }
+      .control {
+        flex: 0 0 30px;
+        width: 30px;
+        height: 30px;
+        padding: 0 10px;
+        color: $color-active;
+        .icon-play, .icon-playlist {
+          font-size: 30px;
+        }
+        .icon-play {
+          position: absolute;
+          left: 0;
+          top: 0;
+          z-index: -1;
         }
       }
     }

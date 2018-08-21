@@ -73,7 +73,7 @@ export default {
     }
     .search {
       position: absolute;
-      right: 13px;
+      left: 13px;
       i {
         font-size: 1.5rem;
         cursor: pointer;

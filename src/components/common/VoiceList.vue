@@ -9,14 +9,12 @@
         <div class="list-text">
           {{ item.name }}
         </div>
-        <playing-lines></playing-lines>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-  import PlayingLines from 'components/common/PlayingLines'
   export default {
     name: 'VoiceList',
     props: {
@@ -36,9 +34,6 @@
         type: Number,
         default: -1
       }
-    },
-    components: {
-      PlayingLines
     },
     methods: {
       selectItem(item, index) {
