@@ -14,11 +14,12 @@
             <i class="iconfont icon-acg-arrow-down- icon-back" @click="goDown"></i>
           </div>
           <div class="song-title animated bounceInDown">
-            <h1 class="title">
-              <div class="word-loop">
-                <span>{{ currentSong.name }}</span>
-                <span>{{ currentSong.name }}</span>
-                <span>{{ currentSong.name }}</span>
+            <h1 class="title" ref="title">
+              <span v-if="!wordsLoop" class="words" ref="words">{{ currentSong.name }}</span>
+              <div v-if="wordsLoop" class="words-loop">
+                <span ref="words">{{ currentSong.name }}</span><span class="blank"></span>
+                <span>{{ currentSong.name }}</span><span class="blank"></span>
+                <span>{{ currentSong.name }}</span><span class="blank"></span>
               </div>
             </h1>
             <h2 class="subtitle">{{ currentSong.character }} ></h2>
@@ -104,7 +105,7 @@
       leave-active-class="animated slideOutDown faster"
     >
       <div class="play-list" v-show="playListShow">
-        <voice-list :data="playlist"></voice-list>
+        <voice-list :data="playlist" :activeIndex="currentIndex" :showSpeaker="true" @select="selectItem"></voice-list>
       </div>
     </transition>
     <audio :src="voiceSrc" ref="audio"
@@ -135,7 +136,8 @@
         buffered: [],
         readyState: 0,
         loadingShow: true,
-        playListShow: false
+        playListShow: false,
+        wordsLoop: false
       }
     },
     computed: {
@@ -237,6 +239,9 @@
         const second = this._pad(interval % 60)
         return `${minute}:${second}`
       },
+      selectItem(item, index) {
+        this.setCurrentIndex(index)
+      },
       _pad(num, n = 2) {
         let len = num.toString().length
         while (len < n) {
@@ -263,6 +268,14 @@
         this.timer = setTimeout(() => {
           this.audio.play()
         }, 1000)
+
+        this.$nextTick(() => {
+          if (this.$refs.words.clientWidth > this.$refs.title.clientWidth) {
+            this.wordsLoop = true
+          } else {
+            this.wordsLoop = false
+          }
+        })
       },
       readyState() {
         this.loadingShow = this.readyState >= 3 ? false : true
@@ -321,9 +334,17 @@
           // text-overflow: ellipsis;
           white-space: nowrap;
           overflow: hidden;
-          .word-loop {
+          .words {
             display: inline-block;
-            animation: 10s wordsLoop linear infinite normal
+          }
+          .words-loop {
+            display: inline-block;
+            animation: 15s wordsLoop linear infinite normal;
+            animation-delay: 3s;
+            .blank {
+              display: inline-block;
+              width: 50px;
+            }
           }
         }
         .subtitle {
@@ -483,10 +504,12 @@
     .play-list {
       z-index: 200;
       position: fixed;
-      background: #fff;
       bottom: 0;
       left: 0;
       right: 0;
+      border-radius: 10px 10px 0 0;
+      background: $color-background;
+      color: $color-white;
     }
   }
 
