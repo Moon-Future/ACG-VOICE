@@ -32,12 +32,6 @@
                 <img :src="currentSong.coverimg" alt="" class="image">
               </div>
             </div>
-            <!-- <div class="playing-lyric-wrapper">
-              <div class="playing-lyric">{{ currentSong.lyric }}</div>
-            </div> -->
-            <div class="operate">
-              <div class="like"><i class="iconfont icon-acg-like"></i></div>
-            </div>
           </div>
           <scroll class="middle-r">
             <div class="lyric-wrapper">
@@ -46,6 +40,12 @@
               </div>
             </div>
           </scroll>
+          <div class="middle-b">
+            <div class="like"><i class="iconfont icon-acg-like"></i></div>
+            <div class="like"><i class="iconfont icon-acg-download"></i></div>
+            <div class="like"><i class="iconfont icon-acg-comment"></i></div>
+            <div class="like"><i class="iconfont icon-acg-switch"></i></div>
+          </div>
         </div>
         <div class="bottom">
           <div class="dot-wrapper">
@@ -338,7 +338,7 @@
       }
       .top {
         position: relative;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
         line-height: 2rem;
         .back {
           position: absolute;
@@ -378,7 +378,7 @@
       .middle {
         position: fixed;
         width: 100%;
-        top: 6rem;
+        top: 5rem;
         bottom: 8rem;
         white-space: nowrap;
         font-size: 0;
@@ -417,17 +417,6 @@
               }
             }
           }
-          .playing-lyric-wrapper {
-            width: 80%;
-            margin: 30px auto 0 auto;
-            overflow: hidden;
-            text-align: center;
-            .playing-lyric {
-              height: 20px;
-              line-height: 20px;
-              font-size: $font-size-medium;
-            }
-          }
         }
         .middle-r {
           display: inline-block;
@@ -449,27 +438,22 @@
             }
           }
         }
+        .middle-b {
+          position: absolute;
+          bottom: 0;
+          width: 60%;
+          display: flex;
+          justify-content: space-between;
+          margin: 0 20%;
+          .iconfont {
+            font-size: $font-size-large-x;
+          }
+        }
       }
       .bottom {
         position: absolute;
         bottom: 1rem;
         width: 100%;
-        // .dot-wrapper {
-        //   text-align: center;
-        //   font-size: 0;
-        //   .dot {
-        //     display: inline-block;
-        //     vertical-align: middle;
-        //     margin: 0 4px;
-        //     width: 8px;
-        //     height: 8px;
-        //     border-radius: 50%;
-        //     &.active {
-        //       width: 20px;
-        //       border-radius: 5px;
-        //     }
-        //   }
-        // }
         .progress-wrapper {
           display: flex;
           align-items: center;
