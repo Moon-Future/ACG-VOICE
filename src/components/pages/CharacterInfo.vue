@@ -28,7 +28,7 @@
             </p>
           </div>
           <div class="character-more">
-            <i class="iconfont icon-acg-switch"></i>
+            <i class="iconfont icon-acg-more-vertical"></i>
           </div>
         </div>
         <div class="scorll-container" ref="scroll">

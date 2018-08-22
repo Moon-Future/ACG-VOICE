@@ -1,5 +1,5 @@
 <template>
-  <div class="player" v-show="playlist.length>0" @touchstart.stop="hidePlayList">
+  <div class="player" v-show="playlist.length>0">
     <transition
       name="normal"
       enter-active-class="animated fadeInRight faster"
@@ -25,33 +25,27 @@
             <h2 class="subtitle">{{ currentSong.character }} ></h2>
           </div>
         </div>
-        <div class="middle">
-          <div class="middle-l" ref="middleL">
+        <div class="middle" @click="switchMiddle">
+          <div class="middle-l" ref="middleL" v-show="middleLeft">
             <div class="cd-wrapper animated zoomIn">
               <div class="cd" :class="[playing ? 'play' : 'play pause']">
                 <img :src="currentSong.coverimg" alt="" class="image">
               </div>
             </div>
           </div>
-          <scroll class="middle-r">
+          <scroll class="middle-r" v-show="!middleLeft">
             <div class="lyric-wrapper">
-              <div>
-                <p>{{ 3333333 }}</p>
-              </div>
+              <p>33333333333333333</p>
             </div>
           </scroll>
-          <div class="middle-b">
-            <div class="like"><i class="iconfont icon-acg-like"></i></div>
-            <div class="like"><i class="iconfont icon-acg-download"></i></div>
-            <div class="like"><i class="iconfont icon-acg-comment"></i></div>
-            <div class="like"><i class="iconfont icon-acg-switch"></i></div>
+          <div class="middle-b" v-show="middleLeft">
+            <div class="like"><i class="iconfont" :class="likeIcon" @click.stop="like"></i></div>
+            <div class="like"><i class="iconfont icon-acg-download" @click.stop="download"></i></div>
+            <div class="like"><i class="iconfont icon-acg-comment" @click.stop="comment"></i></div>
+            <div class="like"><i class="iconfont icon-acg-more-vertical" @click.stop="more"></i></div>
           </div>
         </div>
         <div class="bottom">
-          <div class="dot-wrapper">
-            <span class="dot"></span>
-            <span class="dot"></span>
-          </div>
           <div class="progress-wrapper">
             <span class="time time-l">{{ format(currentTime) }}</span>
             <div class="progress-bar-wrapper">
@@ -115,6 +109,7 @@
         <voice-list :data="playlist" :activeIndex="currentIndex" :showSpeaker="true" @select="selectItem"></voice-list>
       </div>
     </transition>
+    <div class="mask-layer" v-show="playListShow" @click="hidePlayList"></div>
     <audio :src="voiceSrc" ref="audio"
         @timeupdate="updateTime"
         @progress="progress"
@@ -146,12 +141,17 @@
         loadingShow: true,
         playListShow: false,
         wordsLoop: false,
-        miniPlayer: false
+        miniPlayer: false,
+        likeFill: false,
+        middleLeft: true
       }
     },
     computed: {
       playIco() {
         return this.playing ? 'icon-acg-pause' : 'icon-acg-play'
+      },
+      likeIcon() {
+        return this.likeFill ? 'icon-acg-like_fill i-like-fill' : 'icon-acg-like'
       },
       percent() {
         return this.currentTime / this.duration
@@ -181,12 +181,6 @@
       goBack() {
         this.setFullScreen(false)
       },
-      hidePlayList(e) {
-        const target = e.target
-        if (this.$refs.normalPlayer.contains(target) || this.$refs.miniPlayer.contains(target)) {
-          this.playListShow = false
-        }
-      },
       prev() {
         let currentIndex = 0
         if (this.mode !== playMode.random) {
@@ -210,6 +204,9 @@
       },
       showPlayList() {
         this.playListShow = !this.playListShow
+      },
+      hidePlayList(e) {
+        this.playListShow = false
       },
       updateTime(e) {
         if (!this.moveing) {
@@ -256,6 +253,21 @@
           this.currentTime = this.duration * percent
         }
         this.readyState = this.audio.readyState
+      },
+      switchMiddle() {
+        this.middleLeft = !this.middleLeft
+      },
+      like() {
+        this.likeFill = !this.likeFill
+      },
+      download() {
+
+      },
+      comment() {
+
+      },
+      more() {
+
       },
       format(interval) {
         interval = interval | 0
@@ -381,7 +393,6 @@
         top: 5rem;
         bottom: 8rem;
         white-space: nowrap;
-        font-size: 0;
         .middle-l {
           display: inline-block;
           vertical-align: top;
@@ -419,13 +430,14 @@
           }
         }
         .middle-r {
-          display: inline-block;
+          display: block;
           vertical-align: top;
           width: 100%;
           height: 100%;
           overflow: hidden;
           .lyric-wrapper {
             width: 80%;
+            height: 100%;
             margin: 0 auto;
             overflow: hidden;
             text-align: center;
@@ -447,6 +459,9 @@
           margin: 0 20%;
           .iconfont {
             font-size: $font-size-large-x;
+            &.i-like-fill {
+              color: $color-red;
+            }
           }
         }
       }
@@ -582,6 +597,16 @@
       border-radius: 10px 10px 0 0;
       background: $color-background;
       color: $color-white;
+    }
+    .mask-layer {
+      z-index: 150;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: $color-background;
+      opacity: 0.3;
     }
   }
 
