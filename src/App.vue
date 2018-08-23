@@ -1,7 +1,7 @@
 <template>
   <div id="app" @touchmove.prevent>
     <top-header></top-header>
-    <transition :enter-active-class="enterAcitve" :leave-active-class="leaveActive">
+    <transition mode="in-out">
       <keep-alive>
           <router-view class="router-view"/>
       </keep-alive>

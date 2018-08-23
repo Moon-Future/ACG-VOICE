@@ -1,5 +1,5 @@
 <template>
-  <div class="scroll-container">
+  <div class="scroll-container animated slideInLeft">
     <scroll>
       <div class="content">
         <div class="slider-wrapper">

@@ -1,5 +1,6 @@
 <template>
-    <div class="character-info">
+  <!-- <transition name="info" enter-active-class="animated zoomIn" leave-active-class="animated zoomOut"> -->
+    <div class="character-info animated zoomIn">
       <div class="character-skin" ref="slider">
         <i class="iconfont icon-acg-arrow-left- icon-back" @click="goBack()"></i>
         <slider :data="swiperData"
@@ -40,6 +41,7 @@
         </div>
       </div>
     </div>
+  <!-- </transition> -->
 </template>
 
 <script>

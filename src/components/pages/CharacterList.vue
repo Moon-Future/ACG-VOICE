@@ -1,5 +1,5 @@
 <template>
-  <div class="scroll-container">
+  <div class="scroll-container animated slideInRight">
     <scroll ref="characterList" 
             :listenScroll="listenScroll"
             :probeType="probeType"
@@ -253,7 +253,7 @@
   }
   .fixed-title {
     position: fixed;
-    top: 4rem;
+    top: 0;
     width: 100%;
     line-height: 28px;
     background: $color-background-b;
