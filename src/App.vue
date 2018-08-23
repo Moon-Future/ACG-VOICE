@@ -1,11 +1,9 @@
 <template>
   <div id="app" @touchmove.prevent>
     <top-header></top-header>
-    <transition mode="in-out">
-      <keep-alive>
-          <router-view class="router-view"/>
-      </keep-alive>
-    </transition>
+    <keep-alive>
+        <router-view class="router-view"/>
+    </keep-alive>
     <bottom-footer></bottom-footer>
     <player></player>
     <playing-lines></playing-lines>

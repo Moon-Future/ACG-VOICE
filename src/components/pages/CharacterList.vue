@@ -1,5 +1,5 @@
 <template>
-  <div class="scroll-container animated slideInRight">
+  <div class="scroll-container">
     <scroll ref="characterList" 
             :listenScroll="listenScroll"
             :probeType="probeType"

@@ -1,53 +1,53 @@
 <template>
-  <!-- <transition name="info" enter-active-class="animated zoomIn" leave-active-class="animated zoomOut"> -->
-    <div class="character-info animated zoomIn">
-      <div class="character-skin" ref="slider">
-        <i class="iconfont icon-acg-arrow-left- icon-back" @click="goBack()"></i>
-        <slider :data="swiperData"
-                :showDot="false"
-                :autoPlay="true"
-                :itemHeight="itemHeight"
-                :itemScale="itemScale">
-          <div v-for="(data, i) in swiperData" :key="i">
-            <img :src="data.srcOfficial" alt="">
-          </div>
-        </slider>
+  <div class="character-info">
+    <div class="character-skin" ref="slider">
+      <i class="iconfont icon-acg-arrow-left- icon-back" @click="goBack()"></i>
+      <loading v-if="!swiperData.length > 0"></loading>
+      <slider :data="swiperData"
+              :showDot="false"
+              :autoPlay="true"
+              :itemHeight="itemHeight"
+              :itemScale="itemScale">
+        <div v-for="(data, i) in swiperData" :key="i">
+          <img :src="data.srcOfficial" alt="">
+        </div>
+      </slider>
+    </div>
+    <div class="filter" ref="filter"></div>
+    <div class="container">
+      <div class="character-message" ref="message">
+        <div class="character-avatar">
+          <img :src="characterInfo.avatarOfficial" alt="头像">
+        </div>
+        <div class="character-msg">
+          <p>{{ characterInfo.name }} - {{ characterInfo.nickName }}</p>
+          <p>
+            <span class="voice-num">Voices <span>20</span></span>
+            <span class="like-num">
+              <i class="iconfont icon-acg-like"></i> <span>70</span>
+            </span>
+          </p>
+        </div>
+        <div class="character-more">
+          <i class="iconfont icon-acg-more-vertical"></i>
+        </div>
       </div>
-      <div class="filter" ref="filter"></div>
-      <div class="container">
-        <div class="character-message" ref="message">
-          <div class="character-avatar">
-            <img :src="characterInfo.avatarOfficial" alt="头像">
-          </div>
-          <div class="character-msg">
-            <p>{{ characterInfo.name }} - {{ characterInfo.nickName }}</p>
-            <p>
-              <span class="voice-num">Voices <span>20</span></span>
-              <span class="like-num">
-                <i class="iconfont icon-acg-like"></i> <span>70</span>
-              </span>
-            </p>
-          </div>
-          <div class="character-more">
-            <i class="iconfont icon-acg-more-vertical"></i>
-          </div>
-        </div>
-        <div class="scorll-container" ref="scroll">
-          <scroll :listenScroll="listenScroll"
-                  @scroll="scroll"
-                  :probeType="probeType">
-            <voice-list :data="voiceData" :showRank="showRank" @select="selectItem"></voice-list>
-          </scroll>
-        </div>
+      <div class="scorll-container" ref="scroll">
+        <scroll :listenScroll="listenScroll"
+                @scroll="scroll"
+                :probeType="probeType">
+          <voice-list :data="voiceData" :showRank="showRank" @select="selectItem"></voice-list>
+        </scroll>
       </div>
     </div>
-  <!-- </transition> -->
+  </div>
 </template>
 
 <script>
   import Slider from 'components/common/Slider'
   import Scroll from 'components/common/Scroll'
   import VoiceList from 'components/common/VoiceList'
+  import Loading from 'components/common/Loading'
   import apiUrl from '@/serviceAPI.config.js'
   import { getRandomInt } from 'common/js/util.js'
   import { mapGetters, mapActions } from 'vuex'
@@ -67,7 +67,8 @@
         scrollY: 0,
         itemHeight: '10rem',
         itemScale: 1,
-        key: ''
+        key: '',
+        loadingImg: require('assets/loading-2.gif')
       }
     },
     mounted() {
@@ -146,12 +147,13 @@
     components: {
       Slider,
       Scroll,
-      VoiceList
+      VoiceList,
+      Loading
     },
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @import 'common/css/variable.scss';
   @import 'common/css/mixin.scss';
 

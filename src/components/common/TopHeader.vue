@@ -52,7 +52,7 @@ export default {
   .top-fixed {
     position: fixed;
     top: 0;
-    height: 2rem;
+    height: 4rem;
     width: 100%;
     background: $color-background;
     color: $color-text;
