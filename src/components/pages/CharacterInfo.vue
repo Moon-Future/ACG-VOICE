@@ -29,7 +29,7 @@
           </p>
         </div>
         <div class="character-more">
-          <i class="iconfont icon-acg-more-vertical"></i>
+          <i class="iconfont icon-acg-more-vertical" @click="infoMore"></i>
         </div>
       </div>
       <div class="scorll-container" ref="scroll">
@@ -40,6 +40,7 @@
         </scroll>
       </div>
     </div>
+    <layer></layer>
   </div>
 </template>
 
@@ -48,6 +49,7 @@
   import Scroll from 'components/common/Scroll'
   import VoiceList from 'components/common/VoiceList'
   import Loading from 'components/common/Loading'
+  import Layer from 'components/common/Layer'
   import apiUrl from '@/serviceAPI.config.js'
   import { getRandomInt } from 'common/js/util.js'
   import { mapGetters, mapActions } from 'vuex'
@@ -67,8 +69,7 @@
         scrollY: 0,
         itemHeight: '10rem',
         itemScale: 1,
-        key: '',
-        loadingImg: require('assets/loading-2.gif')
+        key: ''
       }
     },
     mounted() {
@@ -81,6 +82,7 @@
     },
     methods: {
       getData() {
+
         this.$http.get(apiUrl.getCharacterSkinAndAvatar, {
           params: {key: this.key}
         }).then((res) => {
@@ -96,6 +98,10 @@
         }).then((res) => {
           this.voiceData = res.data
         })
+      },
+      infoMore(e) {
+        this.layerTarget = e.target
+        console.log('e', typeof e.target)
       },
       scroll(pos) {
         this.itemHeightPx = this.itemHeightPx == undefined ? this.$refs.slider.clientHeight : this.itemHeightPx
@@ -148,7 +154,8 @@
       Slider,
       Scroll,
       VoiceList,
-      Loading
+      Loading,
+      Layer
     },
   }
 </script>
