@@ -40,7 +40,7 @@
         </scroll>
       </div>
     </div>
-    <layer></layer>
+    <layer :show="layerShow" @hideLayer="hideLayer"></layer>
   </div>
 </template>
 
@@ -69,7 +69,8 @@
         scrollY: 0,
         itemHeight: '10rem',
         itemScale: 1,
-        key: ''
+        key: '',
+        layerShow: false
       }
     },
     mounted() {
@@ -82,7 +83,6 @@
     },
     methods: {
       getData() {
-
         this.$http.get(apiUrl.getCharacterSkinAndAvatar, {
           params: {key: this.key}
         }).then((res) => {
@@ -101,7 +101,10 @@
       },
       infoMore(e) {
         this.layerTarget = e.target
-        console.log('e', typeof e.target)
+        this.layerShow = true
+      },
+      hideLayer(flag) {
+        this.layerShow = flag
       },
       scroll(pos) {
         this.itemHeightPx = this.itemHeightPx == undefined ? this.$refs.slider.clientHeight : this.itemHeightPx
