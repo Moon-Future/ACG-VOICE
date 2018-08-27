@@ -1,14 +1,9 @@
 <template>
   <div class="layer" ref="layer" v-show="show">
-    <!-- <div class="arrow"><i class="iconfont icon-acg-arrow-up"></i></div> -->
-    <i class="iconfont icon-acg-arrow-up"></i>
     <div class="content">
       <div class="header">
+        <div class="title">艾尼维亚</div>
         <i class="iconfont icon-acg-close i-close" @click="hide"></i>
-        <div class="title">
-          <span class="line"></span>
-          <p class="name">艾尼维亚</p>
-        </div>
       </div>
       <div class="body">
         <img class="avatar" src="http://ossweb-img.qq.com/images/lol/img/champion/Anivia.png" alt="">
@@ -17,6 +12,7 @@
         </div>
       </div>
     </div>
+    <div class="arrow-up"><i class="iconfont icon-acg-arrow-up"></i></div>
     <div class="mask" @click="hide"></div>
   </div>
 </template>
@@ -56,7 +52,6 @@
     z-index: 100;
   }
   .content {
-    line-height: $font-size-large-x;
     max-height: 50%;
     width: 90%;
     background: $color-white;
@@ -69,29 +64,23 @@
     border-radius: 10px;
     z-index: 100;
     .header {
+      height: $font-size-large-x;
+      line-height: $font-size-large-x;
+      padding: 10px;
+      .title {
+        display: inline-block;
+        border-left: 2px solid $color-blue;
+        padding-left: 10px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        width: 80%;
+      }
       .i-close {
+        color: $color-gray;
         position: absolute;
         right: 0;
-        padding: 10px;
-        color: $color-gray;
-        font-size: $font-size-medium-x;
-      }
-      .title {
-        padding: 10px;
-        margin-left: 10px;
-        width: 80%;
-        .line {
-          height: $font-size-large-x;
-          width: 2px;
-          background: $color-blue;
-          position: absolute;
-        }
-        .name {
-          text-indent: 10px;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          overflow: hidden;
-        }
+        margin-right: 10px;
       }
     }
     .body {
