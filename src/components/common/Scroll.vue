@@ -22,10 +22,7 @@ export default {
       type: Boolean,
       default: false
     },
-    data: {
-      type: Array,
-      default: null
-    },
+    data: '',
     pullup: {
       type: Boolean,
       default: false

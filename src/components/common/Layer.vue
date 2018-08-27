@@ -2,14 +2,21 @@
   <div class="layer" ref="layer" v-show="show">
     <div class="content">
       <div class="header">
-        <div class="title">艾尼维亚</div>
+        <div class="title">
+          <slot name="title">角色名</slot>
+        </div>
         <i class="iconfont icon-acg-close i-close" @click="hide"></i>
       </div>
-      <div class="body">
-        <img class="avatar" src="http://ossweb-img.qq.com/images/lol/img/champion/Anivia.png" alt="">
-        <div class="desc">
-          <p>艾尼维亚nubrogrbjgbsgjbr艾尼维亚艾尼维亚nubrogrbjgbsgjbr艾尼维亚艾尼维亚nubrogrbjgbsgjbr艾尼维亚</p>
-        </div>
+      <div class="scroll-container">
+        <scroll :data="desc">
+          <div class="body">
+            <img class="avatar" :src="avatar" alt="">
+            <div class="desc" v-html="desc"></div>
+          </div>
+        </scroll>
+      </div>
+      <div class="footer">
+        <span class="more">查看更多</span>
       </div>
     </div>
     <div class="arrow-up"><i class="iconfont icon-acg-arrow-up"></i></div>
@@ -18,6 +25,7 @@
 </template>
 
 <script>
+  import Scroll from 'components/common/Scroll'
   export default {
     name: 'Layer',
     props: {
@@ -25,11 +33,21 @@
       show: {
         type: Boolean,
         default: false
+      },
+      avatar: {
+        type: String,
+        default: ''
+      },
+      desc: {
+        type: String,
+        default: '角色介绍'
       }
+    },
+    components: {
+      Scroll
     },
     methods: {
       hide() {
-        console.log('222')
         this.$emit('hideLayer', false)
       }
     },
@@ -83,14 +101,32 @@
         margin-right: 10px;
       }
     }
-    .body {
-      padding: 10px;
-      margin-left: 10px;
-      .avatar {
-        width: 5rem;
-        height: 5rem;
-        float: left;
+    .scroll-container {
+      min-height: 5rem;
+      max-height: 11rem;
+      overflow: hidden;
+      .body {
+        padding: 10px 10px 0 10px;
+        .avatar {
+          width: 5rem;
+          height: 5rem;
+          padding-right: 5px;
+          padding-top: 2px;
+          float: left;
+        }
+        .desc {
+          line-height: 17px;
+          font-size: $font-size-small;
+        }
       }
+    }
+    .footer {
+      height: 2rem;
+      line-height: 2rem;
+      margin-top: 10px;
+      text-align: center;
+      border-top: 1px solid $color-gray;
+      color: $color-blue;
     }
   }
   .mask {
