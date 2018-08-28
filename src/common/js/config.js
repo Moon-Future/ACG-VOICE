@@ -1,5 +1,13 @@
 export const playMode = {
   sequence: 0,
   loop: 1,
-  random: 2
+  random: 2,
+  one: 3
 }
+
+export const playModeList = [
+  playMode.sequence,
+  playMode.loop,
+  playMode.random,
+  playMode.one
+]

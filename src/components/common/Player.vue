@@ -61,13 +61,13 @@
           </div>
           <div class="operators animated slideInUp">
             <div class="icon i-left">
-              <i class="iconfont icon-acg-sequence"></i>
+              <i class="iconfont" :class="modeIcon" @click="changeMode"></i>
             </div>
             <div class="icon i-left">
               <i class="iconfont icon-acg-prev" @click="prev"></i>
             </div>
             <div class="icon i-center">
-              <i class="iconfont" :class="playIco" @click="play"></i>
+              <i class="iconfont" :class="playIcon" @click="play"></i>
             </div>
             <div class="icon i-right">
               <i class="iconfont icon-acg-next" @click="next"></i>
@@ -91,7 +91,7 @@
           </div>
           <div class="control" @click="play">
             <progress-circle :percent="percent">
-              <i class="iconfont icon-play" :class="playIco"></i>
+              <i class="iconfont icon-play" :class="playIcon"></i>
             </progress-circle>
           </div>
           <div class="control">
@@ -105,8 +105,11 @@
       enter-active-class="animated slideInUp faster"
       leave-active-class="animated slideOutDown faster"
     >
+      
       <div class="play-list" v-show="playListShow">
-        <voice-list :data="playlist" :activeIndex="currentIndex" :showSpeaker="true" @select="selectItem"></voice-list>
+        <scroll class="play-list-scroll" :data="playlist">
+          <voice-list :data="playlist" :activeIndex="currentIndex" :showSpeaker="true" @select="selectItem"></voice-list>
+        </scroll>
       </div>
     </transition>
     <div class="mask-layer" v-show="playListShow" @click="hidePlayList"></div>
@@ -124,7 +127,8 @@
   import ProgressBar from 'components/common/ProgressBar'
   import ProgressCircle from 'components/common/ProgressCircle'
   import VoiceList from 'components/common/VoiceList'
-  import { playMode } from 'common/js/config'
+  import { playMode, playModeList } from 'common/js/config'
+  import { getRandomInt } from 'common/js/util'
   import { mapGetters, mapMutations, mapActions } from 'vuex'
   export default {
     data() {
@@ -147,7 +151,7 @@
       }
     },
     computed: {
-      playIco() {
+      playIcon() {
         return this.playing ? 'icon-acg-pause' : 'icon-acg-play'
       },
       likeIcon() {
@@ -155,6 +159,9 @@
       },
       percent() {
         return this.currentTime / this.duration
+      },
+      modeIcon() {
+        return this.modeIconClass[this.mode]
       },
       ...mapGetters([
         'currentIndex',
@@ -170,6 +177,12 @@
         this.audio = this.$refs.audio
         this.readyState = this.audio.readyState
       })
+      this.modeIconClass = {
+        [playMode.sequence]: 'icon-acg-sequence',
+        [playMode.loop]: 'icon-acg-listloop',
+        [playMode.random]: 'icon-acg-random',
+        [playMode.one]: 'icon-acg-oneloop'
+      }
     },
     methods: {
       goMini() {
@@ -181,13 +194,12 @@
       goBack() {
         this.setFullScreen(false)
       },
+      changeMode() {
+        const modeIndex = playModeList.indexOf(this.mode)
+        this.setMode(playModeList[modeIndex === playModeList.length - 1 ? 0 : modeIndex + 1])
+      },
       prev() {
-        let currentIndex = 0
-        if (this.mode !== playMode.random) {
-          currentIndex = this.currentIndex === 0 ? this.playlist.length - 1 : this.currentIndex - 1
-        }
-        this.setCurrentIndex(currentIndex)
-        this.setPlaying(true)
+        this.changeSong('prev')
       },
       play() {
         const audio = this.$refs.audio
@@ -195,12 +207,7 @@
         this.playing ? audio.play() : audio.pause()
       },
       next() {
-        let currentIndex = 0
-        if (this.mode !== playMode.random) {
-          currentIndex = this.currentIndex === this.playlist.length - 1 ? 0 : this.currentIndex + 1
-        }
-        this.setCurrentIndex(currentIndex)
-        this.setPlaying(true)
+        this.changeSong('next')
       },
       showPlayList() {
         this.playListShow = !this.playListShow
@@ -231,17 +238,19 @@
         this.songReady = true
       },
       end() {
-        if (this.mode === playMode.sequence && this.currentIndex === this.playlist.length - 1) {
-          this.setPlaying(false)
-          this.currentTime = 0
-          return
-        }
-        let currentIndex = 0
-        if (this.mode !== playMode.random) {
-          currentIndex = this.currentIndex === this.playlist.length - 1 ? 0 : this.currentIndex + 1
-        }
-        this.setCurrentIndex(currentIndex)
-        this.setPlaying(true)
+        this.changeSong()
+
+        // if (this.mode === playMode.sequence && this.currentIndex === this.playlist.length - 1) {
+        //   this.setPlaying(false)
+        //   this.currentTime = 0
+        //   return
+        // }
+        // let currentIndex = 0
+        // if (this.mode !== playMode.random) {
+        //   currentIndex = this.currentIndex === this.playlist.length - 1 ? 0 : this.currentIndex + 1
+        // }
+        // this.setCurrentIndex(currentIndex)
+        // this.setPlaying(true)
       },
       percentChange({percent, flag}) {
         if (flag === true) {
@@ -269,6 +278,24 @@
       more() {
 
       },
+      changeSong(type) {
+        const length = this.playlist.length
+        let currentIndex = this.currentIndex
+        if (type === undefined && (this.mode === playMode.one || (this.mode === playMode.sequence && currentIndex === length - 1))) {
+          this.setPlaying(false)
+          this.currentTime = 0
+        } else if (this.mode === playMode.sequence || this.mode === playMode.loop || this.mode === playMode.one) {
+          if (type === 'next') {
+            currentIndex = currentIndex === length - 1 ? 0 : currentIndex + 1
+          } else if (type === 'prev') {
+            currentIndex = currentIndex === 0 ? length - 1 : currentIndex - 1
+          } else if (this.mode === playMode.random) {
+            currentIndex = getRandomInt(0, length - 1, currentIndex)
+          }
+        }
+        this.setCurrentIndex(currentIndex)
+        this.setPlaying(true)
+      },
       format(interval) {
         interval = interval | 0
         const minute = interval / 60 | 0
@@ -289,7 +316,8 @@
       ...mapMutations({
         setFullScreen: 'SET_FULL_SCREEN',
         setPlaying: 'SET_PALYING_STATE',
-        setCurrentIndex: 'SET_CURRENT_INDEX'
+        setCurrentIndex: 'SET_CURRENT_INDEX',
+        setMode: 'SET_PALY_MODE'
       }),
     },
     watch: {
@@ -591,6 +619,7 @@
     .play-list {
       z-index: 200;
       position: fixed;
+      top: 15rem;
       bottom: 0;
       left: 0;
       right: 0;

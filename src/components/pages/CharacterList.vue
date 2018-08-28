@@ -190,7 +190,7 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @import 'common/css/variable.scss';
   .scroll-container {
     position: fixed;
@@ -253,7 +253,7 @@
   }
   .fixed-title {
     position: fixed;
-    top: 0;
+    top: 4rem;
     width: 100%;
     line-height: 28px;
     background: $color-background-b;

@@ -40,8 +40,9 @@
         </scroll>
       </div>
     </div>
-    <layer :avatar="characterInfo.avatarOfficial" :desc="desc" :show="layerShow" @hideLayer="hideLayer">
+    <layer :avatar="characterInfo.avatarOfficial" :target="layerTarget" :show="layerShow" @hideLayer="hideLayer">
       <p slot="title">{{ characterInfo.name }} - {{ characterInfo.nickName }}</p>
+      <p slot="desc" v-html="desc"></p>
     </layer>
   </div>
 </template>
@@ -73,6 +74,7 @@
         itemScale: 1,
         key: '',
         layerShow: false,
+        layerTarget: '',
         desc: '作为阿瓦罗萨部族的战母，寒冰血脉的艾希率领着北方人数最多的部落。她克己、智慧、忠于理想，但并不适应自己作为领袖的角色，艾希与自己血脉中蕴藏的先祖魔法相通，挽起了臻冰打造的长弓。她的族人相信她就是神话中的女英雄阿瓦罗萨的转世，在人们的追随下，艾希希望夺回那些属于部族的古代领土，从而让弗雷尔卓德再次实现统一。作为阿瓦罗萨部族的战母，寒冰血脉的艾希率领着北方人数最多的部落。她克己、智慧、忠于理想，但并不适应自己作为领袖的角色，艾希与自己血脉中蕴藏的先祖魔法相通，挽起了臻冰打造的长弓。她的族人相信她就是神话中的女英雄阿瓦罗萨的转世，在人们的追随下，艾希希望夺回那些属于部族的古代领土，从而让弗雷尔卓德再次实现统一。'
       }
     },

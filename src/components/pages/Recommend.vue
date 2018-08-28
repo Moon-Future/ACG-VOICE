@@ -115,7 +115,7 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @import 'common/css/variable.scss';
   @import 'common/css/mixin.scss';
   .devide-line {

@@ -1,6 +1,6 @@
 <template>
   <div class="layer" ref="layer" v-show="show">
-    <div class="content">
+    <div class="content" ref="content">
       <div class="header">
         <div class="title">
           <slot name="title">角色名</slot>
@@ -8,10 +8,12 @@
         <i class="iconfont icon-acg-close i-close" @click="hide"></i>
       </div>
       <div class="scroll-container">
-        <scroll :data="desc">
+        <scroll>
           <div class="body">
             <img class="avatar" :src="avatar" alt="">
-            <div class="desc" v-html="desc"></div>
+            <div class="desc">
+              <slot name="desc">角色介绍</slot>
+            </div>
           </div>
         </scroll>
       </div>
@@ -37,10 +39,6 @@
       avatar: {
         type: String,
         default: ''
-      },
-      desc: {
-        type: String,
-        default: '角色介绍'
       }
     },
     components: {
@@ -52,8 +50,14 @@
       }
     },
     watch: {
-      target() {
-
+      show() {
+        if (!this.show) {
+          return
+        }
+        const rect = this.target.getBoundingClientRect()
+        const targetTop = rect.top
+        const targetHeight = rect.height
+        this.$refs.content.style.top = targetTop + targetHeight + 'px'
       }
     }
   }
@@ -102,7 +106,7 @@
       }
     }
     .scroll-container {
-      min-height: 5rem;
+      min-height: 6rem;
       max-height: 11rem;
       overflow: hidden;
       .body {
