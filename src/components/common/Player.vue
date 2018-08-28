@@ -105,11 +105,8 @@
       enter-active-class="animated slideInUp faster"
       leave-active-class="animated slideOutDown faster"
     >
-      
       <div class="play-list" v-show="playListShow">
-        <scroll class="play-list-scroll" :data="playlist">
-          <voice-list :data="playlist" :activeIndex="currentIndex" :showSpeaker="true" @select="selectItem"></voice-list>
-        </scroll>
+        <voice-list :data="playlist" :activeIndex="currentIndex" :showSpeaker="true" @select="selectItem"></voice-list>
       </div>
     </transition>
     <div class="mask-layer" v-show="playListShow" @click="hidePlayList"></div>
@@ -285,13 +282,13 @@
           this.setPlaying(false)
           this.currentTime = 0
         } else if (this.mode === playMode.sequence || this.mode === playMode.loop || this.mode === playMode.one) {
-          if (type === 'next') {
+          if (type === 'next' || type === undefined) {
             currentIndex = currentIndex === length - 1 ? 0 : currentIndex + 1
           } else if (type === 'prev') {
             currentIndex = currentIndex === 0 ? length - 1 : currentIndex - 1
-          } else if (this.mode === playMode.random) {
-            currentIndex = getRandomInt(0, length - 1, currentIndex)
           }
+        } else if (this.mode === playMode.random) {
+          currentIndex = getRandomInt(0, length - 1, currentIndex)
         }
         this.setCurrentIndex(currentIndex)
         this.setPlaying(true)
