@@ -134,8 +134,7 @@
         z-index: 10;
         height: 100%;
         transition-property: width;
-        // background: $color-background-green;
-        background: linear-gradient(to right, #f38f00, #f1e000, $color-background-green)
+        background: linear-gradient(to right, #f38f00, #f1e000, $color-green)
       }
       .progress-buffered {
         position: absolute;
@@ -148,7 +147,7 @@
         height: 12px;
         border: 4px solid #fff;
         border-radius: 50%;
-        background: $color-background-green;
+        background: $color-green;
         z-index: 10;
       }
       .progress-btn-loading {
@@ -160,7 +159,7 @@
         top: -4px;
         left: -4px;
         position: relative;
-        color: $color-text-gray;
+        color: $color-gray;
       }
     }
   }

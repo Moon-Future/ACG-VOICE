@@ -22,7 +22,10 @@ export default {
       type: Boolean,
       default: false
     },
-    data: '',
+    data: {
+      type: Array,
+      default: null
+    },
     pullup: {
       type: Boolean,
       default: false
@@ -34,7 +37,8 @@ export default {
     refreshDelay: {
       type: Number,
       default: 20
-    }
+    },
+    refreshOr: false
   },
   mounted() {
     setTimeout(() => {
@@ -42,6 +46,9 @@ export default {
     }, 20)
   },
   methods: {
+    setHeight(height) {
+      this.$refs.wrapper.style.height = height + 'px';
+    },
     initScroll() {
       if (!this.$refs.wrapper) {
         return
@@ -93,6 +100,16 @@ export default {
       setTimeout(() => {
         this.refresh()
       }, this.refreshDelay)
+    },
+    refreshOr() {
+      if (this.refreshOr !== false) {
+        setTimeout(() => {
+          if (typeof this.refreshOr === 'number') {
+            this.setHeight(this.refreshOr);
+          }
+          this.initScroll()
+        }, this.refreshDelay)
+      }
     }
   }
 }

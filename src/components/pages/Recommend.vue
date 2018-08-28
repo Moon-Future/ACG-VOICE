@@ -128,7 +128,7 @@
     width: 100%;
     background: $color-background;
     .content {
-      background: $color-background-white;
+      background: $color-white;
       color: #000;
     }
   }

@@ -106,7 +106,9 @@
       leave-active-class="animated slideOutDown faster"
     >
       <div class="play-list" v-show="playListShow">
-        <voice-list :data="playlist" :activeIndex="currentIndex" :showSpeaker="true" @select="selectItem"></voice-list>
+        <scroll :data="playlist">
+          <voice-list :data="playlist" :activeIndex="currentIndex" :showSpeaker="true" @select="selectItem"></voice-list>
+        </scroll>
       </div>
     </transition>
     <div class="mask-layer" v-show="playListShow" @click="hidePlayList"></div>
@@ -236,18 +238,6 @@
       },
       end() {
         this.changeSong()
-
-        // if (this.mode === playMode.sequence && this.currentIndex === this.playlist.length - 1) {
-        //   this.setPlaying(false)
-        //   this.currentTime = 0
-        //   return
-        // }
-        // let currentIndex = 0
-        // if (this.mode !== playMode.random) {
-        //   currentIndex = this.currentIndex === this.playlist.length - 1 ? 0 : this.currentIndex + 1
-        // }
-        // this.setCurrentIndex(currentIndex)
-        // this.setPlaying(true)
       },
       percentChange({percent, flag}) {
         if (flag === true) {

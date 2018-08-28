@@ -217,7 +217,7 @@
     display: flex;
     margin: 0 5%;
     position: relative;
-    background: $color-background-white;
+    background: $color-white;
     width: 90%;
     height: 4rem;
     margin-top: -2rem;

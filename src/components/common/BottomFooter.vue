@@ -2,7 +2,7 @@
   <div class="bottom-fototer">
     <tab>
       <div v-for="(item, i) in menu" :key="i">
-        <span>{{ item.name }}</span>
+        <span :class="activeIndex === i ? 'active' : ''" @click="changeMenu(i)">{{ item.name }}</span>
       </div>
     </tab>
   </div>
@@ -27,11 +27,17 @@ export default {
         {
           name: '我的'
         }
-      ]
+      ],
+      activeIndex: 0
     }
   },
   components: {
     Tab
+  },
+  methods: {
+    changeMenu(index) {
+      this.activeIndex = index
+    }
   }
 }
 </script>
@@ -43,7 +49,10 @@ export default {
     bottom: 0;
     height: 2rem;
     width: 100%;
-    background: $color-background;
-    color: $color-text;
+    background: $color-gray;
+    color: $color-black;
+    .active {
+      color: $color-active;
+    }
   }
 </style>

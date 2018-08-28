@@ -7,9 +7,9 @@
         </div>
         <i class="iconfont icon-acg-close i-close" @click="hide"></i>
       </div>
-      <div class="scroll-container">
-        <scroll>
-          <div class="body">
+      <div class="scroll-container" ref="scrollContainer">
+        <scroll :refreshOr="scrollRefresh">
+          <div class="body" ref="body">
             <img class="avatar" :src="avatar" alt="">
             <div class="desc">
               <slot name="desc">角色介绍</slot>
@@ -41,6 +41,11 @@
         default: ''
       }
     },
+    data() {
+      return {
+        scrollRefresh: false
+      }
+    },
     components: {
       Scroll
     },
@@ -58,6 +63,9 @@
         const targetTop = rect.top
         const targetHeight = rect.height
         this.$refs.content.style.top = targetTop + targetHeight + 'px'
+        this.$nextTick(() => {
+          this.scrollRefresh = this.$refs.scrollContainer.clientHeight
+       })
       }
     }
   }

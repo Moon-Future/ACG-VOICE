@@ -204,7 +204,7 @@
     li.group {
       h2 {
         line-height: 28px;
-        background: $color-background-b;
+        background: $color-deepgray;
         padding-left: 1rem;
       }
     }
@@ -256,7 +256,7 @@
     top: 4rem;
     width: 100%;
     line-height: 28px;
-    background: $color-background-b;
+    background: $color-deepgray;
     padding-left: 1rem;
   }
 </style>
