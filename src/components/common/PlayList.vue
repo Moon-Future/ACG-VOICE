@@ -1,11 +1,11 @@
 <template>
-  <div class="container" v-show="show" @click="hidePlayList">
-    <div class="play-list">
+  <div class="play-list" v-show="showFlag" @click="hidePlayList">
+    <div class="list-wrapper" @click.stop>
       <div class="operate"></div>
-      <scroll :refreshOr="scrollRefresh">
-        <ul class="voice-list">
-          <li v-for="(item, i) in data" :key="i" :class="[currentIndex === i ? 'active' : '']"
-            @click.stop="selectItem(item, i)"
+      <scroll class="list-content" ref="listContent">
+        <ul>
+          <li v-for="(item, i) in data" :key="i" class="item" :class="[currentIndex === i ? 'active' : '']"
+            @click="selectItem(item, i)"
           >
             <i class="iconfont icon-acg-speaker i-speaker" v-if="currentIndex === i"></i>
             <div class="list-num" v-if="showRank">{{ i + 1 }}</div>
@@ -16,7 +16,6 @@
         </ul>
       </scroll>
     </div>
-    <!-- <div class="mask-layer" @click="hidePlayList"></div> -->
   </div>
 </template>
 
@@ -33,11 +32,7 @@
       showRank: {
         type: Boolean,
         default: false
-      },
-      show: {
-        type: Boolean,
-        default: false
-      },
+      }
     },
     computed: {
       ...mapGetters([
@@ -46,12 +41,17 @@
     },
     data() {
       return {
+        showFlag: false,
         scrollRefresh: false
       }
     },
     methods: {
+      show() {
+        this.showFlag = true
+        this.$refs.listContent.scrollRefresh()
+      },
       hidePlayList() {
-        this.$emit('hidePlayList', false)
+        this.showFlag = false
       },
       selectItem(item, index) {
         this.setCurrentIndex(index)
@@ -62,13 +62,6 @@
         setCurrentIndex: 'SET_CURRENT_INDEX'
       }),
     },
-    watch: {
-      show() {
-        if (this.show) {
-          this.scrollRefresh = true
-        }
-      }
-    },
     components: {
       VoiceList,
       Scroll
@@ -78,14 +71,14 @@
 
 <style lang="scss" scoped>
   @import 'common/css/variable.scss';
-  .container {
+  .play-list {
     z-index: 200;
     position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    .play-list {
+    .list-wrapper {
       position: absolute;
       top: 15rem;
       bottom: 0;
@@ -97,8 +90,10 @@
       .operate {
         background: $color-red;
       }
-      .voice-list {
-        li {
+      .list-content {
+        height: 100%;
+        overflow: hidden;
+        .item {
           display: flex;
           padding: 10px;
           position: relative;

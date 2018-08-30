@@ -100,19 +100,7 @@
         </div>
       </div>
     </transition>
-    <play-list :show="playListShow" :data="playlist" @hidePlayList="hidePlayList"></play-list>
-    <!-- <transition 
-      name="play-list"
-      enter-active-class="animated slideInUp faster"
-      leave-active-class="animated slideOutDown faster"
-    >
-      <div class="play-list" v-show="playListShow">
-        <scroll :data="playlist" :refreshOr="playListShow">
-          <voice-list :data="playlist" :activeIndex="currentIndex" :showSpeaker="true" @select="selectItem"></voice-list>
-        </scroll>
-      </div>
-    </transition>
-    <div class="mask-layer" v-show="playListShow" @click="hidePlayList"></div> -->
+    <play-list :data="playlist" ref="playlist"></play-list>
     <audio :src="voiceSrc" ref="audio"
         @timeupdate="updateTime"
         @progress="progress"
@@ -211,10 +199,7 @@
         this.changeSong('next')
       },
       showPlayList() {
-        this.playListShow = !this.playListShow
-      },
-      hidePlayList(e) {
-        this.playListShow = false
+        this.$refs.playlist.show()
       },
       updateTime(e) {
         if (!this.moveing) {
@@ -602,27 +587,6 @@
           z-index: -1;
         }
       }
-    }
-    .play-list {
-      z-index: 200;
-      position: fixed;
-      top: 15rem;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      border-radius: 10px 10px 0 0;
-      background: $color-background;
-      color: $color-white;
-    }
-    .mask-layer {
-      z-index: 150;
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: $color-background;
-      opacity: 0.3;
     }
   }
 

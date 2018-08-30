@@ -49,8 +49,9 @@ export default {
     bottom: 0;
     height: 2rem;
     width: 100%;
-    background: $color-gray;
-    color: $color-black;
+    background: $color-deepgray;
+    border-top: 1px solid $color-gray;
+    color: $color-white;
     .active {
       color: $color-active;
     }

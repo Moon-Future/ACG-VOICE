@@ -1,11 +1,16 @@
 <template>
   <div class="top-fixed">
     <div class="top">
-      <div class="logo">
+      <div class="search-icon" v-show="!showFlag" @click="showSearch">
+        <i class="iconfont icon-acg-search"></i>
+      </div>
+      <div class="logo" v-show="!showFlag">
         <img :src="logoImg" alt="logo">
       </div>
-      <div class="search">
+      <div class="search-inp" v-show="showFlag">
         <i class="iconfont icon-acg-search"></i>
+        <input type="text">
+        <span @click="hideSearch">取消</span>
       </div>
     </div>
     <div class="nav-wrapper" ref="navWrapper">
@@ -36,12 +41,19 @@ export default {
           url: '/voiceList'
         }
       ],
-      navIndex: 0
+      navIndex: 0,
+      showFlag: false
     }
   },
   methods: {
     changeNav(index) {
       this.navIndex = index
+    },
+    showSearch() {
+      this.showFlag = true
+    },
+    hideSearch() {
+      this.showFlag = false
     }
   }
 }
@@ -71,12 +83,34 @@ export default {
         margin-right: 3px;
       }
     }
-    .search {
+    .search-icon {
       position: absolute;
       left: 13px;
       i {
         font-size: 1.5rem;
-        cursor: pointer;
+      }
+    }
+    .search-inp {
+      width: 90%;
+      line-height: 2rem;
+      position: absolute;
+      left: 0;
+      input {
+        width: 80%;
+        border-radius: 20px;
+        margin: 0 10px;
+        line-height: 1.5rem;
+        background: $color-deepgray;
+        color: $color-white;
+        outline: none;
+        text-indent: 25px;
+      }
+      span {
+
+      }
+      i {
+        position: absolute;
+        left: 15px;
       }
     }
   }

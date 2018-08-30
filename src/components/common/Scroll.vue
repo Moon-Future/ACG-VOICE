@@ -93,13 +93,16 @@ export default {
     },
     scrollToElement() {
       this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
+    },
+    scrollRefresh() {
+      setTimeout(() => {
+        this.refresh()
+      }, this.refreshDelay)
     }
   },
   watch: {
     data() {
-      setTimeout(() => {
-        this.refresh()
-      }, this.refreshDelay)
+      this.scrollRefresh()
     },
     refreshOr() {
       if (this.refreshOr !== false) {
@@ -108,6 +111,7 @@ export default {
             this.setHeight(this.refreshOr);
             this.initScroll()
           } else {
+            console.log('refresh')
             this.refresh()
           }
         }, this.refreshDelay)
