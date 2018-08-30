@@ -106,8 +106,10 @@ export default {
         setTimeout(() => {
           if (typeof this.refreshOr === 'number') {
             this.setHeight(this.refreshOr);
+            this.initScroll()
+          } else {
+            this.refresh()
           }
-          this.initScroll()
         }, this.refreshDelay)
       }
     }

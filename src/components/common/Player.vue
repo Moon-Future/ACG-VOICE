@@ -100,18 +100,19 @@
         </div>
       </div>
     </transition>
-    <transition 
+    <play-list :show="playListShow" :data="playlist" @hidePlayList="hidePlayList"></play-list>
+    <!-- <transition 
       name="play-list"
       enter-active-class="animated slideInUp faster"
       leave-active-class="animated slideOutDown faster"
     >
       <div class="play-list" v-show="playListShow">
-        <scroll :data="playlist">
+        <scroll :data="playlist" :refreshOr="playListShow">
           <voice-list :data="playlist" :activeIndex="currentIndex" :showSpeaker="true" @select="selectItem"></voice-list>
         </scroll>
       </div>
     </transition>
-    <div class="mask-layer" v-show="playListShow" @click="hidePlayList"></div>
+    <div class="mask-layer" v-show="playListShow" @click="hidePlayList"></div> -->
     <audio :src="voiceSrc" ref="audio"
         @timeupdate="updateTime"
         @progress="progress"
@@ -126,6 +127,7 @@
   import ProgressBar from 'components/common/ProgressBar'
   import ProgressCircle from 'components/common/ProgressCircle'
   import VoiceList from 'components/common/VoiceList'
+  import PlayList from 'components/common/PlayList'
   import { playMode, playModeList } from 'common/js/config'
   import { getRandomInt } from 'common/js/util'
   import { mapGetters, mapMutations, mapActions } from 'vuex'
@@ -289,9 +291,6 @@
         const second = this._pad(interval % 60)
         return `${minute}:${second}`
       },
-      selectItem(item, index) {
-        this.setCurrentIndex(index)
-      },
       _pad(num, n = 2) {
         let len = num.toString().length
         while (len < n) {
@@ -335,7 +334,8 @@
       Scroll,
       ProgressBar,
       ProgressCircle,
-      VoiceList
+      VoiceList,
+      PlayList
     }
   }
 </script>
