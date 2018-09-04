@@ -14,7 +14,7 @@
   import TopHeader from 'components/common/TopHeader'
   import BottomFooter from 'components/common/BottomFooter'
   import Player from 'components/common/Player'
-  import PlayingLines from 'components/common/PlayingLines' 
+  import PlayingLines from 'components/common/PlayingLines'
   export default {
     name: 'App',
     data() {
@@ -50,13 +50,6 @@
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    // text-align: center;
-    // color: #2c3e50;
     font-size: 0.875rem;
-    .router-view {
-      // position: absolute;
-      // width: 100%;
-      // height: 100%;
-    }
   }
 </style>
