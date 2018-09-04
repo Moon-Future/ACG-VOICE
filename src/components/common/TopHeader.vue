@@ -112,7 +112,8 @@
           background: $color-deepgray;
           color: $color-white;
           outline: none;
-          text-indent: 1.5rem;
+          padding-left: 1.5rem;
+          box-sizing: border-box;
         }
       }
     }
