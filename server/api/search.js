@@ -2,7 +2,7 @@ const { Character, Image } = require('../database/schema')
 const { getRandom } = require('./base')
 const request = require('request')
 
-const wyyUrl = 'https://api.imjad.cn/cloudmusic/?type=search'
+const wyyUrl = 'https://api.imjad.cn/cloudmusic/'
 const limit = 20
 const searchType = [
   { type: 1, name: '单曲' },
@@ -26,13 +26,13 @@ function ajax(url) {
 
 function formatDataWYY(data) {
   let formatData = {}
-  
+
 }
 
 const searchAPI = {
   searchByWYY(params) {
     const value = encodeURIComponent(params.value);
-    const url = `${wyyUrl}&s=${value}&search_type=${searchType[0].type}`
+    const url = `?type=search${wyyUrl}&s=${value}&search_type=${searchType[0].type}`
     return new Promise((resolve, reject) => {
       ajax(url).then(res => {
         resolve(res)
