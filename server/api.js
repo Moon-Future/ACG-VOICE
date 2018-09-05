@@ -3,6 +3,7 @@ const path = require('path')
 const connect = require('./database/init')
 const homeAPI = require('./api/home')
 const characterAPI = require('./api/character')
+const searchAPI = require('./api/search')
 connect()
 
 const api = {
@@ -36,6 +37,9 @@ const api = {
   getCharacterVoice(params) {
     return characterAPI.getCharacterVoice(params)
   },
+  search(params) {
+    return searchAPI.search(params)
+  }
 }
 
 module.exports = api

@@ -54,5 +54,10 @@ router.get('/getCharacterVoice', async (ctx, next) => {
   ctx.body = result
 })
 
+router.get('/search', async (ctx, next) => {
+  let result = await api.search(ctx.query)
+  ctx.body = result
+})
+
 
 module.exports = router

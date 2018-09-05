@@ -4,7 +4,8 @@ const apiUrl = {
   getCharacterList: 'api/getCharacterList',
   getCharacterSkin: 'api/getCharacterSkin',
   getCharacterSkinAndAvatar: 'api/getCharacterSkinAndAvatar',
-  getCharacterVoice: 'api/getCharacterVoice'
+  getCharacterVoice: 'api/getCharacterVoice',
+  search: 'api/search'
 }
 
 module.exports = apiUrl

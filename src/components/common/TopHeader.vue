@@ -6,7 +6,7 @@
           <i class="iconfont icon-acg-search" @click="showSearch"></i>
         </div>
         <div class="search-inp" v-show="showFlag">
-          <input type="text">
+          <input type="text" v-model="value">
           <span @click.stop="hideSearch">取消</span>
         </div>
       </div>
@@ -25,6 +25,7 @@
 
 <script>
   import SearchResult from 'components/common/searchResult'
+  import apiUrl from '@/serviceAPI.config.js'
   export default {
     name: 'TopHeader',
     data() {
@@ -45,8 +46,13 @@
           }
         ],
         navIndex: 0,
-        showFlag: false
+        showFlag: false,
+        value: ''
       }
+    },
+    created() {
+      this.timer = null
+      this.delay = 300
     },
     methods: {
       changeNav(index) {
@@ -59,6 +65,28 @@
       hideSearch() {
         this.showFlag = false
         this.$refs.searchResult.hide()
+      },
+      seach() {
+        console.log('value', this.value)
+        this.$http.get(apiUrl.search, {
+          params: {value: this.value}
+        }).then((res) => {
+          console.log('search', res)
+        })
+      },
+      _delay(callback, ms) {
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => {
+          callback()
+        }, ms);
+      }
+    },
+    watch: {
+      value() {
+        if (this.value === '') {
+          return
+        }
+        this._delay(this.seach, this.delay)
       }
     },
     components: {
@@ -95,14 +123,17 @@
       position: absolute;
       left: 13px;
       width: 100%;
+      height: 2rem;
       .icon-search {
         position: absolute;
         z-index: 10;
+        height: 2rem;
         i {
-          font-size: 1.5rem;
+          font-size: 1.3rem;
         }
       }
       .search-inp {
+        height: 2rem;
         input {
           position: relative;
           top: 1px;
