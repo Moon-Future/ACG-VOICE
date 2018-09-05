@@ -67,7 +67,6 @@
         this.$refs.searchResult.hide()
       },
       seach() {
-        console.log('value', this.value)
         this.$http.get(apiUrl.search, {
           params: {value: this.value}
         }).then((res) => {
