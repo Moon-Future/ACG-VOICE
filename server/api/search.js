@@ -38,13 +38,13 @@ function formatDataWYY(data) {
   }
   const songs = data.result.songs || []
   const songLen = data.result.songCount
-  formatData.result.songCount = songLen
+  formatData.result.count = songLen
   songs.forEach((song) => {
     const songID = song.id
     const songName = song.name
     const singerID = song.ar[0].id
     const singerName = song.ar[0].name
-    formatData.result.songs.push({
+    formatData.result.data.push({
       songID, songName, singerID, singerName
     })
   })

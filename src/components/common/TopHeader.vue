@@ -19,13 +19,14 @@
         <router-link v-for="(nav, i) in menuNav" :key="i" :to="nav.url" tag="li">{{ nav.name }}</router-link>
       </ul>
     </div>
-    <search-result ref="searchResult"></search-result>
+    <search-result :searchData="searchData" ref="searchResult"></search-result>
   </div>
 </template>
 
 <script>
   import SearchResult from 'components/common/searchResult'
   import apiUrl from '@/serviceAPI.config.js'
+  import { code } from 'common/js/config'
   export default {
     name: 'TopHeader',
     data() {
@@ -47,7 +48,8 @@
         ],
         navIndex: 0,
         showFlag: false,
-        value: ''
+        value: '',
+        searchData: []
       }
     },
     created() {
@@ -70,7 +72,11 @@
         this.$http.get(apiUrl.search, {
           params: {value: this.value}
         }).then((res) => {
-          console.log('search', res)
+          res = res.data
+          if (res.code === code.success) {
+            this.searchData = res.result.data
+            console.log('aa', this.searchData)
+          }
         })
       },
       _delay(callback, ms) {

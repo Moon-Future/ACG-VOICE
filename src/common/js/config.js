@@ -11,3 +11,7 @@ export const playModeList = [
   playMode.random,
   playMode.one
 ]
+
+export const code = {
+  success: 200
+}
