@@ -59,5 +59,10 @@ router.get('/search', async (ctx, next) => {
   ctx.body = result
 })
 
+router.get('/getSong', async (ctx, next) => {
+  let result = await api.getSong(ctx.query)
+  ctx.body = result
+})
+
 
 module.exports = router

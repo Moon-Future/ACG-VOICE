@@ -10,6 +10,19 @@ function getRandom(start, end, size) {
   return allRandms.slice(0, size)
 }
 
+function formatDataSong(data, params) {
+  const result = {
+    id: data[params.id] || '',
+    name: data[params.name] || '',
+    url: data[params.url] || '',
+    character: data[params.character] || '',
+    bgimg: data[params.bgimg] || '',
+    coverimg: data[params.coverimg] || ''
+  }
+  return result
+}
+
 module.exports = {
-  getRandom
+  getRandom,
+  formatDataSong
 }

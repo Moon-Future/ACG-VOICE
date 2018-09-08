@@ -75,7 +75,6 @@
           res = res.data
           if (res.code === code.success) {
             this.searchData = res.result.data
-            console.log('aa', this.searchData)
           }
         })
       },

@@ -297,7 +297,7 @@
       },
       currentSong() {
         this.buffered = []
-        this.voiceSrc = this.currentSong.src
+        this.voiceSrc = this.currentSong.src || this.currentSong.url
         clearTimeout(this.timer)
         this.timer = setTimeout(() => {
           this.audio.play()

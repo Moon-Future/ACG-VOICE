@@ -1,5 +1,5 @@
 const { Character, Image } = require('../database/schema')
-const { getRandom } = require('./base')
+const { getRandom, formatDataSong } = require('./base')
 const request = require('request')
 
 const wyyUrl = 'https://api.imjad.cn/cloudmusic/'
@@ -53,7 +53,7 @@ function formatDataWYY(data) {
 
 const searchAPI = {
   searchByWYY(params) {
-    const value = encodeURIComponent(params.value);
+    const value = encodeURIComponent(params.value)
     const url = `${wyyUrl}?type=search&s=${value}&search_type=${searchType[0].type}`
     return new Promise((resolve, reject) => {
       ajax(url).then(res => {
@@ -62,8 +62,30 @@ const searchAPI = {
       })
     })
   },
+  getSongByIDWYY(params) {
+    const id = encodeURIComponent(params.songID)
+    const name = decodeURIComponent(params.songName)
+    const url = `${wyyUrl}?type=song&id=${id}`
+    return new Promise((resolve, reject) => {
+      ajax(url).then(res => {
+        let result = {
+          code: 200,
+          data: {}
+        }
+        res = res.data[0]
+        res.songName = name
+        result.data = formatDataSong(res, {
+          id: 'id', name: 'songName', url: 'url'
+        })
+        resolve(result)
+      })
+    })
+  },
   search(params) {
     return searchAPI.searchByWYY(params)
+  },
+  getSong(params) {
+    return searchAPI.getSongByIDWYY(params)
   }
 }
 
