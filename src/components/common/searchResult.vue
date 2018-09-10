@@ -10,12 +10,12 @@
               <span class="singer">{{ data.singerName }}</span>
             </div>
             <div class="from">
-              <svg class="icon" aria-hidden="true">
+              <svg class="iconfont" aria-hidden="true">
                 <use xlink:href="#icon-acg-wangyiyunyinyue"></use>
               </svg>
             </div>
             <div class="more">
-              <svg class="icon" aria-hidden="true">
+              <svg class="iconfont" aria-hidden="true">
                 <use xlink:href="#icon-acg-more"></use>
               </svg>
             </div>

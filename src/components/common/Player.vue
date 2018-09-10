@@ -39,7 +39,11 @@
             </div>
           </scroll>
           <div class="middle-b" v-show="middleLeft">
-            <div class="like"><i class="iconfont" :class="likeIcon" @click.stop="like"></i></div>
+            <div class="like">
+              <svg class="iconfont" aria-hidden="true" @click.stop="like">
+                <use :xlink:href="likeIcon"></use>
+              </svg>
+            </div>
             <div class="like"><i class="iconfont icon-acg-download" @click.stop="download"></i></div>
             <div class="like"><i class="iconfont icon-acg-comment" @click.stop="comment"></i></div>
             <div class="like"><i class="iconfont icon-acg-more-vertical" @click.stop="more"></i></div>
@@ -144,7 +148,7 @@
         return this.playing ? 'icon-acg-pause' : 'icon-acg-play'
       },
       likeIcon() {
-        return this.likeFill ? 'icon-acg-like_fill i-like-fill' : 'icon-acg-like'
+        return this.likeFill ? '#icon-acg-like_fill i-like-fill' : '#icon-acg-like'
       },
       percent() {
         return this.currentTime / this.duration
@@ -297,7 +301,7 @@
       },
       currentSong() {
         this.buffered = []
-        this.voiceSrc = this.currentSong.src || this.currentSong.url
+        this.voiceSrc = this.currentSong.src
         clearTimeout(this.timer)
         this.timer = setTimeout(() => {
           this.audio.play()
