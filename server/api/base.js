@@ -16,6 +16,7 @@ function formatDataSong(data, params) {
     name: data[params.name] || '',
     src: data[params.src] || '',
     character: data[params.character] || '',
+    characterID: data[params.characterID] || '',
     bgimg: data[params.bgimg] || '',
     coverimg: data[params.coverimg] || ''
   }

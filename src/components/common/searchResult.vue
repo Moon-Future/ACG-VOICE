@@ -51,7 +51,7 @@
       },
       selectItem(data) {
         this.$http.get(apiUrl.getVoice, {
-          params: {voiceID: data.voiceID, voiceName: data.voiceName}
+          params: {voiceID: data.voiceID, voiceName: data.voiceName, characterID: data.characterID, characterName: data.characterName, album: data.album}
         }).then(res => {
           const result = res.data
           this.selectOne(result.data)

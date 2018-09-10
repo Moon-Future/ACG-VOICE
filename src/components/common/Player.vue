@@ -7,7 +7,7 @@
     >
       <div class="normal-player" v-show="fullScreen" ref="normalPlayer">
         <div class="background">
-          <img :src="currentSong.bgimg" alt="" width="100%" height="100%">
+          <img :src="currentSong.bgimg || currentSong.coverimg" alt="" width="100%" height="100%">
         </div>
         <div class="top">
           <div class="back">
