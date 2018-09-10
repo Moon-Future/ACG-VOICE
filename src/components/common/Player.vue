@@ -11,7 +11,9 @@
         </div>
         <div class="top">
           <div class="back">
-            <i class="iconfont icon-acg-arrow-down- icon-back" @click="goBack"></i>
+            <svg class="iconfont icon-back" aria-hidden="true" @click="goBack">
+              <use xlink:href="#icon-acg-arrow-down"></use>
+            </svg>
           </div>
           <div class="song-title animated bounceInDown">
             <h1 class="title" ref="title">
@@ -361,7 +363,7 @@
           z-index: 50;
           .icon-back {
             display: block;
-            padding: 0 10px;
+            padding: 10px;
             font-size: $font-size-large-x;
             color: $color-active;
           }

@@ -3,11 +3,11 @@
     <div class="no-data" v-show="searchData.length === 0">没有数据</div>
     <scroll :data="searchData">
       <div class="data-wrapper">
-        <ul class="song-list">
+        <ul class="voice-list">
           <li v-for="(data, i) in searchData" :key="i" @click="selectItem(data)">
             <div class="text">
-              <p class="song">{{ data.songName }}</p>
-              <span class="singer">{{ data.singerName }}</span>
+              <p class="voice">{{ data.voiceName }}</p>
+              <span class="character">{{ data.characterName }}</span>
             </div>
             <div class="from">
               <svg class="iconfont" aria-hidden="true">
@@ -50,9 +50,8 @@
         this.showFlag = false
       },
       selectItem(data) {
-        console.log('data', data)
-        this.$http.get(apiUrl.getSong, {
-          params: {songID: data.songID, songName:data.songName}
+        this.$http.get(apiUrl.getVoice, {
+          params: {voiceID: data.voiceID, voiceName: data.voiceName}
         }).then(res => {
           const result = res.data
           this.selectOne(result.data)
@@ -85,7 +84,7 @@
       text-align: center;
       padding: 10px;
     }
-    .song-list {
+    .voice-list {
       li {
         display: flex;
         justify-content: space-between;

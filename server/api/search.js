@@ -36,16 +36,16 @@ function formatDataWYY(data) {
     },
     code: 200
   }
-  const songs = data.result.songs || []
-  const songLen = data.result.songCount
-  formatData.result.count = songLen
-  songs.forEach((song) => {
-    const songID = song.id
-    const songName = song.name
-    const singerID = song.ar[0].id
-    const singerName = song.ar[0].name
+  const voices = data.result.songs || []
+  const voiceLen = data.result.songCount
+  formatData.result.count = voiceLen
+  voices.forEach((voice) => {
+    const voiceID = voice.id
+    const voiceName = voice.name
+    const characterID = voice.ar[0].id
+    const characterName = voice.ar[0].name
     formatData.result.data.push({
-      songID, songName, singerID, singerName
+      voiceID, voiceName, characterID, characterName
     })
   })
   return formatData
@@ -62,9 +62,13 @@ const searchAPI = {
       })
     })
   },
-  getSongByIDWYY(params) {
-    const id = encodeURIComponent(params.songID)
-    const name = decodeURIComponent(params.songName)
+  getCharacterByIDWYY(params) {
+    const id = encodeURIComponent(params.voiceID)
+    const id = encodeURIComponent(params.voiceID)
+  },
+  getVoiceByIDWYY(params) {
+    const id = encodeURIComponent(params.voiceID)
+    const name = decodeURIComponent(params.voiceName)
     const url = `${wyyUrl}?type=song&id=${id}`
     return new Promise((resolve, reject) => {
       ajax(url).then(res => {
@@ -73,9 +77,9 @@ const searchAPI = {
           data: {}
         }
         res = res.data[0]
-        res.songName = name
+        res.voiceName = name
         result.data = formatDataSong(res, {
-          id: 'id', name: 'songName', url: 'url'
+          id: 'id', name: 'voiceName', src: 'url'
         })
         resolve(result)
       })
@@ -84,8 +88,8 @@ const searchAPI = {
   search(params) {
     return searchAPI.searchByWYY(params)
   },
-  getSong(params) {
-    return searchAPI.getSongByIDWYY(params)
+  getVoice(params) {
+    return searchAPI.getVoiceByIDWYY(params)
   }
 }
 

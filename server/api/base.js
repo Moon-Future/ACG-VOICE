@@ -14,7 +14,7 @@ function formatDataSong(data, params) {
   const result = {
     id: data[params.id] || '',
     name: data[params.name] || '',
-    src: data[params.url] || '',
+    src: data[params.src] || '',
     character: data[params.character] || '',
     bgimg: data[params.bgimg] || '',
     coverimg: data[params.coverimg] || ''

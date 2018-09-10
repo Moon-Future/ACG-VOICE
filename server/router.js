@@ -59,8 +59,8 @@ router.get('/search', async (ctx, next) => {
   ctx.body = result
 })
 
-router.get('/getSong', async (ctx, next) => {
-  let result = await api.getSong(ctx.query)
+router.get('/getVoice', async (ctx, next) => {
+  let result = await api.getVoice(ctx.query)
   ctx.body = result
 })
 

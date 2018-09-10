@@ -40,8 +40,8 @@ const api = {
   search(params) {
     return searchAPI.search(params)
   },
-  getSong(params) {
-    return searchAPI.getSong(params)
+  getVoice(params) {
+    return searchAPI.getVoice(params)
   }
 }
 
