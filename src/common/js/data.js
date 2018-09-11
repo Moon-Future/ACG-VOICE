@@ -1,3 +1,12 @@
+const urlTx = 'https://dudulu-1255423800.cos.ap-guangzhou.myqcloud.com'
+
+export const voiceData = {
+  name: '嘟嘟噜',
+  src: `${urlTx}/Voice/嘟嘟噜.mp3`,
+  character: '椎名真由理',
+  coverimg: `${urlTx}/Image/椎名真由理-3.jpg`
+}
+
 export const tabData = [
   {
     src: require('assets/EZ-1.jpeg'),
@@ -33,112 +42,6 @@ export const tabData = [
   }
 ]
 
-export const swiperData = [
-  {
-    srcOfficial: require('assets/LOL-殇之木乃伊-阿木木(skin5).jpg'),
-    character: '殇之木乃伊-阿木木'
-  },
-  {
-    srcOfficial: require('assets/LOL-皮城女警-凯特琳(skin9).jpg'),
-    character: '皮城女警-凯特琳'
-  },
-  {
-    srcOfficial: require('assets/LOL-英勇投弹手-库奇(skin7).jpg'),
-    character: '英勇投弹手-库奇'
-  },
-  {
-    srcOfficial: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
-    character: '黑暗之女-安妮'
-  }
-]
-
-export const hotData = [
-  {
-    src: require('assets/LOL-殇之木乃伊-阿木木(skin5).jpg'),
-    character: '殇之木乃伊-阿木木'
-  },
-  {
-    src: require('assets/LOL-皮城女警-凯特琳(skin9).jpg'),
-    character: '皮城女警-凯特琳'
-  },
-  {
-    src: require('assets/LOL-英勇投弹手-库奇(skin7).jpg'),
-    character: '英勇投弹手-库奇'
-  },
-  {
-    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
-    character: '黑暗之女-安妮'
-  },
-  {
-    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
-    character: '黑暗之女-安妮'
-  },
-  {
-    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
-    character: '黑暗之女-安妮'
-  },
-  {
-    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
-    character: '黑暗之女-安妮'
-  },
-  {
-    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
-    character: '黑暗之女-安妮'
-  },
-  {
-    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
-    character: '黑暗之女-安妮'
-  },
-  {
-    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
-    character: '黑暗之女-安妮'
-  },
-  {
-    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
-    character: '黑暗之女-安妮'
-  },
-  {
-    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
-    character: '黑暗之女-安妮'
-  },
-  {
-    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
-    character: '黑暗之女-安妮'
-  },
-  {
-    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
-    character: '黑暗之女-安妮'
-  },
-  {
-    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
-    character: '黑暗之女-安妮'
-  },
-  {
-    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
-    character: '黑暗之女-安妮'
-  },
-  {
-    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
-    character: '黑暗之女-安妮'
-  },
-  {
-    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
-    character: '黑暗之女-安妮'
-  },
-  {
-    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
-    character: '黑暗之女-安妮'
-  },
-  {
-    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
-    character: '黑暗之女-安妮'
-  },
-  {
-    src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
-    character: '黑暗之女-安妮'
-  }
-]
-
 export const recommendData = [
   {
     src: require('assets/LOL-殇之木乃伊-阿木木(skin5).jpg'),
@@ -155,75 +58,5 @@ export const recommendData = [
   {
     src: require('assets/LOL-黑暗之女-安妮(skin7).jpg'),
     character: '黑暗之女-安妮'
-  }
-]
-
-export const characterData = [
-  {
-    name: '安妮',
-    nickName: '黑暗之女',
-  }
-]
-
-export const voiceData = [
-  {
-    src: '...',
-    text: '星辰陨落，只为坠入爱河',
-  },
-  {
-    src: '...',
-    text: '星辰陨落，只为坠入爱河',
-  },
-  {
-    src: '...',
-    text: '星辰陨落，只为坠入爱河',
-  },
-  {
-    src: '...',
-    text: '星辰陨落，只为坠入爱河',
-  },
-  {
-    src: '...',
-    text: '星辰陨落，只为坠入爱河',
-  },
-  {
-    src: '...',
-    text: '星辰陨落，只为坠入爱河',
-  },
-  {
-    src: '...',
-    text: '星辰陨落，只为坠入爱河',
-  },
-  {
-    src: '...',
-    text: '星辰陨落，只为坠入爱河',
-  },
-  {
-    src: '...',
-    text: '星辰陨落，只为坠入爱河',
-  },
-  {
-    src: '...',
-    text: '星辰陨落，只为坠入爱河',
-  },
-  {
-    src: '...',
-    text: '星辰陨落，只为坠入爱河',
-  },
-  {
-    src: '...',
-    text: '星辰陨落，只为坠入爱河',
-  },
-  {
-    src: '...',
-    text: '星辰陨落，只为坠入爱河',
-  },
-  {
-    src: '...',
-    text: '星辰陨落，只为坠入爱河',
-  },
-  {
-    src: '...',
-    text: '星辰陨落，只为坠入爱河',
   }
 ]

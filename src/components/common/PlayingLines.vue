@@ -8,7 +8,8 @@
 </template>
 
 <script>
-  import { mapGetters, mapMutations } from 'vuex'
+  import { mapGetters, mapMutations, mapActions } from 'vuex'
+  import { voiceData } from 'common/js/data'
   export default {
     name: 'PlayingLines',
     props: {
@@ -18,15 +19,20 @@
       // }
     },
     computed: {
-      ...mapGetters(['playing'])
+      ...mapGetters(['playing', 'playlist'])
     },
     methods: {
       showPlayer() {
-        this.setFullScreen(true)
+        if (this.playlist.length === 0) {
+          this.selectOne(voiceData)
+        } else {
+          this.setFullScreen(true)
+        }
       },
       ...mapMutations({
         setFullScreen: 'SET_FULL_SCREEN'
-      })
+      }),
+      ...mapActions(['selectOne'])
     }
   }
 </script>

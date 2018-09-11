@@ -264,7 +264,9 @@
         if (type === undefined && (this.mode === playMode.one || (this.mode === playMode.sequence && currentIndex === length - 1))) {
           this.setPlaying(false)
           this.currentTime = 0
-        } else if (this.mode === playMode.sequence || this.mode === playMode.loop || this.mode === playMode.one) {
+          return
+        }
+        if (this.mode === playMode.sequence || this.mode === playMode.loop || this.mode === playMode.one) {
           if (type === 'next' || type === undefined) {
             currentIndex = currentIndex === length - 1 ? 0 : currentIndex + 1
           } else if (type === 'prev') {
@@ -299,7 +301,9 @@
     },
     watch: {
       playing() {
-
+        this.$nextTick(() => {
+          this.playing ? this.audio.play() : this.audio.pause()
+        })
       },
       currentSong() {
         this.buffered = []

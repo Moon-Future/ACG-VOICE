@@ -66,7 +66,7 @@
   import Scroll from 'components/common/Scroll'
   import Slider from 'components/common/Slider'
   import Tab from 'components/common/Tab'
-  import { tabData, swiperData, hotData, recommendData } from 'common/js/data.js'
+  import { tabData, recommendData } from 'common/js/data.js'
   import apiUrl from '@/serviceAPI.config.js'
   import { mapMutations, mapActions } from 'vuex'
   export default {

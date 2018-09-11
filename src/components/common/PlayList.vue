@@ -4,10 +4,10 @@
       <div class="operate"></div>
       <scroll class="list-content" ref="listContent">
         <ul>
-          <li v-for="(item, i) in data" :key="i" class="item" :class="[currentIndex === i ? 'active' : '']"
+          <li v-for="(item, i) in data" :key="i" class="item" :class="[currentIndex === i && playing ? 'active' : '']"
             @click="selectItem(item, i)"
           >
-            <i class="iconfont icon-acg-speaker i-speaker" v-if="currentIndex === i"></i>
+            <i class="iconfont icon-acg-speaker i-speaker" v-if="currentIndex === i && playing"></i>
             <div class="list-num" v-if="showRank">{{ i + 1 }}</div>
             <div class="list-text">
               {{ item.name }}
@@ -36,7 +36,8 @@
     },
     computed: {
       ...mapGetters([
-        'currentIndex'
+        'currentIndex',
+        'playing'
       ])
     },
     data() {
