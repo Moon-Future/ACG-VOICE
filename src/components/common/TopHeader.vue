@@ -1,7 +1,7 @@
 <template>
   <div class="top-fixed">
     <div class="top">
-      <div class="search-wrapper">
+      <div class="search-wrapper" ref="searchWrapper">
         <div class="icon-search">
           <i class="iconfont icon-acg-search" @click="showSearch"></i>
         </div>
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-  import SearchResult from 'components/common/searchResult'
+  import SearchResult from 'components/common/SearchResult'
   import apiUrl from '@/serviceAPI.config.js'
   import { code } from 'common/js/config'
   export default {
@@ -63,10 +63,12 @@
       showSearch() {
         this.showFlag = true
         this.$refs.searchResult.show()
+        this.$refs.searchWrapper.style.transform = 'translateX(-8px)'
       },
       hideSearch() {
         this.showFlag = false
         this.$refs.searchResult.hide()
+        this.$refs.searchWrapper.style.transform = 'translateX(0)'
       },
       seach() {
         this.$http.get(apiUrl.search, {
@@ -141,7 +143,7 @@
         input {
           position: relative;
           top: 1px;
-          width: 75%;
+          width: 78%;
           height: 1.5rem;
           border-radius: 20px;
           background: $color-deepgray;

@@ -1,3 +1,16 @@
+const request = require('request')
+
+function ajax(url) {
+  return new Promise((resolve, reject) => {
+    request(url, (err, res, body) => {
+      if (err) {
+        throw new Error(err)
+      }
+      resolve(JSON.parse(body))
+    })
+  })
+}
+
 function getRandom(start, end, size) {
   let allRandms = []
   size = size ? (size > end - start ? end - start : size) : 1
@@ -24,6 +37,7 @@ function formatDataSong(data, params) {
 }
 
 module.exports = {
+  ajax,
   getRandom,
   formatDataSong
 }

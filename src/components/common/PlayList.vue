@@ -4,7 +4,7 @@
       <div class="operate"></div>
       <scroll class="list-content" ref="listContent">
         <ul>
-          <li v-for="(item, i) in data" :key="i" class="item" :class="[currentIndex === i && playing ? 'active' : '']"
+          <li v-for="(item, i) in data" :key="i" class="item" :class="[currentIndex === i ? 'active' : '']"
             @click="selectItem(item, i)"
           >
             <i class="iconfont icon-acg-speaker i-speaker" v-if="currentIndex === i && playing"></i>
