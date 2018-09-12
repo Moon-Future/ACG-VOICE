@@ -19,7 +19,12 @@
         <router-link v-for="(nav, i) in menuNav" :key="i" :to="nav.url" tag="li">{{ nav.name }}</router-link>
       </ul>
     </div>
-    <search-result :searchData="searchData" ref="searchResult"></search-result>
+    <search-result
+      :searchData="searchData"
+      :loadingShowFlag="loadingShowFlag" 
+      ref="searchResult"
+    >
+    </search-result>
   </div>
 </template>
 
@@ -49,7 +54,9 @@
         navIndex: 0,
         showFlag: false,
         value: '',
-        searchData: []
+        searchData: [],
+        loadingShowFlag: false,
+        emptyShowFlag: false
       }
     },
     created() {
@@ -71,9 +78,11 @@
         this.$refs.searchWrapper.style.transform = 'translateX(0)'
       },
       seach() {
+        this.loadingShowFlag = true
         this.$http.get(apiUrl.search, {
           params: {value: this.value}
         }).then((res) => {
+          this.loadingShowFlag = false
           res = res.data
           if (res.code === code.success) {
             this.searchData = res.result.data
@@ -90,6 +99,7 @@
     watch: {
       value() {
         if (this.value === '') {
+          this.loadingShowFlag = false
           return
         }
         this._delay(this.seach, this.delay)

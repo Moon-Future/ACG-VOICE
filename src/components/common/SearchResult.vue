@@ -1,7 +1,7 @@
 <template>
   <div class="search-result" ref="searchResult" v-show="showFlag">
-    <div class="no-data" v-show="searchData.length === 0">没有数据</div>
-    <loading></loading>
+    <div class="no-data" v-show="emptyShowFlag">没有数据</div>
+    <loading :src="loadingPic" v-show="loadingShowFlag"></loading>
     <scroll :data="searchData">
       <div class="data-wrapper">
         <ul class="voice-list">
@@ -37,11 +37,20 @@
       searchData: {
         type: Array,
         default: null
+      },
+      emptyShowFlag: {
+        type: Boolean,
+        default: false
+      },
+      loadingShowFlag: {
+        type: Boolean,
+        default: false
       }
     },
     data() {
       return {
-        showFlag: false
+        showFlag: false,
+        loadingPic: require('assets/loading.gif')
       }
     },
     methods: {
@@ -82,40 +91,42 @@
     overflow: hidden;
     background: $color-deepgray;
     color: $color-white;
-    padding-left: 10px;
     .no-data {
       text-align: center;
       padding: 10px;
     }
-    .voice-list {
-      li {
-        display: flex;
-        justify-content: space-between;
-        padding: 13px 5px;
-        border-bottom: 1px solid $color-gray;
-        .text {
-          width: 85%;
-          p {
-            padding-bottom: 5px;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
+    .data-wrapper {
+      padding-left: 10px;
+      .voice-list {
+        li {
+          display: flex;
+          justify-content: space-between;
+          padding: 13px 5px;
+          border-bottom: 1px solid $color-gray;
+          .text {
+            width: 85%;
+            p {
+              padding-bottom: 5px;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+            }
+            span {
+              font-size: $font-size-medium;
+              color: $color-gray;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+            }
           }
-          span {
-            font-size: $font-size-medium;
-            color: $color-gray;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
+          .from {
+            margin: auto;
           }
-        }
-        .from {
-          margin: auto;
-        }
-        .more {
-          margin: auto;
-          .iconfont {
-            font-size: 1.5rem;
+          .more {
+            margin: auto;
+            .iconfont {
+              font-size: 1.5rem;
+            }
           }
         }
       }

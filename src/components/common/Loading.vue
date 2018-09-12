@@ -1,7 +1,11 @@
 <template>
   <div class="loading">
-    <img :src="src" alt="loading.pic">
-    <p v-if="showTitle" class="title">{{ title }}</p>
+    <div class="loading-pic">
+      <img :src="src" alt="loading.pic">
+    </div>
+    <div class="loading-title" v-if="showTitle">
+      <p class="title">{{ title }}</p>
+    </div>
   </div>
 </template>
 
@@ -18,7 +22,7 @@
       },
       showTitle: {
         type: Boolean,
-        default: false
+        default: true
       }
     }
   }
@@ -26,8 +30,12 @@
 
 <style lang="scss" scoped>
   .loading {
+    display: flex;
+    flex-flow: column;
+    text-align: center;
     img {
-      width: 100%;
+      width: 50px;
+      height: 100%;
     }
   }
 </style>
