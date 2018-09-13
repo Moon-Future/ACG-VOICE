@@ -24,8 +24,8 @@ function formatDataWYY(data) {
     },
     code: 200
   }
-  const voices = data.result.songs || []
-  const voiceLen = data.result.songCount
+  const voices = (data.result && data.result.songs) || []
+  const voiceLen = data.result && data.result.songCount
   formatData.result.count = voiceLen
   voices.forEach((voice) => {
     const voiceID = voice.id
