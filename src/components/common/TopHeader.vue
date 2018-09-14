@@ -21,7 +21,7 @@
     </div>
     <search-result
       :searchData="searchData"
-      :loadingShowFlag="loadingShowFlag" 
+      :loadingShowFlag="loadingShowFlag"
       ref="searchResult"
     >
     </search-result>
