@@ -86,7 +86,7 @@
       </div>
     </transition>
     <transition name="mini">
-      <div class="mini-player" v-if="miniPlayer" v-show="!fullScreen" ref="miniPlayer">
+      <!-- <div class="mini-player" v-if="miniPlayer" v-show="!fullScreen" ref="miniPlayer">
         <div class="mini-player">
           <div class="icon">
             <img :src="currentSong.coverimg" alt="" width="40" height="40" @click="goFullScreen">
@@ -103,6 +103,13 @@
           <div class="control">
             <i class="iconfont icon-acg-playlist icon-playlist" @click="showPlayList"></i>
           </div>  
+        </div>
+      </div> -->
+      <div class="mini-player-circle">
+        <div class="control" @click="play">
+          <progress-circle :percent="percent">
+            <i class="iconfont icon-play" :class="playIcon"></i>
+          </progress-circle>
         </div>
       </div>
     </transition>
@@ -140,7 +147,7 @@
         loadingShow: true,
         playListShow: false,
         wordsLoop: false,
-        miniPlayer: false,
+        miniPlayer: true,
         likeFill: false,
         middleLeft: true
       }
@@ -594,6 +601,25 @@
           position: absolute;
           left: 0;
           top: 0;
+          z-index: -1;
+        }
+      }
+    }
+    .mini-player-circle {
+      position: fixed;
+      bottom: 0;
+      margin: auto;
+      width: 2rem;
+      height: 2rem;
+      left: 50%;
+      margin-left: -1rem;
+      color: $color-active;
+      .control {
+        height: 100%;
+        .iconfont {
+          font-size: 2rem;
+          position: absolute;
+          left: 0;
           z-index: -1;
         }
       }

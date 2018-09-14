@@ -33,8 +33,8 @@
           return
         }
         ctx.beginPath()
-        ctx.lineWidth = 2
-        ctx.strokeStyle = '#f38f00'
+        ctx.lineWidth = 3
+        ctx.strokeStyle = '#00CC33' //'#f38f00'
         ctx.clearRect(0, 0, diameter, diameter)
         ctx.arc(this.radius, this.radius, 12, -0.5 * Math.PI, 2 * Math.PI * percent - 0.5 * Math.PI)
         ctx.stroke()
@@ -53,5 +53,10 @@
 
   .progress-circle {
     position: relative;
+    .canvas {
+      width: 2rem;
+      height: 2rem;
+      position: absolute;
+    }
   }
 </style>
