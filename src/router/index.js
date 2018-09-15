@@ -6,6 +6,7 @@ import CharacterInfo from '@/components/pages/CharacterInfo'
 import CharacterList from '@/components/pages/CharacterList'
 import VoiceList from '@/components/pages/VoiceList'
 import Upload from '@/components/common/Upload'
+import Story from '@/components/pages/Story'
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
       path: '/characterInfo/:name',
       name: 'CharacterInfo',
       component: CharacterInfo
+    },
+    {
+      path: '/story',
+      name: 'Story',
+      component: Story
     },
     {
       path: '/voiceList',

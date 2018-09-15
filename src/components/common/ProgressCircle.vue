@@ -1,11 +1,15 @@
 <template>
-  <div class="progress-circle">
-    <canvas class="canvas" id="canvas" width="30" height="30"></canvas>
+  <div class="progress-circle" ref="progressCircle">
+    <svg xmlns="http://www.w3.org/200/svg" class="circle-svg">
+      <circle :cx="cx" :cy="cy" :r="r" fill="none" stroke="gray" stroke-width="2" stroke-linecap="round"/>
+      <circle :cx="cx" :cy="cy" :r="r" fill="none" stroke="#00CC33" stroke-width="3" :stroke-dasharray="dasharray" class="progress" ref="progress"/>
+    </svg>
     <slot></slot>
   </div>
 </template>
 
 <script>
+  import { htmlFontSize } from 'common/js/util';
   export default {
     props: {
       radius: {
@@ -17,27 +21,25 @@
         default: 0
       }
     },
+    data() {
+      return {
+        cx: 15,
+        cy: 15,
+        r: 15,
+        dasharray: "0, 10000"
+      }
+    },
+    created() {
+      this.$nextTick(() => {
+        this.cx = htmlFontSize
+        this.cy = htmlFontSize
+        this.r = htmlFontSize - 3
+        this.c = Math.floor(2 * Math.PI * this.r);
+      })
+    },
     methods: {
       darw(percent) {
-        const canvas = document.getElementById('canvas')
-        const diameter = this.radius * 2
-        let ctx
-        if (canvas.getContext) {
-          ctx = canvas.getContext('2d')
-        }
-        if (!ctx) {
-          return
-        }
-        if (percent === 0) {
-          ctx.clearRect(0, 0, diameter, diameter)
-          return
-        }
-        ctx.beginPath()
-        ctx.lineWidth = 3
-        ctx.strokeStyle = '#00CC33' //'#f38f00'
-        ctx.clearRect(0, 0, diameter, diameter)
-        ctx.arc(this.radius, this.radius, 12, -0.5 * Math.PI, 2 * Math.PI * percent - 0.5 * Math.PI)
-        ctx.stroke()
+        this.dasharray = `${this.c * percent}, 10000`
       }
     },
     watch: {
@@ -53,10 +55,15 @@
 
   .progress-circle {
     position: relative;
-    .canvas {
-      width: 2rem;
-      height: 2rem;
-      position: absolute;
+    height: 100%;
+    width: 100%;
+    .circle-svg {
+      height: 100%;
+      width: 100%;
+      .progress {
+        transform-origin: center;
+        transform: rotate(-90deg);
+      }
     }
   }
 </style>

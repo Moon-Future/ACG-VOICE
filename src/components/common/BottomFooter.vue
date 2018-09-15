@@ -2,7 +2,8 @@
   <div class="bottom-fototer">
     <tab>
       <div v-for="(item, i) in menu" :key="i">
-        <span :class="activeIndex === i ? 'active' : ''" @click="changeMenu(i)">{{ item.name }}</span>
+        <!-- <span :class="activeIndex === i ? 'active' : ''" @click="changeMenu(i)">{{ item.name }}</span> -->
+        <router-link :to="item.link" tag="span" :class="activeIndex === i ? 'active' : ''" @click="changeMenu(i)">{{ item.name }}</router-link>
       </div>
     </tab>
   </div>
@@ -16,16 +17,20 @@ export default {
     return {
       menu: [
         {
-          name: '主页'
+          name: '主页',
+          link: '/recommend'
         },
         {
-          name: '图片'
+          name: '图片',
+          link: '/recommend'
         },
         {
-          name: '探索'
+          name: '探索',
+          link: '/story'
         },
         {
-          name: '我的'
+          name: '我的',
+          link: '/recommend'
         }
       ],
       activeIndex: 0

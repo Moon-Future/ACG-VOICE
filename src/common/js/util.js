@@ -17,3 +17,14 @@ export function shuffle(arr) {
   }
   return _arr
 }
+
+function getHtmlFontSize() {
+  let htmlwidth = document.documentElement.clientWidth || document.body.clientWidth ;
+  let htmlDom = document.getElementsByTagName('html')[0];
+  if (htmlwidth > 750) {
+    htmlwidth = 750
+  }
+  return htmlwidth/20
+}
+
+export const htmlFontSize = getHtmlFontSize()

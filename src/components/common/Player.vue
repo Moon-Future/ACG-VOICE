@@ -43,7 +43,7 @@
           <div class="middle-b" v-show="middleLeft">
             <div class="like">
               <svg class="iconfont" aria-hidden="true" @click.stop="like">
-                <use :xlink:href="likeIcon"></use>
+                <use :xlink:href="`#${likeIcon}`"></use>
               </svg>
             </div>
             <div class="like"><i class="iconfont icon-acg-download" @click.stop="download"></i></div>
@@ -108,7 +108,9 @@
       <div class="mini-player-circle">
         <div class="control" @click="play">
           <progress-circle :percent="percent">
-            <i class="iconfont icon-play" :class="playIcon"></i>
+            <svg class="iconfont" aria-hidden="true" @click.stop="like">
+              <use :xlink:href="`#${playIcon}`"></use>
+            </svg>
           </progress-circle>
         </div>
       </div>
@@ -157,7 +159,7 @@
         return this.playing ? 'icon-acg-pause' : 'icon-acg-play'
       },
       likeIcon() {
-        return this.likeFill ? '#icon-acg-like_fill i-like-fill' : '#icon-acg-like'
+        return this.likeFill ? 'icon-acg-like_fill i-like-fill' : 'icon-acg-like'
       },
       percent() {
         return this.currentTime / this.duration
@@ -613,14 +615,15 @@
       height: 2rem;
       left: 50%;
       margin-left: -1rem;
-      color: $color-active;
       .control {
         height: 100%;
         .iconfont {
           font-size: 2rem;
           position: absolute;
           left: 0;
+          top: 0;
           z-index: -1;
+          color: gray;
         }
       }
     }
