@@ -1,18 +1,21 @@
 const Router = require('koa-router')
-const { getUploadToken, writeToFile } = require('./upload')
+// const { getUploadToken, writeToFile } = require('./upload')
 const api = require('./api')
+const voice = require('./api/voice')
 
 const router = new Router({
   prefix: '/api'
 })
 
-router.get('/upload/getUploadToken', async (ctx, next) => {
-  ctx.body = getUploadToken()
-})
+router.use('/voice', voice.routes())
 
-router.post('/upload/fileData', async (ctx, next) => {
-  writeToFile(ctx)
-})
+// router.get('/upload/getUploadToken', async (ctx, next) => {
+//   ctx.body = getUploadToken()
+// })
+
+// router.post('/upload/fileData', async (ctx, next) => {
+//   writeToFile(ctx)
+// })
 
 router.get('/getHomeSwiper', async (ctx, next) => {
   let result = await api.getHomeSwiper()
