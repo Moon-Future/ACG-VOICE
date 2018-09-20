@@ -18,4 +18,4 @@ const voiceSchema = new Schema({
   collections: 'voice'
 })
 
-module.exports = mongoose.model('Voice', voiceSchema)
+module.exports = mongoose.model('Voice', voiceSchema, 'voice')

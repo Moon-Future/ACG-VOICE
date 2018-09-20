@@ -4,14 +4,14 @@ const Schema = mongoose.Schema
 const characterSchema = new Schema({
   name: String,
   nickName: String,
-  from: { type: String, default: '英雄联盟(LOL)' },
+  from: { type: String, default: 'ACG' },
   sex: { type: Number, default: 1 }, // 男 1, 女 0
   age: { type: Number, default: 18 },
   birth: { type: Date, default: Date.now() },
   alias: { type: Array, default: [] },
   spell: String,
   avatar: String,
-  avatarOfficial: String,
+  avatarWeb: String,
   key: { type: String, unique: true }, // name-form
   voice: [{type: Schema.Types.ObjectId, ref: 'voice'}],
   image: [{type: Schema.Types.ObjectId, ref: 'image'}]
@@ -19,4 +19,4 @@ const characterSchema = new Schema({
   collections: 'character'
 })
 
-module.exports = mongoose.model('Character', characterSchema)
+module.exports = mongoose.model('Character', characterSchema, 'character')

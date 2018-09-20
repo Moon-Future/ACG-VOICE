@@ -1,8 +1,13 @@
 const Koa = require('koa')
 const app = new Koa()
+const connect = require('./database/init')
 const bodyParser = require('koa-bodyparser')
 const cors = require('koa2-cors')
 const router = require('./router')
+
+;(async () => {
+  await connect()
+})()
 
 app.use(bodyParser())
 app.use(cors())
