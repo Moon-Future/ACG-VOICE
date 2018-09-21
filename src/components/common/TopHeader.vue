@@ -6,7 +6,7 @@
           <i class="iconfont icon-acg-search" @click="showSearch"></i>
         </div>
         <div class="search-inp" v-show="showFlag">
-          <input type="text" v-model="value">
+          <input type="search" v-model="value" @input="searchSuggest" @focus="searchFoucs">
           <span @click.stop="hideSearch">取消</span>
         </div>
       </div>
@@ -21,6 +21,8 @@
     </div>
     <search-result
       :searchData="searchData"
+      :searchSuggestData="searchSuggestData"
+      :suggestFlag="suggestFlag"
       :loadingShowFlag="loadingShowFlag"
       ref="searchResult"
     >
@@ -55,6 +57,8 @@
         showFlag: false,
         value: '',
         searchData: {},
+        searchSuggestData: [],
+        suggestFlag: false,
         loadingShowFlag: false,
         emptyShowFlag: false
       }
@@ -77,12 +81,24 @@
         this.$refs.searchResult.hide()
         this.$refs.searchWrapper.style.transform = 'translateX(0)'
       },
+      searchFoucs() {
+        this.suggestFlag = true
+      },
+      searchSuggest(e) {
+        const value = e.target.value.replace(/\'/g, '').trim()
+        if (value === '') {
+          this.searchSuggestData = []
+          return
+        }
+        this.$http.post(apiUrl.searchSuggest, {value: this.value}).then(res => {
+        })
+      },
       search() {
-        if (this.value.trim() == '') {
+        if (this.value.trim() === '') {
           return
         }
         this.loadingShowFlag = true
-        this.$http.post(apiUrl.search, {value: this.value}).then((res) => {
+        this.$http.post(apiUrl.search, {value: this.value}).then(res => {
           this.loadingShowFlag = false
           if (res.data.code === 200) {
             this.searchData = res.data.message
@@ -97,14 +113,14 @@
       }
     },
     watch: {
-      value() {
-        this.value = this.value.trim()
-        if (this.value === '') {
-          this.loadingShowFlag = false
-          return
-        }
-        this._delay(this.search, this.delay)
-      }
+      // value() {
+      //   this.value = this.value.trim()
+      //   if (this.value === '') {
+      //     this.loadingShowFlag = false
+      //     return
+      //   }
+      //   this._delay(this.search, this.delay)
+      // }
     },
     components: {
       SearchResult

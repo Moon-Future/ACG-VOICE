@@ -1,12 +1,32 @@
 const request = require('request')
+const iconv = require('iconv-lite')
 
-function ajax(url) {
+function ajax(url, flag = false) {
   return new Promise((resolve, reject) => {
     request(url, (err, res, body) => {
       if (err) {
         throw new Error(err)
       }
-      resolve(JSON.parse(body))
+      body = flag ? body : JSON.parse(body)
+      resolve(body)
+    })
+  })
+}
+
+function ajaxSuggest(url) {
+  // const url = `http://suggestion.baidu.com/?wd=${value}&action=opensearch`
+  return new Promise((resolve, reject) => {
+    request({
+      url,
+      encoding: null,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      }
+    }, (err, res, body) => {
+      if (err) {
+        throw new Error(err)
+      }
+      resolve(JSON.parse(iconv.decode(body, 'gbk'))[1])
     })
   })
 }
@@ -38,6 +58,7 @@ function formatDataSong(data, params) {
 
 module.exports = {
   ajax,
+  ajaxSuggest,
   getRandom,
   formatDataSong
 }

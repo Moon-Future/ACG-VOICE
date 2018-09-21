@@ -4,7 +4,7 @@
     <loading :src="loadingPic" v-show="loadingShowFlag"></loading>
     <scroll :data="voiceData">
       <div class="data-wrapper">
-        <ul class="voice-list">
+        <ul class="voice-list" v-show="!suggestFlag">
           <li class="character-data" v-show="characterData.platform">
             <img :src="characterData.avatar" alt="" class="character-avatar">
             <div class="character-name">
@@ -30,6 +30,9 @@
             </div>
           </li>
         </ul>
+        <ul class="suggest-list" v-show="suggestFlag">
+          suggest
+        </ul>
       </div>
     </scroll>
   </div>
@@ -46,6 +49,10 @@
         type: Object,
         default: null
       },
+      searchSuggestData: {
+        type: Array,
+        default: null
+      },
       emptyShowFlag: {
         type: Boolean,
         default: false
@@ -53,7 +60,8 @@
       loadingShowFlag: {
         type: Boolean,
         default: false
-      }
+      },
+      suggestFlag: false
     },
     data() {
       return {

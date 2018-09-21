@@ -3,6 +3,7 @@ const apiUrl = {
   getCharacterList: 'api/character/getCharacterList',
   getCharacterInfo: 'api/character/getCharacterInfo',
   search: 'api/search',
+  searchSuggest: 'api/searchSuggest',
   getVoice: 'api/getVoice'
 }
 
