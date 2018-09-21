@@ -54,7 +54,7 @@
         navIndex: 0,
         showFlag: false,
         value: '',
-        searchData: [],
+        searchData: {},
         loadingShowFlag: false,
         emptyShowFlag: false
       }
@@ -77,11 +77,14 @@
         this.$refs.searchResult.hide()
         this.$refs.searchWrapper.style.transform = 'translateX(0)'
       },
-      seach() {
+      search() {
+        if (this.value.trim() == '') {
+          return
+        }
         this.loadingShowFlag = true
         this.$http.post(apiUrl.search, {value: this.value}).then((res) => {
           this.loadingShowFlag = false
-          if (res.code === 200) {
+          if (res.data.code === 200) {
             this.searchData = res.data.message
           }
         })
@@ -95,11 +98,12 @@
     },
     watch: {
       value() {
+        this.value = this.value.trim()
         if (this.value === '') {
           this.loadingShowFlag = false
           return
         }
-        this._delay(this.seach, this.delay)
+        this._delay(this.search, this.delay)
       }
     },
     components: {

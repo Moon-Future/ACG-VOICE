@@ -2,17 +2,25 @@
   <div class="search-result" ref="searchResult" v-show="showFlag">
     <div class="no-data" v-show="emptyShowFlag">没有数据</div>
     <loading :src="loadingPic" v-show="loadingShowFlag"></loading>
-    <scroll :data="searchData">
+    <scroll :data="voiceData">
       <div class="data-wrapper">
         <ul class="voice-list">
-          <li v-for="(data, i) in searchData" :key="i" @click="selectItem(data)">
+          <li class="character-data" v-show="characterData.platform">
+            <img :src="characterData.avatar" alt="" class="character-avatar">
+            <div class="character-name">
+              <span>{{ characterData | fillCharacter }}</span>
+              <span v-show="characterData.alias && characterData.alias.length > 0">({{ characterData.alias && characterData.alias.join(', ') }})</span>
+            </div>
+            <div class="goinfo">></div>
+          </li>
+          <li v-for="(data, i) in voiceData" :key="i" @click="selectItem(data)">
             <div class="text">
-              <p class="voice">{{ data.voiceName }}</p>
-              <span class="character">{{ data.characterName }}</span>
+              <p class="voice">{{ [data, 'voiceName'] | fillVoice }}</p>
+              <span class="character">{{ [data, 'characterName'] | fillVoice }}</span>
             </div>
             <div class="from">
               <svg class="iconfont" aria-hidden="true">
-                <use xlink:href="#icon-acg-wangyiyunyinyue"></use>
+                <use :xlink:href="`#${data.platform === 'wyy' ? 'icon-acg-wangyiyunyinyue' : ''}`"></use>
               </svg>
             </div>
             <div class="more">
@@ -35,7 +43,7 @@
   export default {
     props: {
       searchData: {
-        type: Array,
+        type: Object,
         default: null
       },
       emptyShowFlag: {
@@ -50,7 +58,9 @@
     data() {
       return {
         showFlag: false,
-        loadingPic: require('assets/loading.gif')
+        loadingPic: require('assets/loading.gif'),
+        characterData: {},
+        voiceData: []
       }
     },
     methods: {
@@ -71,6 +81,24 @@
       ...mapActions([
         'selectOne'
       ])
+    },
+    watch: {
+      searchData() {
+        this.voiceData = this.searchData && this.searchData.voice && this.searchData.voice.data
+        this.characterData = this.searchData && this.searchData.character
+      }
+    },
+    filters: {
+      fillVoice([data, field]) {
+        if (field === 'voiceName') {
+          return data.platform === 'wyy' ? data.name : data.voiceName
+        } else if (field === 'characterName') {
+          return data.platform === 'wyy' ? data.ar.name : data.characterName
+        }
+      },
+      fillCharacter(data) {
+        return data.platform === 'wyy' ? data.name : data.characterName
+      }
     },
     components: {
       Scroll,
@@ -98,6 +126,21 @@
     .data-wrapper {
       padding-left: 10px;
       .voice-list {
+        li.character-data {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+          }
+          .goinfo {
+            position: absolute;
+            right: -15px;
+          }
+        }
         li {
           display: flex;
           justify-content: space-between;
