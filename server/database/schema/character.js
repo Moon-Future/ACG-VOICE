@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const currentTime = new Date().getTime()
+const birth = new Date('1992-06-21').getTime()
 
 const characterSchema = new Schema({
   name: String,
@@ -7,7 +9,11 @@ const characterSchema = new Schema({
   from: { type: String, default: 'ACG' },
   sex: { type: Number, default: 1 }, // 男 1, 女 0
   age: { type: Number, default: 18 },
-  birth: { type: Date, default: Date.now() },
+  birth: { type: Number, default: birth },
+  createdTime: { type: Number, default: currentTime },
+  upadteTime: { type: Number, default: null },
+  hot: { type: Number, default: 0 },
+  recommend: { type: Number, default: 0 },
   alias: { type: Array, default: [] },
   spell: String,
   avatar: String,

@@ -1,10 +1,7 @@
 const apiUrl = {
-  getHomeSwiper: 'api/getHomeSwiper',
-  getHomeHot: 'api/getHomeHot',
-  getCharacterList: 'api/getCharacterList',
-  getCharacterSkin: 'api/getCharacterSkin',
-  getCharacterSkinAndAvatar: 'api/getCharacterSkinAndAvatar',
-  getCharacterVoice: 'api/getCharacterVoice',
+  getHomeData: 'api/getHomeData',
+  getCharacterList: 'api/character/getCharacterList',
+  getCharacterInfo: 'api/character/getCharacterInfo',
   search: 'api/search',
   getVoice: 'api/getVoice'
 }

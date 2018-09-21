@@ -24,7 +24,7 @@
                 <span>{{ currentSong.name }}</span><span class="blank"></span>
               </div>
             </h1>
-            <h2 class="subtitle">{{ currentSong.character }} ></h2>
+            <h2 class="subtitle">{{ currentSong.characterName }} ></h2>
           </div>
         </div>
         <div class="middle" @click="switchMiddle">

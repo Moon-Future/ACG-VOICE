@@ -1,47 +1,24 @@
-const { Character, Image } = require('../database/schema')
+const Router = require('koa-router')
+const router = new Router()
 const { getRandom } = require('./base')
+const Image = require('../database/schema/image')
 
-var homeAPI = {
-  getSwiper() {
-    return new Promise((resolve, reject) => {
-      Image.find({position: 'skin'}, (err, res) => {
-        let length = res.length
-        let indexs = getRandom(0, length, 4)
-        let result = []
-        for (let i = 0, len = indexs.length; i < len; i++) {
-          let tmp = res[indexs[i]]
-          let obj = {
-            character: tmp.character,
-            form: tmp.from,
-            key: tmp.key,
-            src: tmp.src === '#' ? tmp.srcOfficial : tmp.src
-          }
-          result.push(obj)
-        }
-        resolve(result)
-      })
-    })
-  },
-  getHomeHot() {
-    return new Promise((resolve, reject) => {
-      Image.find({position: 'skin'}, (err, res) => {
-        let length = res.length
-        let indexs = getRandom(0, length, 6)
-        let result = []
-        for (let i = 0, len = indexs.length; i < len; i++) {
-          let tmp = res[indexs[i]]
-          let obj = {
-            character: tmp.character,
-            form: tmp.from,
-            key: tmp.key,
-            src: tmp.src === '#' ? tmp.srcOfficial : tmp.src
-          }
-          result.push(obj)
-        }
-        resolve(result)
-      })
-    })
+router.post('/getHomeData', async (ctx) => {
+  try {
+    const flag = ctx.request.body.flag
+    const result = await Image.find({position: 'skin'}).exec()
+    const indexs = getRandom(0, result.length, 11)
+    let recommendData = []
+    let hotData = []
+    indexs.forEach((index, i) => {
+      let item = result[index]
+      item.src = item.src || item.srcWeb
+      i <= 4 ? recommendData.push(result[index]) : hotData.push(result[index])
+    });
+    ctx.body = !flag ? {code: 200, message: {recommendData, hotData}} : {code: 200, message: {hotData}}
+  } catch(err) {
+    ctx.body = {code: 500, message: err}
   }
-}
+})
 
-module.exports = homeAPI
+module.exports = router

@@ -3,8 +3,8 @@
     <scroll>
       <div class="content">
         <div class="slider-wrapper">
-          <slider :data="swiperData">
-            <div v-for="(data, i) in swiperData" :key="i" @click="gotoInfo(data)">
+          <slider :data="recommendData">
+            <div v-for="(data, i) in recommendData" :key="i" @click="gotoInfo(data)">
               <a :href="data.linkUrl">
                 <img :src="data.src" alt="">
               </a>
@@ -25,7 +25,7 @@
             <div class="hot-title">
               <i class="iconfont icon-acg-huo"></i> 大家都在听
             </div>
-            <div class="hot-refresh" @click="getHotData">
+            <div class="hot-refresh" @click="getHomeData(true)">
               <i class="iconfont icon-acg-shuaxin"></i>  换一换
             </div>
           </div>
@@ -41,17 +41,17 @@
           </div>
         </div>
         <div class="devide-line"></div>
-        <div class="recommend-wrapper">
-          <div class="recommend-head">
-            <div class="recommend-title">
+        <div class="album-wrapper">
+          <div class="album-head">
+            <div class="album-title">
               专辑
             </div>
           </div>
-          <div class="recommend-content" v-for="(data, i) in recommendData" :key="i">
-            <div class="recommend-img">
+          <div class="album-content" v-for="(data, i) in recommendData" :key="i">
+            <div class="album-img">
               <img :src="data.src" alt="">
             </div>
-            <div class="recommend-descr">
+            <div class="album-descr">
               <h1>英雄联盟</h1>
               <p>ncvbvbvnifbsjvnfcvbvbvnifbsjvnfskbv哈哈哈ncvbvbvnifbsjvnfskbv哈哈哈</p>
             </div>
@@ -66,7 +66,7 @@
   import Scroll from 'components/common/Scroll'
   import Slider from 'components/common/Slider'
   import Tab from 'components/common/Tab'
-  import { tabData, recommendData } from 'common/js/data.js'
+  import { tabData } from 'common/js/data.js'
   import apiUrl from '@/serviceAPI.config.js'
   import { mapMutations, mapActions } from 'vuex'
   export default {
@@ -74,7 +74,6 @@
     data() {
       return {
         tabData: tabData,
-        swiperData: [],
         hotData: [],
         recommendData: []
       }
@@ -85,25 +84,18 @@
       Tab
     },
     created() {
-      this.getSwiperData()
-      this.getHotData()
-      this.getRecommendData()
+      this.getHomeData()
     },
     methods: {
-      getSwiperData() {
-        this.$http.get(apiUrl.getHomeSwiper).then((res) => {
-          this.swiperData = res.data
+      getHomeData(flag = false) {
+        this.$http.post(apiUrl.getHomeData, {flag}).then(res => {
+          if (res.data.code === 200) {
+            if (!flag) {
+              this.recommendData = res.data.message.recommendData
+            }
+            this.hotData = res.data.message.hotData
+          }
         })
-      },
-      getHotData() {
-        this.$http.get(apiUrl.getHomeHot).then((res) => {
-          this.hotData = res.data
-        })
-      },
-      getRecommendData() {
-        setTimeout(() => {
-          this.recommendData = recommendData
-        }, 1000)
       },
       gotoInfo(character) {
         this.selectOne(character)
@@ -183,28 +175,28 @@
       }
     }
   }
-  .recommend-wrapper {
+  .album-wrapper {
     padding: 5px;
     margin-top: 10px;
     display: flex;
     flex-flow: column;
-    .recommend-head {
+    .album-head {
       text-align: left;
     }
-    .recommend-content {
+    .album-content {
       background: $color-background;
       color: $color-text;
       border-radius: 10px;
       margin: 5px 0;
       padding: 10px;
       display: flex;
-      .recommend-img {
+      .album-img {
         img {
           width: 3rem;
           height: 3rem;
         }
       }
-      .recommend-descr {
+      .album-descr {
         text-align: left;
         padding: 0 10px;
         font-size: 0.75rem;

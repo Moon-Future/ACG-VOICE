@@ -20,7 +20,7 @@ function getRandom(start, end, size) {
   allRandms.sort(() => {
     return 0.5 - Math.random()
   })
-  return allRandms.slice(0, size)
+  return size == 1 ? allRandms[0] : allRandms.slice(0, size)
 }
 
 function formatDataSong(data, params) {

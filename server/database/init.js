@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
-const { db } = require('./config')
+const db = 'mongodb://localhost:27017/acgZone'
+const maxConnetTimes = 3
 
 const connect = () => {
   return new Promise((resolve, reject) => {

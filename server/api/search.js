@@ -1,24 +1,18 @@
-const { Character, Image } = require('../database/schema')
-const { ajax, getRandom, formatDataSong } = require('./base')
-const wyyAPI = require('./wyyAPI')
+const Router = require('koa-router')
+const router = new Router()
+const { wyySearch } = require('./searchFromWeb')
 
-const searchAPI = {
-  search(params) {
-    return wyyAPI.search(params)
-  },
-  getVoice(params) {
-    let albumData, voiceData;
-    return new Promise((resolve, reject) => {
-      wyyAPI.getAlbumByID(params).then(res => {
-        albumData = res
-        return wyyAPI.getVoiceByID(params)
-      }).then(res => {
-        voiceData = res
-        voiceData.data.coverimg = albumData.blurPicUrl || albumData.picUrl
-        resolve(voiceData)
-      })
-    })
+router.post('/search', async (ctx) => {
+  try {
+    const value = encodeURIComponent(ctx.request.body.value)
+    if (value == '') {
+      return
+    }
+    const result = await wyySearch.search(value)
+    ctx.body = {code: 200, message: result}
+  } catch(err) {
+    ctx.body = {code: 500, message: err}
   }
-}
+})
 
-module.exports = searchAPI
+module.exports = router

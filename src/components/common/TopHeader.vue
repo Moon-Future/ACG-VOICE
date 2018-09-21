@@ -79,13 +79,10 @@
       },
       seach() {
         this.loadingShowFlag = true
-        this.$http.get(apiUrl.search, {
-          params: {value: this.value}
-        }).then((res) => {
+        this.$http.post(apiUrl.search, {value: this.value}).then((res) => {
           this.loadingShowFlag = false
-          res = res.data
-          if (res.code === code.success) {
-            this.searchData = res.result.data
+          if (res.code === 200) {
+            this.searchData = res.data.message
           }
         })
       },

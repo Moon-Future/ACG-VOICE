@@ -27,7 +27,7 @@ export default new Router({
       component: CharacterList
     },
     {
-      path: '/characterInfo/:name',
+      path: '/characterInfo/:key',
       name: 'CharacterInfo',
       component: CharacterInfo
     },

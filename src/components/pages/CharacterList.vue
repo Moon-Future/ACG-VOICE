@@ -57,7 +57,6 @@
     data() {
       return {
         characters: [],
-        characterLength: 0,
         avatar: 'http://ossweb-img.qq.com/images/lol/img/champion/Ezreal.png',
         scrollY: -1,
         currentIndex: 0,
@@ -87,28 +86,29 @@
     methods: {
       getCharaterList() {
         this.$http.get(apiUrl.getCharacterList).then(res => {
-          let data = res.data
-          this.characterLength = data.length
-          let group = {}
-          data.sort((a, b) => {
-            return a.firstLetter.charCodeAt(0) - b.firstLetter.charCodeAt(0)
-          })
-          for (let i = 0, len = data.length; i < len; i++) {
-            let letter = data[i].firstLetter
-            if (group[letter] === undefined) {
-              group[letter] = {
-                letter: letter,
-                items: []
+          if (res.data.code === 200) {
+            let data = res.data.message
+            let group = {}
+            data.sort((a, b) => {
+              return a.firstLetter.charCodeAt(0) - b.firstLetter.charCodeAt(0)
+            })
+            for (let i = 0, len = data.length; i < len; i++) {
+              let letter = data[i].firstLetter
+              if (group[letter] === undefined) {
+                group[letter] = {
+                  letter: letter,
+                  items: []
+                }
               }
+              group[letter].items.push(data[i])
             }
-            group[letter].items.push(data[i])
+            for (let key in group) {
+              this.characters.push(group[key])
+            }
+            this.characters.sort((a, b) => {
+              return a.letter.charCodeAt(0) - b.letter.charCodeAt(0)
+            })
           }
-          for (let key in group) {
-            this.characters.push(group[key])
-          }
-          this.characters.sort((a, b) => {
-            return a.letter.charCodeAt(0) - b.letter.charCodeAt(0)
-          })
         })
       },
       scroll(pos) {

@@ -2,14 +2,14 @@
   <div class="character-info">
     <div class="character-skin" ref="slider">
       <i class="iconfont icon-acg-arrow-left- icon-back" @click="goBack()"></i>
-      <loading v-if="!swiperData.length > 0"></loading>
-      <slider :data="swiperData"
+      <loading v-if="!imageData.length > 0"></loading>
+      <slider :data="imageData"
               :showDot="false"
               :autoPlay="true"
               :itemHeight="itemHeight"
               :itemScale="itemScale">
-        <div v-for="(data, i) in swiperData" :key="i">
-          <img :src="data.srcOfficial" alt="">
+        <div v-for="(data, i) in imageData" :key="i">
+          <img :src="data.src" alt="">
         </div>
       </slider>
     </div>
@@ -17,10 +17,10 @@
     <div class="container">
       <div class="character-message" ref="message">
         <div class="character-avatar">
-          <img :src="characterInfo.avatarOfficial" alt="头像">
+          <img :src="characterData.avatar" alt="头像">
         </div>
         <div class="character-msg">
-          <p>{{ characterInfo.name }} - {{ characterInfo.nickName }}</p>
+          <p>{{ characterData.name }} - {{ characterData.nickName }}</p>
           <p>
             <span class="voice-num">Voices <span>20</span></span>
             <span class="like-num">
@@ -40,8 +40,8 @@
         </scroll>
       </div>
     </div>
-    <layer :avatar="characterInfo.avatarOfficial" :target="layerTarget" :show="layerShow" @hideLayer="hideLayer">
-      <p slot="title">{{ characterInfo.name }} - {{ characterInfo.nickName }}</p>
+    <layer :avatar="characterData.avatar" :target="layerTarget" :show="layerShow" @hideLayer="hideLayer">
+      <p slot="title">{{ characterData.name }} - {{ characterData.nickName }}</p>
       <p slot="desc" v-html="desc"></p>
     </layer>
   </div>
@@ -63,8 +63,8 @@
     name: 'characterInfo',
     data() {
       return {
-        characterInfo: {},
-        swiperData: [],
+        imageData: [],
+        characterData: {},
         voiceData: [],
         showRank: true,
         probeType: 3,
@@ -84,24 +84,17 @@
       this.$refs.slider.style.height = 'auto'
     },
     activated() {
-      this.key = this.$route.params.name
+      this.key = this.$route.params.key
     },
     methods: {
-      getData() {
-        this.$http.get(apiUrl.getCharacterSkinAndAvatar, {
-          params: {key: this.key}
-        }).then((res) => {
-          let data = res.data
-          this.swiperData = data.skin.length === 0 ? swiperData : data.skin
-          let bgimg = this.swiperData[getRandomInt(0, this.swiperData.length - 1)].srcOfficial
-          this.characterInfo = data.avatar[0] || {}
-        })
-      },
-      getVoiceData() {
-        this.$http.get(apiUrl.getCharacterVoice, {
-          params: {key: this.key}
-        }).then((res) => {
-          this.voiceData = res.data
+      getCharacterInfo() {
+        this.$http.post(apiUrl.getCharacterInfo, {key: this.key}).then(res => {
+          if (res.data.code === 200) {
+            const message = res.data.message
+            this.imageData = message.imageData
+            this.characterData = message.characterData
+            this.voiceData = message.voiceData
+          }
         })
       },
       infoMore(e) {
@@ -133,8 +126,7 @@
     },
     watch: {
       key() {
-        this.getData()
-        this.getVoiceData()
+        this.getCharacterInfo()
       },
       scrollY(newY) {
         let filter = this.$refs.filter

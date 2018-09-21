@@ -1,19 +1,24 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const currentTime = new Date().getTime()
 
 const voiceSchema = new Schema({
   name: String,
   src: String,
   srcWeb: String,
   lyric: String,
+  coverimg: String,
   size: String,
   type: { type: String, default: 'wav' },
-  createdTime: { type: Date, default: Date.now() },
-  lastupdTime: Date,
+  createdTime: { type: Number, default: currentTime },
+  upadteTime: { type: Number, default: null },
   hot: { type: Number, default: 0 },
-  from: { type: String, default: '英雄联盟(LOL)' },
+  recommend: { type: Number, default: 0 },
+  from: { type: String, default: 'ACG' },
   character: { type: Schema.Types.ObjectId, ref: 'character' },
-  key: { type: String, unique: true } // name-from
+  characterName: String,
+  id: { type: String, unique: true }, // name-character-from 唯一
+  key: String // name-from
 }, {
   collections: 'voice'
 })
