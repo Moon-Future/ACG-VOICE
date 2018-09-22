@@ -57,6 +57,7 @@ export default {
     background: $color-deepgray;
     border-top: 1px solid $color-gray;
     color: $color-white;
+    z-index: 120;
     .active {
       color: $color-active;
     }

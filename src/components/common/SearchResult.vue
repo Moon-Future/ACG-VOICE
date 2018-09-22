@@ -2,7 +2,7 @@
   <div class="search-result" ref="searchResult" v-show="showFlag">
     <div class="no-data" v-show="emptyShowFlag">没有数据</div>
     <loading :src="loadingPic" v-show="loadingShowFlag"></loading>
-    <scroll :data="voiceData">
+    <scroll :data="voiceData" v-show="!loadingShowFlag">
       <div class="data-wrapper">
         <ul class="voice-list" v-show="!suggestFlag">
           <li class="character-data" v-show="characterData.platform">
@@ -31,7 +31,13 @@
           </li>
         </ul>
         <ul class="suggest-list" v-show="suggestFlag">
-          suggest
+          <li @click="selectSuggest(inputValue)" class="search-suggset">搜索 “{{ inputValue }}”</li>
+          <li v-for="(data, i) in suggestData" :key="i" @click="selectSuggest(data)">
+            <svg class="iconfont" aria-hidden="true">
+              <use xlink:href="#icon-acg-search"></use>
+            </svg>
+            <p>{{ data }}</p>
+          </li>
         </ul>
       </div>
     </scroll>
@@ -49,9 +55,15 @@
         type: Object,
         default: null
       },
-      searchSuggestData: {
+      suggestData: {
         type: Array,
-        default: null
+        default() {
+          return ["周杰伦", "周杰", "周杰艺", "周杰伦", "告白气球", "简单爱", "青花瓷", "可爱女人", "七里香", "夜曲", "屋顶", "藉口", "不能说的秘密"]
+        } 
+      },
+      inputValue: {
+        type: String,
+        default: ''
       },
       emptyShowFlag: {
         type: Boolean,
@@ -86,12 +98,16 @@
           this.selectOne(result.data)
         })
       },
+      selectSuggest(value) {
+        this.$emit('searchValue', value)
+      },
       ...mapActions([
         'selectOne'
       ])
     },
     watch: {
       searchData() {
+        console.log('searchData', this.searchData)
         this.voiceData = this.searchData && this.searchData.voice && this.searchData.voice.data
         this.characterData = this.searchData && this.searchData.character
       }
@@ -127,6 +143,7 @@
     overflow: hidden;
     background: $color-deepgray;
     color: $color-white;
+    z-index: 100;
     .no-data {
       text-align: center;
       padding: 10px;
@@ -134,30 +151,29 @@
     .data-wrapper {
       padding-left: 10px;
       .voice-list {
-        li.character-data {
-          display: flex;
-          justify-content: flex-start;
-          align-items: center;
-          img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            margin-right: 10px;
-          }
-          .goinfo {
-            position: absolute;
-            right: -15px;
-          }
-        }
         li {
+          line-height: initial;
           display: flex;
           justify-content: space-between;
-          padding: 13px 5px;
+          padding: 10px 5px;
           border-bottom: 1px solid $color-gray;
+          &.character-data {
+            justify-content: flex-start;
+            align-items: center;
+            img.character-avatar {
+              width: 50px;
+              height: 50px;
+              border-radius: 50%;
+              margin-right: 10px;
+            }
+            .goinfo {
+              position: absolute;
+              right: 15px;
+            }
+          }
           .text {
             width: 85%;
             p {
-              padding-bottom: 5px;
               text-overflow: ellipsis;
               overflow: hidden;
               white-space: nowrap;
@@ -178,6 +194,24 @@
             .iconfont {
               font-size: 1.5rem;
             }
+          }
+        }
+      }
+      .suggest-list {
+        li {
+          display: flex;
+          align-items: center;
+          &.search-suggset {
+            border-bottom: 1px solid $color-gray;
+          }
+          p {
+            margin-left: 10px;
+            font-size: $font-size-medium;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            flex: 1;
+            border-bottom: 1px solid $color-gray;
           }
         }
       }

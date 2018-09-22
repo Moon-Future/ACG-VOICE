@@ -1,16 +1,8 @@
 <template>
   <div class="top-fixed">
     <div class="top">
-      <div class="search-wrapper" ref="searchWrapper">
-        <div class="icon-search">
-          <i class="iconfont icon-acg-search" @click="showSearch"></i>
-        </div>
-        <div class="search-inp" v-show="showFlag">
-          <input type="search" v-model="value" @input="searchSuggest" @focus="searchFoucs">
-          <span @click.stop="hideSearch">取消</span>
-        </div>
-      </div>
-      <div class="logo" v-show="!showFlag">
+      <SearchInput @showLogo="getShowFlag"></SearchInput>
+      <div class="logo" v-show="showFlag">
         <img :src="logoImg" alt="logo">
       </div>
     </div>
@@ -19,21 +11,11 @@
         <router-link v-for="(nav, i) in menuNav" :key="i" :to="nav.url" tag="li">{{ nav.name }}</router-link>
       </ul>
     </div>
-    <search-result
-      :searchData="searchData"
-      :searchSuggestData="searchSuggestData"
-      :suggestFlag="suggestFlag"
-      :loadingShowFlag="loadingShowFlag"
-      ref="searchResult"
-    >
-    </search-result>
   </div>
 </template>
 
 <script>
-  import SearchResult from 'components/common/SearchResult'
-  import apiUrl from '@/serviceAPI.config.js'
-  import { code } from 'common/js/config'
+  import SearchInput from 'components/common/SearchInput'
   export default {
     name: 'TopHeader',
     data() {
@@ -54,76 +36,19 @@
           }
         ],
         navIndex: 0,
-        showFlag: false,
-        value: '',
-        searchData: {},
-        searchSuggestData: [],
-        suggestFlag: false,
-        loadingShowFlag: false,
-        emptyShowFlag: false
+        showFlag: true
       }
-    },
-    created() {
-      this.timer = null
-      this.delay = 300
     },
     methods: {
       changeNav(index) {
         this.navIndex = index
       },
-      showSearch() {
-        this.showFlag = true
-        this.$refs.searchResult.show()
-        this.$refs.searchWrapper.style.transform = 'translateX(-8px)'
-      },
-      hideSearch() {
-        this.showFlag = false
-        this.$refs.searchResult.hide()
-        this.$refs.searchWrapper.style.transform = 'translateX(0)'
-      },
-      searchFoucs() {
-        this.suggestFlag = true
-      },
-      searchSuggest(e) {
-        const value = e.target.value.replace(/\'/g, '').trim()
-        if (value === '') {
-          this.searchSuggestData = []
-          return
-        }
-        this.$http.post(apiUrl.searchSuggest, {value: this.value}).then(res => {
-        })
-      },
-      search() {
-        if (this.value.trim() === '') {
-          return
-        }
-        this.loadingShowFlag = true
-        this.$http.post(apiUrl.search, {value: this.value}).then(res => {
-          this.loadingShowFlag = false
-          if (res.data.code === 200) {
-            this.searchData = res.data.message
-          }
-        })
-      },
-      _delay(callback, ms) {
-        clearTimeout(this.timer);
-        this.timer = setTimeout(() => {
-          callback()
-        }, ms);
+      getShowFlag(flag) {
+        this.showFlag = flag
       }
     },
-    watch: {
-      // value() {
-      //   this.value = this.value.trim()
-      //   if (this.value === '') {
-      //     this.loadingShowFlag = false
-      //     return
-      //   }
-      //   this._delay(this.search, this.delay)
-      // }
-    },
     components: {
-      SearchResult
+      SearchInput
     }
   }
 </script>
@@ -150,35 +75,6 @@
       img {
         width: 50%;
         margin-right: 3px;
-      }
-    }
-    .search-wrapper {
-      position: absolute;
-      left: 13px;
-      width: 100%;
-      height: 2rem;
-      .icon-search {
-        position: absolute;
-        z-index: 10;
-        height: 2rem;
-        i {
-          font-size: 1.3rem;
-        }
-      }
-      .search-inp {
-        height: 2rem;
-        input {
-          position: relative;
-          top: 1px;
-          width: 78%;
-          height: 1.5rem;
-          border-radius: 20px;
-          background: $color-deepgray;
-          color: $color-white;
-          outline: none;
-          padding-left: 1.5rem;
-          box-sizing: border-box;
-        }
       }
     }
   }

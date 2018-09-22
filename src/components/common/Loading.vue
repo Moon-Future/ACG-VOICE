@@ -33,6 +33,7 @@
     display: flex;
     flex-flow: column;
     text-align: center;
+    line-height: initial;
     img {
       width: 50px;
       height: 100%;
