@@ -4,6 +4,7 @@ const Router = require('koa-router')
 const router = new Router()
 const Voice = require('../database/schema/voice')
 const { getRandom } = require('./base')
+const { wyySearch } = require('./searchFromWeb')
 
 router.get('/insertVoiceByJson', async (ctx) => {
   const voiceList = JSON.parse(fs.readFileSync(path.join(__dirname, '../jsonData/voice.json'), 'utf-8'))
@@ -39,11 +40,14 @@ router.get('/insertVoiceByJson', async (ctx) => {
   ctx.body = '开始导入 voice 数据'
 })
 
-router.get('/getVoiceByKey', async (ctx) => {
+router.post('/getVoiceByKey', async (ctx) => {
   try {
     const params = ctx.request.body
-    const key = params.key
-    const result = Voice.find({key}).exec()
+    const platform = params.platform
+    let result
+    if (platform === 'wyy') {
+      result = await wyySearch.getSongById(params)
+    }
     ctx.body = {code: 200, message: result}
   } catch(err) {
     ctx.body = {code: 500, message: err}

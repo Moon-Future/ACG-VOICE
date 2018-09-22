@@ -91,11 +91,15 @@
         this.showFlag = false
       },
       selectItem(data) {
-        this.$http.get(apiUrl.getVoice, {
-          params: {voiceID: data.voiceID, voiceName: data.voiceName, characterID: data.characterID, characterName: data.characterName, album: data.album}
-        }).then(res => {
-          const result = res.data
-          this.selectOne(result.data)
+        let postData
+        if (data.platform === 'wyy') {
+          postData = {id: data.id, name: data.name, arId: data.ar.id, arName: data.ar.name, coverimg: data.al.coverimg, platform: data.platform}
+        }
+        this.$http.post(apiUrl.getVoiceByKey, postData).then(res => {
+          console.log(res)
+          if (res.data.code === 200) {
+            this.selectOne(res.data.message)
+          }
         })
       },
       selectSuggest(value) {

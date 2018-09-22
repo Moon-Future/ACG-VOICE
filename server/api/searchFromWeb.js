@@ -1,6 +1,7 @@
 const { ajax } = require('./base')
 
 function wyySearch() {
+  // https://api.imjad.cn/cloudmusic.md
   this.baseUrl = 'https://api.imjad.cn/cloudmusic/'
   this.type = {song: 'song', album: 'album', artist: 'artist', playlist: 'playlist', lyric: 'lyric', search: 'search'}
   this.searchType = {song: 1, album: 10, artist: 100, playlist: 1000}
@@ -48,6 +49,28 @@ wyySearch.prototype = {
         alias: firstData.alias,
         avatar: firstData.picUrl || firstData.img1v1Url,
         platform: 'wyy'
+      }
+    }
+    return result
+  },
+  async getSongById(params) {
+    const urlSong = `${this.baseUrl}?type=${this.type.song}&id=${params.id}`
+    const urlLyric = `${this.baseUrl}?type=${this.type.lyric}&id=${params.id}`
+    const resultSong = await ajax(urlSong)
+    const resultLyric = await ajax(urlLyric)
+    let result = {}
+    if (resultSong.code === 200) {
+      const data = resultSong.data[0]
+      result = {
+        src: data.url,
+        type: data.type,
+        size: data.size,
+        id: data.id,
+        name: params.name,
+        characterName: params.arName,
+        characterId: params.arId,
+        coverimg: params.coverimg,
+        lyric: resultLyric.lrc.lyric
       }
     }
     return result

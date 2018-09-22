@@ -37,7 +37,7 @@
           </div>
           <scroll class="middle-r" v-show="!middleLeft">
             <div class="lyric-wrapper">
-              <p>33333333333333333</p>
+              <p>{{ currentSong.lyric }}</p>
             </div>
           </scroll>
           <div class="middle-b" v-show="middleLeft">
@@ -139,7 +139,7 @@
       return {
         bgimg: 'http://ossweb-img.qq.com/images/lol/web201310/skin/big266002.jpg',
         // voiceSrc: require('assets/星辰陨落，只为坠入爱河.wav'),
-        voiceSrc: '#',
+        voiceSrc: '',
         currentTime: 0,
         duration: 0,
         songReady: false,
@@ -615,6 +615,7 @@
       height: 2rem;
       left: 50%;
       margin-left: -1rem;
+      z-index: 130;
       .control {
         height: 100%;
         .iconfont {
