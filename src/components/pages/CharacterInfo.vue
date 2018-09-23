@@ -126,6 +126,7 @@
     },
     watch: {
       key() {
+        console.log('key', this.key)
         this.getCharacterInfo()
       },
       scrollY(newY) {

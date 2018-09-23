@@ -3,6 +3,7 @@
     <scroll ref="characterList" 
             :listenScroll="listenScroll"
             :probeType="probeType"
+            :scrollbar="true"
             @scroll="scroll">
       <div class="list-container">
         <ul class="character-list">

@@ -18,6 +18,8 @@
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "koa2-cors": "^2.0.6",
+    "lyric-parser": "^1.0.1",
+    "mint-ui": "^2.2.13",
     "mongoose": "^5.2.0",
     "qiniu": "^7.2.1",
     "qiniu-js": "^2.4.0",

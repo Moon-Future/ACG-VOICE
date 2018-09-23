@@ -18,6 +18,10 @@ export default {
       type: Boolean,
       default: true
     },
+    scrollbar: {
+      type: Boolean,
+      default: false
+    },
     listenScroll: {
       type: Boolean,
       default: false
@@ -56,7 +60,7 @@ export default {
       this.scroll = new BScroll(this.$refs.wrapper, {
         probeType: this.probeType,
         click: this.click,
-        scrollbar: true
+        scrollbar: this.scrollbar
       })
 
       if (this.listenScroll) {

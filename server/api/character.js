@@ -56,10 +56,10 @@ router.get('/getCharacterList', async (ctx) => {
 router.post('/getCharacterInfo', async (ctx) => {
   try {
     const key = ctx.request.body.key
-    const characterData = await Character.find({key}).exec()
-    const imageData = await Image.find({key}).exec()
-    const voiceData = await Voice.find({key}).exec()
-    const length = imageData.length
+    let characterData = await Character.find({key}).exec()
+    let imageData = await Image.find({key}).exec()
+    let voiceData = await Voice.find({key}).exec()
+    let length = imageData.length
     characterData.forEach(element => {
       element.avatar = element.avatar || element.avatarWeb
     })
@@ -68,7 +68,7 @@ router.post('/getCharacterInfo', async (ctx) => {
     })
     voiceData.forEach(element => {
       if (!element.coverimg) {
-        element.coverimg = imageData[getRandom(0, length)].src
+        element.coverimg = imageData[getRandom(0, length - 1)].src
       }
     })
     ctx.body = {code: 200, message: {characterData: characterData[0], imageData, voiceData}}

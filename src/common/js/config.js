@@ -15,3 +15,7 @@ export const playModeList = [
 export const code = {
   success: 200
 }
+
+export const toastMessage = {
+  noCopyright: '没有版权'
+}

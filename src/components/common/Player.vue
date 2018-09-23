@@ -35,9 +35,15 @@
               </div>
             </div>
           </div>
-          <scroll class="middle-r" v-show="!middleLeft">
+          <scroll class="middle-r" ref="lyricList" :data="currentLyric && currentLyric.lines" v-show="!middleLeft">
             <div class="lyric-wrapper">
-              <p>{{ currentSong.lyric }}</p>
+              <div v-if="currentLyric && lyricScroll">
+                <p ref="lyricLine"
+                   class="text"
+                   :class="{'current': currentLineNum === i}"
+                   v-for="(line, i) in currentLyric.lines" :key="i">{{ line.txt }}</p>
+              </div>
+              <p v-if="!lyricScroll" class="lyric-static">{{ currentSong.lyric }}</p>
             </div>
           </scroll>
           <div class="middle-b" v-show="middleLeft">
@@ -131,6 +137,7 @@
   import ProgressCircle from 'components/common/ProgressCircle'
   import VoiceList from 'components/common/VoiceList'
   import PlayList from 'components/common/PlayList'
+  import Lyric from 'lyric-parser'
   import { playMode, playModeList } from 'common/js/config'
   import { getRandomInt } from 'common/js/util'
   import { mapGetters, mapMutations, mapActions } from 'vuex'
@@ -151,7 +158,10 @@
         wordsLoop: false,
         miniPlayer: true,
         likeFill: false,
-        middleLeft: true
+        middleLeft: true,
+        currentLyric: null,
+        currentLineNum: 0,
+        lyricScroll: true
       }
     },
     computed: {
@@ -209,6 +219,9 @@
         const audio = this.$refs.audio
         this.setPlaying(!this.playing)
         this.playing ? audio.play() : audio.pause()
+        if (!this.playing && this.lyricScroll) {
+          this.currentLyric.stop()
+        }
       },
       next() {
         this.changeSong('next')
@@ -293,6 +306,16 @@
         const second = this._pad(interval % 60)
         return `${minute}:${second}`
       },
+      handleLyric({lineNum, txt}) {
+        this.currentLineNum = lineNum
+        if (lineNum > 5) {
+          let lineEl = this.$refs.lyricLine[lineNum - 5]
+          this.$refs.lyricList.scrollToElement(lineEl, 1000)
+        } else {
+          this.$refs.lyricList.scrollTo(0, 0, 1000)
+        }
+        // this.playingLyric = txt
+      },
       _pad(num, n = 2) {
         let len = num.toString().length
         while (len < n) {
@@ -312,14 +335,23 @@
       playing() {
         this.$nextTick(() => {
           this.playing ? this.audio.play() : this.audio.pause()
+          if (!this.playing && this.lyricScroll) {
+            this.currentLyric.stop()
+          }
         })
       },
       currentSong() {
         this.buffered = []
         this.voiceSrc = this.currentSong.src
+        if (this.lyricScroll) {
+          this.currentLyric = new Lyric(this.currentSong.lyric, this.handleLyric)
+        }
         clearTimeout(this.timer)
         this.timer = setTimeout(() => {
           this.audio.play()
+          if (this.lyricScroll) {
+            this.currentLyric.play()
+          }
         }, 1000)
 
         this.$nextTick(() => {
@@ -456,7 +488,6 @@
           overflow: hidden;
           .lyric-wrapper {
             width: 80%;
-            height: 100%;
             margin: 0 auto;
             overflow: hidden;
             text-align: center;
@@ -464,8 +495,12 @@
               line-height: 32px;
               font-size: $font-size-medium;
               &.current {
-                color: $color-active
+                color: $color-white;
+                font-weight: bold;
               }
+            }
+            .lyric-static {
+              white-space: pre;
             }
           }
         }

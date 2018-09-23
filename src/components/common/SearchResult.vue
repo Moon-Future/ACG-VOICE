@@ -48,6 +48,7 @@
   import Scroll from 'components/common/Scroll'
   import Loading from 'components/common/Loading'
   import apiUrl from '@/serviceAPI.config.js'
+  import { toastMessage } from 'common/js/config.js'
   import { mapGetters, mapActions, mapMutations } from 'vuex'
   export default {
     props: {
@@ -96,9 +97,10 @@
           postData = {id: data.id, name: data.name, arId: data.ar.id, arName: data.ar.name, coverimg: data.al.coverimg, platform: data.platform}
         }
         this.$http.post(apiUrl.getVoiceByKey, postData).then(res => {
-          console.log(res)
-          if (res.data.code === 200) {
+          if (res.data.code === 200 && res.data.message.src !== '') {
             this.selectOne(res.data.message)
+          } else {
+            this.$toast(toastMessage.noCopyright)
           }
         })
       },
@@ -111,7 +113,6 @@
     },
     watch: {
       searchData() {
-        console.log('searchData', this.searchData)
         this.voiceData = this.searchData && this.searchData.voice && this.searchData.voice.data
         this.characterData = this.searchData && this.searchData.character
       }
