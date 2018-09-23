@@ -22,7 +22,7 @@ export default {
         },
         {
           name: '滑滑',
-          link: '/recommend'
+          link: '/slideView'
         },
         {
           name: '探索',

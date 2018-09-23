@@ -343,6 +343,9 @@
       currentSong() {
         this.buffered = []
         this.voiceSrc = this.currentSong.src
+        if (!this.currentSong.lyric || this.currentSong.platform !== 'wyy') {
+          this.lyricScroll = false
+        }
         if (this.lyricScroll) {
           this.currentLyric = new Lyric(this.currentSong.lyric, this.handleLyric)
         }
