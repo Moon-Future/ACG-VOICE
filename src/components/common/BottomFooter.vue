@@ -1,9 +1,9 @@
 <template>
-  <div class="bottom-fototer">
-    <tab>
+  <div class="bottom-footer">
+    <tab class="bottom-tab">
       <div v-for="(item, i) in menu" :key="i">
         <!-- <span :class="activeIndex === i ? 'active' : ''" @click="changeMenu(i)">{{ item.name }}</span> -->
-        <router-link :to="item.link" tag="span" :class="activeIndex === i ? 'active' : ''" @click="changeMenu(i)">{{ item.name }}</router-link>
+        <router-link :to="item.link" tag="p" :class="activeIndex === i ? 'active' : ''" @click="changeMenu(i)">{{ item.name }}</router-link>
       </div>
     </tab>
   </div>
@@ -12,7 +12,7 @@
 <script>
 import Tab from '@/components/common/Tab'
 export default {
-  name: 'BottomFotter',
+  name: 'BottomFooter',
   data() {
     return {
       menu: [
@@ -21,7 +21,7 @@ export default {
           link: '/recommend'
         },
         {
-          name: '图片',
+          name: '滑滑',
           link: '/recommend'
         },
         {
@@ -49,7 +49,7 @@ export default {
 
 <style lang="scss" scoped>
   @import 'common/css/variable.scss';
-  .bottom-fototer {
+  .bottom-footer {
     position: fixed;
     bottom: 0;
     height: 2rem;
