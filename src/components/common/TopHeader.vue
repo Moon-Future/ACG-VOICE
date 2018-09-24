@@ -69,6 +69,7 @@
     line-height: 2rem;
     display: flex;
     justify-content: center;
+    border-bottom: 1px solid $color-gray;
     .logo {
       display: flex;
       justify-content: center;
@@ -80,7 +81,7 @@
   }
   .nav-wrapper {
     position: absolute;
-    top: 2rem;
+    // top: 2rem;
     padding: 5px 0;
     height: 2rem;
     width: 100%;

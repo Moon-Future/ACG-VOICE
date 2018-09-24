@@ -70,7 +70,8 @@ wyySearch.prototype = {
         characterName: params.arName,
         characterId: params.arId,
         coverimg: params.coverimg,
-        lyric: resultLyric.lrc.lyric
+        lyric: resultLyric.lrc.lyric,
+        platform: 'wyy'
       }
     }
     return result

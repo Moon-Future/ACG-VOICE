@@ -344,17 +344,16 @@
         this.buffered = []
         this.voiceSrc = this.currentSong.src
         if (!this.currentSong.lyric || this.currentSong.platform !== 'wyy') {
+          console.log('eee')
           this.lyricScroll = false
         }
         if (this.lyricScroll) {
           this.currentLyric = new Lyric(this.currentSong.lyric, this.handleLyric)
+          console.log(this.currentSong.lyric)
         }
         clearTimeout(this.timer)
         this.timer = setTimeout(() => {
           this.audio.play()
-          if (this.lyricScroll) {
-            this.currentLyric.play()
-          }
         }, 1000)
 
         this.$nextTick(() => {
@@ -366,7 +365,17 @@
         })
       },
       readyState() {
-        this.loadingShow = this.readyState >= 3 ? false : true
+        if (this.readyState >= 3) {
+          this.loadingShow = false
+          if (this.lyricScroll) {
+            this.currentLyric.play()
+          }
+        } else {
+          this.loadingShow = true
+          if (this.lyricScroll) {
+            this.currentLyric.stop()
+          }
+        }
       }
     },
     components: {

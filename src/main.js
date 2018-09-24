@@ -6,13 +6,14 @@ import router from './router'
 import axios from 'axios'
 import store from './store'
 import VueLazyload from 'vue-lazyload'
-import { Toast } from 'mint-ui'
+import { Toast, InfiniteScroll  } from 'mint-ui'
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
 Vue.use(VueLazyload, {
   loading: require('assets/loading-2.gif')
 })
+Vue.use(InfiniteScroll)
 Vue.prototype.$toast = Toast
 
 /* eslint-disable no-new */
