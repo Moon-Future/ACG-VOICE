@@ -55,9 +55,7 @@ wyySearch.prototype = {
   },
   async getSongById(params) {
     const urlSong = `${this.baseUrl}?type=${this.type.song}&id=${params.id}`
-    const urlLyric = `${this.baseUrl}?type=${this.type.lyric}&id=${params.id}`
     const resultSong = await ajax(urlSong)
-    const resultLyric = await ajax(urlLyric)
     let result = {}
     if (resultSong.code === 200) {
       const data = resultSong.data[0]
@@ -70,9 +68,17 @@ wyySearch.prototype = {
         characterName: params.arName,
         characterId: params.arId,
         coverimg: params.coverimg,
-        lyric: resultLyric.lrc.lyric,
         platform: 'wyy'
       }
+    }
+    return result
+  },
+  async getLyric(params) {
+    const urlLyric = `${this.baseUrl}?type=${this.type.lyric}&id=${params.id}`
+    const resultLyric = await ajax(urlLyric)
+    let result = ''
+    if (resultLyric.code === 200) {
+      result = resultLyric.lrc.lyric
     }
     return result
   }

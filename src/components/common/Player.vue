@@ -35,15 +35,19 @@
               </div>
             </div>
           </div>
-          <scroll class="middle-r" ref="lyricList" :data="currentLyric && currentLyric.lines" v-show="!middleLeft">
+          <scroll class="middle-r" :class="lyricMessage ? 'lyric-message' : ''" ref="lyricList" :data="currentLyric && currentLyric.lines" v-show="!middleLeft">
             <div class="lyric-wrapper">
-              <div v-if="currentLyric && lyricScroll">
+              <div v-if="currentLyric && !lyricMessage">
                 <p ref="lyricLine"
                    class="text"
                    :class="{'current': currentLineNum === i}"
                    v-for="(line, i) in currentLyric.lines" :key="i">{{ line.txt }}</p>
               </div>
-              <p v-if="!lyricScroll" class="lyric-static">{{ currentSong.lyric }}</p>
+              <div class="lyric-message" v-show="lyricMessage">
+                <p v-show="lyricMessage && lyricMessage.searching">正在搜索歌词...</p>
+                <p v-show="lyricMessage && lyricMessage.notFind">没有找到歌词...</p>
+              </div>
+              <p v-if="!currentLyric" class="lyric-static">{{ currentSong.lyric }}</p>
             </div>
           </scroll>
           <div class="middle-b" v-show="middleLeft">
@@ -137,7 +141,8 @@
   import ProgressCircle from 'components/common/ProgressCircle'
   import VoiceList from 'components/common/VoiceList'
   import PlayList from 'components/common/PlayList'
-  import Lyric from 'lyric-parser'
+  import Lyric from 'common/js/lyricParser'
+  import apiUrl from '@/serviceAPI.config.js'
   import { playMode, playModeList } from 'common/js/config'
   import { getRandomInt } from 'common/js/util'
   import { mapGetters, mapMutations, mapActions } from 'vuex'
@@ -161,7 +166,7 @@
         middleLeft: true,
         currentLyric: null,
         currentLineNum: 0,
-        lyricScroll: true
+        lyricMessage: {}
       }
     },
     computed: {
@@ -218,10 +223,7 @@
       play() {
         const audio = this.$refs.audio
         this.setPlaying(!this.playing)
-        this.playing ? audio.play() : audio.pause()
-        if (!this.playing && this.lyricScroll) {
-          this.currentLyric.stop()
-        }
+        this.currentLyric && this.currentLyric.togglePlay()
       },
       next() {
         this.changeSong('next')
@@ -259,6 +261,9 @@
           this.moveing = false
           this.audio.currentTime = this.duration * percent
           this.currentTime = this.duration * percent
+          if (this.currentLyric) {
+            this.currentLyric.seek(this.currentTime * 1000)
+          }
         } else {
           this.moveing = true
           this.currentTime = this.duration * percent
@@ -306,6 +311,37 @@
         const second = this._pad(interval % 60)
         return `${minute}:${second}`
       },
+      getLyric() {
+        this.lyricMessage = {
+          searching: true
+        }
+        this.$http.post(apiUrl.getLyric, {
+          id: this.currentSong.id, 
+          platform: this.currentSong.platform
+        }).then(res => {
+          if (res.data.code === 200) {
+            this.lyricMessage = null
+            this.currentLyric = new Lyric(res.data.message, this.handleLyric, true)
+            if (this.playing) {
+              this.currentLyric.play()
+            }
+          } else {
+            this.currentLyric = null
+            this.currentLineNum = 0
+            this.lyricMessage = {
+              searching: false,
+              notFind: true
+            }
+          }
+        }).catch(err => {
+          this.currentLyric = null
+          this.currentLineNum = 0
+          this.lyricMessage = {
+            searching: false,
+            notFind: true
+          }
+        })
+      },
       handleLyric({lineNum, txt}) {
         this.currentLineNum = lineNum
         if (lineNum > 5) {
@@ -314,7 +350,6 @@
         } else {
           this.$refs.lyricList.scrollTo(0, 0, 1000)
         }
-        // this.playingLyric = txt
       },
       _pad(num, n = 2) {
         let len = num.toString().length
@@ -334,26 +369,28 @@
     watch: {
       playing() {
         this.$nextTick(() => {
-          this.playing ? this.audio.play() : this.audio.pause()
-          if (!this.playing && this.lyricScroll) {
-            this.currentLyric.stop()
-          }
+          this.playing ? this.$refs.audio.play() : this.$refs.audio.pause()
         })
       },
-      currentSong() {
+      currentSong(newSong, oldSong) {
+        if ((newSong.id && newSong.id === oldSong.id) || (newSong.key && newSong.key === oldSong.key)) {
+          return
+        }
         this.buffered = []
         this.voiceSrc = this.currentSong.src
-        if (!this.currentSong.lyric || this.currentSong.platform !== 'wyy') {
-          console.log('eee')
-          this.lyricScroll = false
+
+        if (this.currentLyric) {
+          this.currentLyric.stop()
+          this.currentTime = 0
+          this.currentLineNum = 0
         }
-        if (this.lyricScroll) {
-          this.currentLyric = new Lyric(this.currentSong.lyric, this.handleLyric)
-          console.log(this.currentSong.lyric)
-        }
+
         clearTimeout(this.timer)
         this.timer = setTimeout(() => {
           this.audio.play()
+          if (this.currentSong.platform === 'wyy') {
+            this.getLyric()
+          }
         }, 1000)
 
         this.$nextTick(() => {
@@ -367,14 +404,10 @@
       readyState() {
         if (this.readyState >= 3) {
           this.loadingShow = false
-          if (this.lyricScroll) {
-            this.currentLyric.play()
-          }
+          this.currentLyric && this.currentLyric.play()
         } else {
           this.loadingShow = true
-          if (this.lyricScroll) {
-            this.currentLyric.stop()
-          }
+          this.currentLyric && this.currentLyric.stop()
         }
       }
     },
@@ -498,6 +531,11 @@
           width: 100%;
           height: 100%;
           overflow: hidden;
+          &.lyric-message {
+            display: flex;
+            flex-flow: column;
+            justify-content: center;
+          }
           .lyric-wrapper {
             width: 80%;
             margin: 0 auto;

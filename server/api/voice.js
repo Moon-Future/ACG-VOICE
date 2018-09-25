@@ -54,4 +54,22 @@ router.post('/getVoiceByKey', async (ctx) => {
   }
 })
 
+router.post('/getLyric', async (ctx) => {
+  try {
+    const params = ctx.request.body
+    const platform = params.platform
+    let result
+    if (platform === 'wyy') {
+      result = await wyySearch.getLyric(params)
+    }
+    if (result === '') {
+      ctx.body = {code: 500, message: '没有找到歌词'}
+    } else {
+      ctx.body = {code: 200, message: result}
+    }
+  } catch(err) {
+    ctx.body = {code: 500, message: err}
+  }
+})
+
 module.exports = router

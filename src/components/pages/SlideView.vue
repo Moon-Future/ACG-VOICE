@@ -1,20 +1,10 @@
 <template>
   <div class="container">
-    <!-- <ul class="example">
-      <li v-for="(item, i) in data" :key="i">{{ item }}</li>
-    </ul> -->
-
-    <ul class="example"
-      infinite-scroll-disabled="true"
-      infinite-scroll-distance="10">
-      <li v-for="(item, i) in data" :key="i">{{ item }}</li>
-    </ul>
-
     <div class="top">
 
     </div>
     <div class="content">
-      slide view page
+      <img class="background" src="http://ossweb-img.qq.com/images/lol/web201310/skin/big84008.jpg" alt="">
     </div>
     <div class="right">
       
@@ -29,7 +19,7 @@
   export default {
     data() {
       return {
-        data: ['1', '2', '3', '4', '5', '1', '2', '3', '4', '5', '1', '2', '3', '4', '5', '1', '2', '3', '4', '5', '1', '2', '3', '4', '5', '1', '2', '3', '4', '5', '1', '2', '3', '4', '5']
+        data: ''
       }
     }
   }
@@ -47,12 +37,21 @@
     background: $color-background;
     color: $color-text;
     z-index: 150;
-  }
-
-  .example {
-    li {
-      padding: 10px;
-      text-align: center;
+    .content {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      .background {
+        width: 100%;
+      }
+      &.content-rotate {
+        justify-content: center;
+        height: initial;
+        .background {
+          transform: rotate(90deg);
+          width: initial;
+        }
+      }
     }
   }
 </style>
