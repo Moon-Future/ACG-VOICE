@@ -1,7 +1,7 @@
 <template>
   <div class="bottom-footer">
     <tab class="bottom-tab">
-      <div v-for="(item, i) in menu" :key="i">
+      <div v-for="(item, i) in menu" :key="i" :class="item.hide ? 'hide' : ''">
         <!-- <span :class="activeIndex === i ? 'active' : ''" @click="changeMenu(i)">{{ item.name }}</span> -->
         <router-link :to="item.link" tag="p" :class="activeIndex === i ? 'active' : ''" @click="changeMenu(i)">{{ item.name }}</router-link>
       </div>
@@ -23,6 +23,11 @@ export default {
         {
           name: '滑滑',
           link: '/slideView'
+        },
+        {
+          name: '播放',
+          link: '/',
+          hide: true
         },
         {
           name: '探索',
@@ -60,6 +65,9 @@ export default {
     z-index: 120;
     .active {
       color: $color-active;
+    }
+    .hide {
+      visibility: hidden;
     }
   }
 </style>

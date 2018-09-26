@@ -1,5 +1,5 @@
 <template>
-  <div class="player" v-show="playlist.length>0">
+  <div class="player">
     <transition
       name="normal"
       enter-active-class="animated fadeInRight faster"
@@ -209,6 +209,14 @@
         this.changeSong('prev')
       },
       play() {
+        if (this.playlist.length === 0) {
+          this.$toast({
+            message: '播放列表空',
+            duration: 1000,
+            position: 'bottom'
+          })
+          return
+        }
         const audio = this.$refs.audio
         this.setPlaying(!this.playing)
       },
@@ -340,7 +348,7 @@
         })
       },
       currentSong(newSong, oldSong) {
-        if ((newSong.id && newSong.id === oldSong.id) || (newSong.key && newSong.key === oldSong.key)) {
+        if (this.playlist.length === 0 || (newSong.id && newSong.id === oldSong.id) || (newSong.key && newSong.key === oldSong.key)) {
           return
         }
         this.buffered = []
