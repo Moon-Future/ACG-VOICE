@@ -1,7 +1,20 @@
 <template>
   <div class="play-list" v-show="showFlag" @click="hidePlayList">
     <div class="list-wrapper" @click.stop>
-      <div class="operate"></div>
+      <div class="list-header">
+        <div class="play-mode" @click="changeMode">
+          <svg class="iconfont" aria-hidden="true">
+            <use :xlink:href="`#${modeIcon.icon}`"></use>
+          </svg>
+          <span>{{ modeIcon.txt }}</span>
+        </div>
+        <div class="clear" @click="clear">
+          <span>清空列表</span>
+          <svg class="iconfont" aria-hidden="true">
+            <use xlink:href="#icon-acg-clear"></use>
+          </svg>
+        </div>
+      </div>
       <scroll class="list-content" ref="listContent">
         <ul>
           <li v-for="(item, i) in data" :key="i" class="item" :class="[currentIndex === i ? 'active' : '']"
@@ -15,6 +28,9 @@
           </li>
         </ul>
       </scroll>
+      <div class="close" @click="hidePlayList">
+        <p>关闭</p>
+      </div>
     </div>
   </div>
 </template>
@@ -22,7 +38,8 @@
 <script>
   import VoiceList from 'components/common/VoiceList'
   import Scroll from 'components/common/Scroll'
-  import { mapGetters, mapMutations } from 'vuex'
+  import { playModeList, modeIconClass } from 'common/js/config'
+  import { mapGetters, mapMutations, mapActions } from 'vuex'
   export default {
     props: {
       data: {
@@ -34,17 +51,21 @@
         default: false
       }
     },
-    computed: {
-      ...mapGetters([
-        'currentIndex',
-        'playing'
-      ])
-    },
     data() {
       return {
         showFlag: false,
         scrollRefresh: false
       }
+    },
+    computed: {
+      modeIcon() {
+        return modeIconClass[this.mode]
+      },
+      ...mapGetters([
+        'currentIndex',
+        'playing',
+        'mode'
+      ])
     },
     methods: {
       show() {
@@ -58,10 +79,20 @@
         this.setCurrentIndex(index)
         this.setPlaying(true)
       },
+      changeMode() {
+        const modeIndex = playModeList.indexOf(this.mode)
+        this.setMode(playModeList[modeIndex === playModeList.length - 1 ? 0 : modeIndex + 1])
+      },
+      clear() {
+        this.clearPlaylist()
+        this.showFlag = false
+      },
       ...mapMutations({
         setPlaying: 'SET_PALYING_STATE',
-        setCurrentIndex: 'SET_CURRENT_INDEX'
+        setCurrentIndex: 'SET_CURRENT_INDEX',
+        setMode: 'SET_PALY_MODE'
       }),
+      ...mapActions(['clearPlaylist'])
     },
     components: {
       VoiceList,
@@ -81,18 +112,21 @@
     right: 0;
     .list-wrapper {
       position: absolute;
-      top: 15rem;
       bottom: 0;
       left: 0;
       right: 0;
       border-radius: 10px 10px 0 0;
-      background: $color-background;
+      background-color: $color-background;
       color: $color-white;
-      .operate {
-        background: $color-red;
+      .list-header {
+        background-color: $color-deepgray;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        color: $color-text;
       }
       .list-content {
-        height: 100%;
+        max-height: 20rem;
         overflow: hidden;
         .item {
           display: flex;
@@ -118,16 +152,13 @@
           }
         }
       }
-    }
-    .mask-layer {
-      z-index: 150;
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: $color-background;
-      opacity: 0.3;
+      .close {
+        padding: 10px;
+        width: 100%;
+        text-align: center;
+        background-color: $color-deepgray;
+        color: $color-text;
+      }
     }
   }
 </style>

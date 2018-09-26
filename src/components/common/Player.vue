@@ -35,21 +35,9 @@
               </div>
             </div>
           </div>
-          <scroll class="middle-r" :class="lyricMessage ? 'lyric-message' : ''" ref="lyricList" :data="currentLyric && currentLyric.lines" v-show="!middleLeft">
-            <div class="lyric-wrapper">
-              <div v-if="currentLyric && !lyricMessage">
-                <p ref="lyricLine"
-                   class="text"
-                   :class="{'current': currentLineNum === i}"
-                   v-for="(line, i) in currentLyric.lines" :key="i">{{ line.txt }}</p>
-              </div>
-              <div class="lyric-message" v-show="lyricMessage">
-                <p v-show="lyricMessage && lyricMessage.searching">正在搜索歌词...</p>
-                <p v-show="lyricMessage && lyricMessage.notFind">没有找到歌词...</p>
-              </div>
-              <p v-if="!currentLyric" class="lyric-static">{{ currentSong.lyric }}</p>
-            </div>
-          </scroll>
+          <div class="middle-r" v-show="!middleLeft">
+            <lyric :lyric="lyric" :currentTime="currentTime" :searching="lyricSearching"></lyric>
+          </div>
           <div class="middle-b" v-show="middleLeft">
             <div class="like">
               <svg class="iconfont" aria-hidden="true" @click.stop="like">
@@ -77,7 +65,9 @@
           </div>
           <div class="operators animated slideInUp">
             <div class="icon i-left">
-              <i class="iconfont" :class="modeIcon" @click="changeMode"></i>
+              <svg class="iconfont" aria-hidden="true" @click="changeMode">
+                <use :xlink:href="`#${modeIcon}`"></use>
+              </svg>
             </div>
             <div class="icon i-left">
               <i class="iconfont icon-acg-prev" @click="prev"></i>
@@ -141,9 +131,9 @@
   import ProgressCircle from 'components/common/ProgressCircle'
   import VoiceList from 'components/common/VoiceList'
   import PlayList from 'components/common/PlayList'
-  import Lyric from 'common/js/lyricParser'
+  import Lyric from 'components/common/Lyric'
   import apiUrl from '@/serviceAPI.config.js'
-  import { playMode, playModeList } from 'common/js/config'
+  import { playMode, playModeList, modeIconClass } from 'common/js/config'
   import { getRandomInt } from 'common/js/util'
   import { mapGetters, mapMutations, mapActions } from 'vuex'
   export default {
@@ -164,9 +154,8 @@
         miniPlayer: true,
         likeFill: false,
         middleLeft: true,
-        currentLyric: null,
-        currentLineNum: 0,
-        lyricMessage: {}
+        lyric: '',
+        lyricSearching: false
       }
     },
     computed: {
@@ -180,7 +169,7 @@
         return this.currentTime / this.duration
       },
       modeIcon() {
-        return this.modeIconClass[this.mode]
+        return modeIconClass[this.mode].icon
       },
       ...mapGetters([
         'currentIndex',
@@ -196,12 +185,6 @@
         this.audio = this.$refs.audio
         this.readyState = this.audio.readyState
       })
-      this.modeIconClass = {
-        [playMode.sequence]: 'icon-acg-sequence',
-        [playMode.loop]: 'icon-acg-listloop',
-        [playMode.random]: 'icon-acg-random',
-        [playMode.one]: 'icon-acg-oneloop'
-      }
     },
     methods: {
       goMini() {
@@ -216,6 +199,11 @@
       changeMode() {
         const modeIndex = playModeList.indexOf(this.mode)
         this.setMode(playModeList[modeIndex === playModeList.length - 1 ? 0 : modeIndex + 1])
+        this.$toast({
+          message: modeIconClass[this.mode].txt,
+          position: 'bottom',
+          duration: 1000
+        })
       },
       prev() {
         this.changeSong('prev')
@@ -223,7 +211,6 @@
       play() {
         const audio = this.$refs.audio
         this.setPlaying(!this.playing)
-        this.currentLyric && this.currentLyric.togglePlay()
       },
       next() {
         this.changeSong('next')
@@ -261,9 +248,6 @@
           this.moveing = false
           this.audio.currentTime = this.duration * percent
           this.currentTime = this.duration * percent
-          if (this.currentLyric) {
-            this.currentLyric.seek(this.currentTime * 1000)
-          }
         } else {
           this.moveing = true
           this.currentTime = this.duration * percent
@@ -312,44 +296,26 @@
         return `${minute}:${second}`
       },
       getLyric() {
-        this.lyricMessage = {
-          searching: true
+        this.lyricSearching = true
+        if (this.currentSong.platform !== 'wyy') {
+          this.lyric = this.currentSong.lyric
+          this.lyricSearching = false
+          return
         }
         this.$http.post(apiUrl.getLyric, {
           id: this.currentSong.id, 
           platform: this.currentSong.platform
         }).then(res => {
           if (res.data.code === 200) {
-            this.lyricMessage = null
-            this.currentLyric = new Lyric(res.data.message, this.handleLyric, true)
-            if (this.playing) {
-              this.currentLyric.play()
-            }
+            this.lyric = res.data.message
           } else {
-            this.currentLyric = null
-            this.currentLineNum = 0
-            this.lyricMessage = {
-              searching: false,
-              notFind: true
-            }
+            this.lyric = ''
           }
+          this.lyricSearching = false
         }).catch(err => {
-          this.currentLyric = null
-          this.currentLineNum = 0
-          this.lyricMessage = {
-            searching: false,
-            notFind: true
-          }
+          this.lyric = ''
+          this.lyricSearching = false
         })
-      },
-      handleLyric({lineNum, txt}) {
-        this.currentLineNum = lineNum
-        if (lineNum > 5) {
-          let lineEl = this.$refs.lyricLine[lineNum - 5]
-          this.$refs.lyricList.scrollToElement(lineEl, 1000)
-        } else {
-          this.$refs.lyricList.scrollTo(0, 0, 1000)
-        }
       },
       _pad(num, n = 2) {
         let len = num.toString().length
@@ -365,6 +331,7 @@
         setCurrentIndex: 'SET_CURRENT_INDEX',
         setMode: 'SET_PALY_MODE'
       }),
+      ...mapActions(['clearPlaylist'])
     },
     watch: {
       playing() {
@@ -379,18 +346,10 @@
         this.buffered = []
         this.voiceSrc = this.currentSong.src
 
-        if (this.currentLyric) {
-          this.currentLyric.stop()
-          this.currentTime = 0
-          this.currentLineNum = 0
-        }
-
         clearTimeout(this.timer)
         this.timer = setTimeout(() => {
           this.audio.play()
-          if (this.currentSong.platform === 'wyy') {
-            this.getLyric()
-          }
+          this.getLyric()
         }, 1000)
 
         this.$nextTick(() => {
@@ -402,13 +361,7 @@
         })
       },
       readyState() {
-        if (this.readyState >= 3) {
-          this.loadingShow = false
-          this.currentLyric && this.currentLyric.play()
-        } else {
-          this.loadingShow = true
-          this.currentLyric && this.currentLyric.stop()
-        }
+        this.loadingShow = this.readyState >= 3 ? false : true
       }
     },
     components: {
@@ -416,7 +369,8 @@
       ProgressBar,
       ProgressCircle,
       VoiceList,
-      PlayList
+      PlayList,
+      Lyric
     }
   }
 </script>
@@ -531,28 +485,6 @@
           width: 100%;
           height: 100%;
           overflow: hidden;
-          &.lyric-message {
-            display: flex;
-            flex-flow: column;
-            justify-content: center;
-          }
-          .lyric-wrapper {
-            width: 80%;
-            margin: 0 auto;
-            overflow: hidden;
-            text-align: center;
-            .text {
-              line-height: 32px;
-              font-size: $font-size-medium;
-              &.current {
-                color: $color-white;
-                font-weight: bold;
-              }
-            }
-            .lyric-static {
-              white-space: pre;
-            }
-          }
         }
         .middle-b {
           position: absolute;
@@ -607,7 +539,7 @@
             &.disable {
 
             }
-            i {
+            i, .iconfont {
               font-size: 30px;
               color: $color-active;
             }
@@ -700,7 +632,7 @@
       height: 2rem;
       left: 50%;
       margin-left: -1rem;
-      z-index: 130;
+      z-index: 120;
       .control {
         height: 100%;
         .iconfont {
