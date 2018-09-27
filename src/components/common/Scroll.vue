@@ -116,7 +116,6 @@ export default {
             this.setHeight(this.refreshOr);
             this.initScroll()
           } else {
-            console.log('refresh')
             this.refresh()
           }
         }, this.refreshDelay)

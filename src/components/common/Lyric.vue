@@ -1,6 +1,6 @@
 <template>
   <scroll class="lyric-wrapper" :data="lines" ref="lyricWrapper">
-    <div class="lyric-lines" v-show="lyric && !staticFlag && !searching">
+    <div class="lyric-lines" v-show="lyric && !staticFlag && !searching" ref="lyricLines">
       <p ref="line"
         class="text" 
         :class="{'current': currentLine === i}" 
@@ -13,11 +13,21 @@
       <p v-show="searching">正在搜索歌词...</p>
       <p v-show="!lyric && !searching">没有找到歌词...</p>
     </div>
+    <div class="middle-line">
+      <span class="play">
+        <svg class="iconfont" aria-hidden="true">
+          <use xlink:href="#icon-acg-bofang"></use>
+        </svg>
+      </span>
+      <div class="line"></div>
+      <span class="time">time</span>
+    </div>
   </scroll>
 </template>
 
 <script>
   import Scroll from 'components/common/Scroll'
+import { setTimeout, clearTimeout } from 'timers';
   export default {
     props: {
       lyric: {
@@ -163,6 +173,26 @@
       display: flex;
       flex-flow: column;
       justify-content: center;
+    }
+    .middle-line {
+      height: 1px;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      display: flex;
+      justify-content: center;
+      color: $color-white;
+      .play, .time {
+        margin-top: -7px;
+      }
+      .line {
+        width: 70%;
+        border-top: 1px dashed $color-white;
+        margin: 0 10px;
+      }
     }
   }
 </style>
