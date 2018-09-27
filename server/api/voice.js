@@ -7,36 +7,57 @@ const { getRandom } = require('./base')
 const { wyySearch } = require('./searchFromWeb')
 
 router.get('/insertVoiceByJson', async (ctx) => {
-  const voiceList = JSON.parse(fs.readFileSync(path.join(__dirname, '../jsonData/voice.json'), 'utf-8'))
+  const voiceList = JSON.parse(fs.readFileSync(path.join(__dirname, '../jsonData/voiceLOL.json'), 'utf-8'))
 	const voiceListLen = voiceList.length
 	const characterList = JSON.parse(fs.readFileSync(path.join(__dirname, '../jsonData/character.json'), 'utf-8'))
   let saveCount = 0
   let currentTime = new Date().getTime()
-	for (let i = 0, len = characterList.length; i < len; i++) {
-		let item = characterList[i]
-		let indexs = getRandom(0, voiceListLen - 1, 13)
-		indexs.forEach(index => {
-			let voice = voiceList[index]
-			if (voice.src) {
-				let oneVoice = new Voice({
-          name: voice.name,
-          src: voice.src,
-          srcWeb: voice.src,
-          createdTime: currentTime,
-          from: item.from,
-          characterName: item.name,
-          id: `${voice.name}-${item.name}-${item.from}`,
-          key: `${item.name}-${item.from}` // name-from
-				})
-				oneVoice.save().then(() => {
-					saveCount++
-					console.log('插入成功 ' + saveCount)
-				}).catch(err => {
-					console.log('插入失败' + err)
-				})
-			}
-		})
-	}
+  for (let i = 0, len = voiceList.length; i < len; i++) {
+    const voice = voiceList[i]
+    if (voice.src) {
+      let oneVoice = new Voice({
+        name: voice.name,
+        src: voice.src,
+        srcWeb: voice.src,
+        lyric: voice.lyric || voice.name.split('.')[0],
+        createdTime: currentTime,
+        from: voice.from,
+        characterName: voice.characterName,
+        key: `${voice.characterName}-${voice.from}` // name-from
+      })
+      oneVoice.save().then(() => {
+        saveCount++
+        console.log('插入成功 ' + saveCount)
+      }).catch(err => {
+        console.log('插入失败' + err)
+      })
+    }
+  }
+
+	// for (let i = 0, len = characterList.length; i < len; i++) {
+	// 	let item = characterList[i]
+	// 	let indexs = getRandom(0, voiceListLen - 1, 13)
+	// 	indexs.forEach(index => {
+	// 		let voice = voiceList[index]
+	// 		if (voice.src) {
+	// 			let oneVoice = new Voice({
+  //         name: voice.name,
+  //         src: voice.src,
+  //         srcWeb: voice.src,
+  //         createdTime: currentTime,
+  //         from: item.from,
+  //         characterName: item.name,
+  //         key: `${item.name}-${item.from}` // name-from
+	// 			})
+	// 			oneVoice.save().then(() => {
+	// 				saveCount++
+	// 				console.log('插入成功 ' + saveCount)
+	// 			}).catch(err => {
+	// 				console.log('插入失败' + err)
+	// 			})
+	// 		}
+	// 	})
+	// }
   ctx.body = '开始导入 voice 数据'
 })
 

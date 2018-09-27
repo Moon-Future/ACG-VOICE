@@ -1,5 +1,5 @@
 <template>
-  <scroll class="lyric-wrapper" :data="lines" ref="lyricWrapper">
+  <scroll class="lyric-wrapper" :class="staticFlag ? 'static-center' : ''" :data="lines" ref="lyricWrapper">
     <div class="lyric-lines" v-show="lyric && !staticFlag && !searching" ref="lyricLines">
       <p ref="line"
         class="text" 
@@ -13,14 +13,14 @@
       <p v-show="searching">正在搜索歌词...</p>
       <p v-show="!lyric && !searching">没有找到歌词...</p>
     </div>
-    <div class="middle-line">
+    <div class="middle-line" v-show="moveing">
       <span class="play">
         <svg class="iconfont" aria-hidden="true">
           <use xlink:href="#icon-acg-bofang"></use>
         </svg>
       </span>
       <div class="line"></div>
-      <span class="time">time</span>
+      <span class="time">00:25</span>
     </div>
   </scroll>
 </template>
@@ -53,7 +53,8 @@ import { setTimeout, clearTimeout } from 'timers';
         lines: [],
         currentLine: 0,
         staticLyric: [],
-        staticFlag: false
+        staticFlag: false,
+        moveing: false
       }
     },
     created() {
@@ -66,6 +67,7 @@ import { setTimeout, clearTimeout } from 'timers';
         by: 'by'
       }
       this.tags = {}
+      this.touch = {}
     },
     methods: {
       init() {
@@ -109,12 +111,32 @@ import { setTimeout, clearTimeout } from 'timers';
         return this.lines.length - 1
       },
       scrollToLine(index) {
-        this.$refs.lyricWrapper.scrollToElement(this.$refs.line[index], 1000)
+        if (!this.moveing) {
+          this.$refs.lyricWrapper.scrollToElement(this.$refs.line[index], 1000)
+        }
       },
       play() {
         const index = this.findLine(this.currentTime * 1000)
         this.currentLine = index
-      }
+      },
+      // touchStart(e) {
+      //   this.touch.initiated = true
+      //   this.touch.startX = e.touches[0].pageX
+      // },
+      // touchMove(e) {
+      //   this.moveing = true
+      // },
+      // touchEnd(e) {
+      //   clearTimeout(this.timer)
+      //   this.timer = setTimeout(() => {
+      //     this.moveing = false
+      //   }, 2000);
+      // },
+      // scroll(pos) {
+      //   const lyricWrapperHieght = this.$refs.lyricWrapper.$el.clientHeight
+      //   const lyricLinesHeight = this.$refs.lyricLines.clientHeight
+      //   this.scrollY = pos.y
+      // }
     },
     watch: {
       lyric() {
@@ -122,15 +144,18 @@ import { setTimeout, clearTimeout } from 'timers';
           return
         }
         this.init()
-      },
-      currentTime() {
         if (this.lines.length !== 0) {
+          this.currentTime = 0
           this.staticLyric = []
           this.staticFlag = false
-          this.play()
         } else {
           this.staticLyric = this.lyric.indexOf('\n') === -1 ? this.lyric.split(',') : this.lyric.split('\n')
           this.staticFlag = true
+        }
+      },
+      currentTime() {
+        if (this.lines.length !== 0) {
+          this.play()
         }
       },
       currentLine() {
@@ -155,6 +180,11 @@ import { setTimeout, clearTimeout } from 'timers';
     margin: 0 auto;
     overflow: hidden;
     text-align: center;
+    &.static-center {
+      display: flex;
+      justify-content: center;
+      flex-flow: column;
+    }
     .lyric-lines, .lyric-static {
       .text {
         line-height: 32px;
@@ -164,6 +194,10 @@ import { setTimeout, clearTimeout } from 'timers';
         }
         &.current {
           color: $color-white;
+          font-weight: bold;
+        }
+        &.moveing-line {
+          color: $color-active;
           font-weight: bold;
         }
       }

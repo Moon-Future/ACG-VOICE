@@ -98,7 +98,7 @@
         })
       },
       gotoInfo(character) {
-        this.selectOne(character)
+        this.$router.push(`/characterInfo/${character.key}`)
       },
       ...mapActions([
         'selectOne'

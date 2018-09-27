@@ -17,8 +17,8 @@ const voiceSchema = new Schema({
   from: { type: String, default: 'ACG' },
   character: { type: Schema.Types.ObjectId, ref: 'character' },
   characterName: String,
-  id: { type: String, unique: true }, // name-character-from 唯一
-  key: String // name-from
+  // id: { type: String, unique: true }, // name-character-from 唯一
+  key: String // character-from
 }, {
   collections: 'voice'
 })

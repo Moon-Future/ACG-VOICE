@@ -33,6 +33,7 @@ export const selectOne = function({commit, state}, voice) {
           commit(types.SET_CURRENT_INDEX, i)
         }
         commit(types.SET_FULL_SCREEN, true)
+        commit(types.SET_PALYING_STATE, true)
         return
       }
     }

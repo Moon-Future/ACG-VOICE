@@ -348,12 +348,13 @@
         })
       },
       currentSong(newSong, oldSong) {
-        if (this.playlist.length === 0 || (newSong.id && newSong.id === oldSong.id) || (newSong.key && newSong.key === oldSong.key)) {
+        if (this.playlist.length === 0 || 
+            (newSong.id && newSong.id === oldSong.id) || 
+            (newSong.key && (newSong.key + newSong.name === oldSong.key + oldSong.name))) {
           return
         }
         this.buffered = []
         this.voiceSrc = this.currentSong.src
-
         clearTimeout(this.timer)
         this.timer = setTimeout(() => {
           this.audio.play()
