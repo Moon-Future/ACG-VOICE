@@ -116,7 +116,7 @@
       </div>
     </transition>
     <play-list :data="playlist" ref="playlist"></play-list>
-    <audio :src="voiceSrc" ref="audio"
+    <audio :src="currentSong.src" ref="audio"
         @timeupdate="updateTime"
         @progress="progress"
         @canplay="canplay"
@@ -353,15 +353,15 @@
             (newSong.key && (newSong.key + newSong.name === oldSong.key + oldSong.name))) {
           return
         }
-        this.buffered = []
-        this.voiceSrc = this.currentSong.src
-        clearTimeout(this.timer)
-        this.timer = setTimeout(() => {
-          this.audio.play()
-          this.getLyric()
-        }, 1000)
-
         this.$nextTick(() => {
+          this.buffered = []
+          this.voiceSrc = this.currentSong.src
+          clearTimeout(this.timer)
+          this.timer = setTimeout(() => {
+            this.audio.play()
+            this.getLyric()
+          }, 1000)
+
           if (this.$refs.words.clientWidth > this.$refs.title.clientWidth) {
             this.wordsLoop = true
           } else {

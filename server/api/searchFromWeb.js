@@ -14,6 +14,10 @@ wyySearch.prototype = {
     const urlArtist = `${this.baseUrl}?type=${this.type.search}&search_type=${this.searchType.artist}&s=${value}`
     const resultSong = await ajax(urlSong)
     const resultArtist = await ajax(urlArtist)
+    if ((resultSong && resultSong.code === 500) || (resultArtist && resultArtist.code === 500)) {
+      ctx.body = {code: 500, message: '服务器傲娇啦...'}
+      return
+    }
     let result = {
       voice: {},
       character: {}
@@ -56,6 +60,10 @@ wyySearch.prototype = {
   async getSongById(params) {
     const urlSong = `${this.baseUrl}?type=${this.type.song}&id=${params.id}`
     const resultSong = await ajax(urlSong)
+    if (resultSong && resultSong.code === 500) {
+      ctx.body = {code: 500, message: '服务器傲娇啦...'}
+      return
+    }
     let result = {}
     if (resultSong.code === 200) {
       const data = resultSong.data[0]
@@ -76,6 +84,10 @@ wyySearch.prototype = {
   async getLyric(params) {
     const urlLyric = `${this.baseUrl}?type=${this.type.lyric}&id=${params.id}`
     const resultLyric = await ajax(urlLyric)
+    if (resultLyric && resultLyric.code === 500) {
+      ctx.body = {code: 500, message: '服务器傲娇啦...'}
+      return
+    }
     let result = ''
     if (resultLyric.code === 200) {
       result = resultLyric.lrc.lyric

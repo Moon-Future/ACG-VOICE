@@ -1,8 +1,8 @@
 <template>
   <div class="search-result" ref="searchResult" v-show="showFlag">
-    <div class="no-data" v-show="emptyShowFlag">没有数据</div>
+    <div class="no-data" v-show="emptyShowFlag && !loadingShowFlag">没有数据</div>
     <loading :src="loadingPic" v-show="loadingShowFlag"></loading>
-    <scroll :data="voiceData" v-show="!loadingShowFlag">
+    <scroll :data="voiceData" v-show="!loadingShowFlag && !emptyShowFlag">
       <div class="data-wrapper">
         <ul class="voice-list" v-show="!suggestFlag">
           <li class="character-data" v-show="characterData.platform">
@@ -113,6 +113,7 @@
     },
     watch: {
       searchData() {
+        console.log('searchData', this.searchData)
         this.voiceData = this.searchData && this.searchData.voice && this.searchData.voice.data
         this.characterData = this.searchData && this.searchData.character
       }

@@ -145,7 +145,6 @@ import { setTimeout, clearTimeout } from 'timers';
         }
         this.init()
         if (this.lines.length !== 0) {
-          this.currentTime = 0
           this.staticLyric = []
           this.staticFlag = false
         } else {

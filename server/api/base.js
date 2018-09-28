@@ -7,8 +7,12 @@ function ajax(url, flag = false) {
       if (err) {
         throw new Error(err)
       }
-      body = flag ? body : JSON.parse(body)
-      resolve(body)
+      try {
+        body = flag ? body : JSON.parse(body)
+        resolve(body)
+      } catch(e) {
+        resolve({code: 500})
+      }
     })
   })
 }

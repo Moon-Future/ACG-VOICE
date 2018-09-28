@@ -153,7 +153,7 @@
         }
       }
       .close {
-        padding: 10px;
+        padding: 15px 0;
         width: 100%;
         text-align: center;
         background-color: $color-deepgray;

@@ -13,6 +13,7 @@
       :suggestFlag="suggestFlag"
       :inputValue="value"
       :loadingShowFlag="loadingShowFlag"
+      :emptyShowFlag="emptyShowFlag"
       @searchValue="search"
       ref="searchResult"
     >
@@ -31,7 +32,8 @@
         searchData: {},
         suggestData: [],
         suggestFlag: [],
-        loadingShowFlag: false
+        loadingShowFlag: false,
+        emptyShowFlag: false
       }
     },
     methods: {
@@ -48,6 +50,7 @@
       },
       searchFoucs() {
         this.suggestFlag = true
+        this.emptyShowFlag = false
       },
       searchSuggest(e) {
         this.value = e.target.value.replace(/\'/g, '').trim()
@@ -58,6 +61,7 @@
         this.$http.post(apiUrl.searchSuggest, {value: this.value}).then(res => {
           if (res.data.code === 200) {
             this.suggestData = res.data.message
+            this.emptyShowFlag = false
           }
         })
       },
@@ -73,6 +77,8 @@
           this.loadingShowFlag = false
           if (res.data.code === 200) {
             this.searchData = res.data.message
+          } else {
+            this.emptyShowFlag = true
           }
         })
       }
