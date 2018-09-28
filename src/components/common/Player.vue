@@ -116,7 +116,7 @@
       </div>
     </transition>
     <play-list :data="playlist" ref="playlist"></play-list>
-    <audio :src="currentSong.src" ref="audio"
+    <audio :src="currentSong.src" ref="audio" id="audio"
         @timeupdate="updateTime"
         @progress="progress"
         @canplay="canplay"
@@ -181,9 +181,22 @@
       ])
     },
     created() {
+      const self = this
       this.$nextTick(() => {
         this.audio = this.$refs.audio
         this.readyState = this.audio.readyState
+        document.addEventListener('click', function() {
+          if (!self.played) {
+            self.audio.play()
+            self.played = true
+          }
+        })
+        document.addEventListener('touch', function() {
+          if (!self.played) {
+            self.audio.play()
+            self.played = true
+          }
+        })
       })
     },
     methods: {

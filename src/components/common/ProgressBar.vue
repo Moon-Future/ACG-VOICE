@@ -65,6 +65,7 @@
       draw(x, y, flag = false) {
         const canvas = document.getElementById('progress-buffered')
         const width = this.$refs.progressBar.clientWidth
+        canvas.setAttribute('width', width)
         let ctx
         if (canvas.getContext) {
           ctx = canvas.getContext('2d')
@@ -138,6 +139,7 @@
       }
       .progress-buffered {
         position: absolute;
+        height: 4px;
       }
       .progress-btn {
         position: absolute;

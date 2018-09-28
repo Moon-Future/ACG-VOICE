@@ -6,7 +6,7 @@
           <svg class="iconfont" aria-hidden="true">
             <use :xlink:href="`#${modeIcon.icon}`"></use>
           </svg>
-          <span>{{ modeIcon.txt }}</span>
+          <span>{{ modeIcon.txt }}({{ data.length }})</span>
         </div>
         <div class="clear" @click="clear">
           <span>清空列表</span>

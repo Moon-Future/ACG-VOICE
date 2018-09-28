@@ -71,7 +71,7 @@ import { setTimeout, clearTimeout } from 'timers';
     },
     methods: {
       init() {
-        this.lines = []
+        this.lines = null
         this.currentLine = 0
         this.tags = {}
         this.initTag()
@@ -85,6 +85,7 @@ import { setTimeout, clearTimeout } from 'timers';
       },
       initLines() {
         const lines = this.lyric.split('\n')
+        this.lines = []
         for (let i = 0; i < lines.length; i++) {
           const line = lines[i]
           let result = this.timeExp.exec(line)
@@ -113,6 +114,11 @@ import { setTimeout, clearTimeout } from 'timers';
       scrollToLine(index) {
         if (!this.moveing) {
           this.$refs.lyricWrapper.scrollToElement(this.$refs.line[index], 1000)
+        }
+      },
+      scrollTo(y) {
+        if (!this.moveing) {
+          this.$refs.lyricWrapper.scrollTo(0, 1000)
         }
       },
       play() {
@@ -147,6 +153,7 @@ import { setTimeout, clearTimeout } from 'timers';
         if (this.lines.length !== 0) {
           this.staticLyric = []
           this.staticFlag = false
+          this.scrollTo(0, 1000)
         } else {
           this.staticLyric = this.lyric.indexOf('\n') === -1 ? this.lyric.split(',') : this.lyric.split('\n')
           this.staticFlag = true

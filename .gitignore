@@ -13,8 +13,6 @@ yarn-error.log*
 *.njsproj
 *.sln
 
-package-lock.json
-
 tool/node_modules/
 tool/spider/File/
 server/secret.config.js

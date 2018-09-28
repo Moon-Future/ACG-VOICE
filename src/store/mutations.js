@@ -21,7 +21,6 @@ const mutations = {
   },
   [types.SET_CURRENT_INDEX](state, index) {
     state.currentIndex = index
-    state.currentSong = state.playlist[index]
   },
 }
 

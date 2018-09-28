@@ -99,6 +99,9 @@
         this.$http.post(apiUrl.getVoiceByKey, postData).then(res => {
           if (res.data.code === 200 && res.data.message.src !== '') {
             this.selectOne(res.data.message)
+            this.$nextTick(() => {
+              document.getElementById('audio').play()
+            })
           } else {
             this.$toast(toastMessage.noCopyright)
           }
@@ -113,7 +116,6 @@
     },
     watch: {
       searchData() {
-        console.log('searchData', this.searchData)
         this.voiceData = this.searchData && this.searchData.voice && this.searchData.voice.data
         this.characterData = this.searchData && this.searchData.character
       }
