@@ -46,6 +46,10 @@ import { setTimeout, clearTimeout } from 'timers';
       searching: {
         type: Boolean,
         default: true
+      },
+      showFlag: {
+        type: Boolean,
+        default: false
       }
     },
     data() {
@@ -111,9 +115,9 @@ import { setTimeout, clearTimeout } from 'timers';
         }
         return this.lines.length - 1
       },
-      scrollToLine(index) {
+      scrollToLine(index, timer = 1000) {
         if (!this.moveing) {
-          this.$refs.lyricWrapper.scrollToElement(this.$refs.line[index], 1000)
+          this.$refs.lyricWrapper.scrollToElement(this.$refs.line[index], timer)
         }
       },
       scrollTo(y) {
@@ -169,6 +173,15 @@ import { setTimeout, clearTimeout } from 'timers';
           this.scrollToLine(this.currentLine - 5)
         } else {
           this.scrollToLine(0)
+        }
+      },
+      showFlag() {
+        if (this.showFlag === true) {
+          if (this.currentLine >= 5) {
+            this.scrollToLine(this.currentLine - 5, 0)
+          } else {
+            this.scrollToLine(0, 0)
+          }
         }
       }
     },

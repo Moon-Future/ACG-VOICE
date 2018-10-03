@@ -36,7 +36,7 @@
             </div>
           </div>
           <div class="middle-r" v-show="!middleLeft">
-            <lyric :lyric="lyric" :currentTime="currentTime" :searching="lyricSearching"></lyric>
+            <lyric :lyric="lyric" :showFlag="!middleLeft" :currentTime="currentTime" :searching="lyricSearching"></lyric>
           </div>
           <div class="middle-b" v-show="middleLeft">
             <div class="like">
