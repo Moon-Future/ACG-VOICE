@@ -1,12 +1,5 @@
 <template>
   <div class="slideview-wrapper">
-    <div class="top">
-      <div class="back">
-        <svg class="iconfont icon-back" aria-hidden="true" @click="goBack">
-          <use xlink:href="#icon-acg-arrow-left"></use>
-        </svg>
-      </div>
-    </div>
     <div class="content content-rotate">
       <img class="background" src="http://ossweb-img.qq.com/images/lol/web201310/skin/big84008.jpg" alt="">
     </div>
@@ -75,9 +68,6 @@
       }
     },
     methods: {
-      goBack() {
-        this.$router.go(-1)
-      },
       follow() {
         this.followed = !this.followed
         this.iconFollow = this.followed ? 'icon-acg-icongou' : 'icon-acg-iconjia'
@@ -93,22 +83,6 @@
   @import 'common/css/variable.scss';
 
   .slideview-wrapper {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background: $color-background;
-    color: $color-white;
-    z-index: 150;
-    .top {
-      position: absolute;
-      height: 2rem;
-      line-height: 2rem;
-      font-size: $font-size-medium-x;
-      padding: 0 5px;
-      z-index: 1;
-    }
     .content {
       display: flex;
       align-items: center;

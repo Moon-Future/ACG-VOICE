@@ -7,7 +7,7 @@ import CharacterList from '@/components/pages/CharacterList'
 import VoiceList from '@/components/pages/VoiceList'
 import Upload from '@/components/common/Upload'
 import Story from '@/components/pages/Story'
-import SlideView from '@/components/pages/SlideView'
+import View from '@/components/pages/View'
 
 Vue.use(Router)
 
@@ -33,9 +33,9 @@ export default new Router({
       component: CharacterInfo
     },
     {
-      path: '/slideView',
-      name: 'SlideView',
-      component: SlideView
+      path: '/view',
+      name: 'View',
+      component: View
     },
     {
       path: '/story',
