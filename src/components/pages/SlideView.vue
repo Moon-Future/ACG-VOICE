@@ -12,9 +12,14 @@
     </div>
     <div class="right">
       <div class="icon-circle">
-        <svg class="iconfont" aria-hidden="true">
-          <use xlink:href="#icon-acg-like_fill"></use>
-        </svg>
+        <div class="iconfont avatar">
+          <img src="http://ossweb-img.qq.com/images/lol/web201310/skin/big84008.jpg" alt="">
+        </div>
+        <div class="follow" :class="followed ? 'followed' : ''" @click="follow">
+          <svg class="iconfont" aria-hidden="true">
+            <use :xlink:href="`#${iconFollow}`"></use>
+          </svg>
+        </div>
       </div>
       <div class="icon-circle">
         <svg class="iconfont" aria-hidden="true">
@@ -64,12 +69,18 @@
       return {
         data: '',
         name: 'Leo',
-        music: '女生版各种语气说不行 - 晨宁溪'
+        music: '女生版各种语气说不行 - 晨宁溪',
+        iconFollow: 'icon-acg-iconjia',
+        followed: false
       }
     },
     methods: {
       goBack() {
         this.$router.go(-1)
+      },
+      follow() {
+        this.followed = !this.followed
+        this.iconFollow = this.followed ? 'icon-acg-icongou' : 'icon-acg-iconjia'
       }
     },
     components: {
@@ -126,9 +137,36 @@
         flex-flow: column;
         align-items: center;
         font-size: $font-size-small;
+        position: relative;
         .iconfont {
           opacity: 0.8;
           font-size: $font-size-large-xx;
+        }
+        .avatar {
+          box-sizing: border-box;
+          border: 1px solid;
+          border-radius: 50%;
+          position: relative;
+          img {
+            height: 100%;
+          }
+        }
+        .follow {
+          position: absolute;
+          bottom: -10px;
+          font-size: $font-size-large;
+          background-color: $color-red;
+          border-radius: 50%;
+          width: 20px;
+          height: 20px;
+          padding: 5px;
+          box-sizing: border-box;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          &.followed {
+            background-color: $color-green;
+          }
         }
       }
     }
