@@ -7,8 +7,8 @@
         </svg>
       </div>
     </div>
-    <slide-view></slide-view>
-    <slide-view></slide-view>
+    <slide-view :viewData="viewData"></slide-view>
+    <slide-view :viewData="viewData"></slide-view>
   </div>
 </template>
 
@@ -17,11 +17,16 @@
   export default {
     data() {
       return {
-        data: '',
+        viewData: {}
+      }
+    },
+    activated() {
+      this.viewData = {
+        img: 'http://ossweb-img.qq.com/images/lol/web201310/skin/big84008.jpg',
+        video: '',
         name: 'Leo',
         music: '女生版各种语气说不行 - 晨宁溪',
-        iconFollow: 'icon-acg-iconjia',
-        followed: false
+        followed: false,
       }
     },
     methods: {

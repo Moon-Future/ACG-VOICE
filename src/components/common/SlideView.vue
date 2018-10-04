@@ -1,14 +1,14 @@
 <template>
-  <div class="slideview-wrapper">
-    <div class="content content-rotate">
-      <img class="background" src="http://ossweb-img.qq.com/images/lol/web201310/skin/big84008.jpg" alt="">
+  <div class="slideview-wrapper" ref="slideviewWrapper">
+    <div class="content">
+      <img class="background" :src="viewData.img" alt="">
     </div>
     <div class="right">
       <div class="icon-circle">
         <div class="iconfont avatar">
-          <img src="http://ossweb-img.qq.com/images/lol/web201310/skin/big84008.jpg" alt="">
+          <img :src="viewData.img" alt="" ref="img">
         </div>
-        <div class="follow" :class="followed ? 'followed' : ''" @click="follow">
+        <div class="follow" :class="viewData.followed ? 'followed' : ''" @click="follow">
           <svg class="iconfont" aria-hidden="true">
             <use :xlink:href="`#${iconFollow}`"></use>
           </svg>
@@ -36,7 +36,7 @@
     <div class="footer">
       <div class="message">
         <div class="name">
-          @{{ name }}
+          @{{ viewData.name }}
         </div>
         <div class="txt">
           设计师将图标上传到Iconfont平台，用户可以自定义下载多种格式的icon，平台也可将图标转换为字体，便于前端工程师自由调整与调用。
@@ -45,7 +45,7 @@
           <svg class="iconfont" aria-hidden="true">
             <use xlink:href="#icon-acg-music"></use>
           </svg>
-          <words-loop :words="music"></words-loop>
+          <words-loop :words="viewData.music"></words-loop>
         </div>
       </div>
       <div class="music-cd">
@@ -58,19 +58,25 @@
 <script>
   import WordsLoop from 'components/common/WordsLoop'
   export default {
+    props: {
+      viewData: {
+        type: Object,
+        default: {}
+      }
+    },
     data() {
       return {
-        data: '',
-        name: 'Leo',
-        music: '女生版各种语气说不行 - 晨宁溪',
-        iconFollow: 'icon-acg-iconjia',
-        followed: false
+        iconFollow: 'icon-acg-iconjia'
       }
     },
     methods: {
       follow() {
-        this.followed = !this.followed
-        this.iconFollow = this.followed ? 'icon-acg-icongou' : 'icon-acg-iconjia'
+        this.viewData.followed = !this.viewData.followed
+        this.iconFollow = this.viewData.followed ? 'icon-acg-icongou' : 'icon-acg-iconjia'
+      }
+    },
+    watch: {
+      viewData() {
       }
     },
     components: {
@@ -83,6 +89,8 @@
   @import 'common/css/variable.scss';
 
   .slideview-wrapper {
+    position: relative;
+    height: 100%;
     .content {
       display: flex;
       align-items: center;
@@ -92,7 +100,6 @@
       }
       &.content-rotate {
         justify-content: center;
-        height: initial;
         .background {
           transform: rotate(90deg);
           width: initial;
@@ -145,7 +152,7 @@
       }
     }
     .footer {
-      position: fixed;
+      position: absolute;
       padding: 0 5px;
       bottom: 0;
       left: 0;

@@ -44,7 +44,7 @@
     .words-loop {
       display: inline-block;
       animation: 5s wordsLoop linear infinite normal;
-      animation-delay: 3s;
+      animation-delay: 1s;
       .blank {
         display: inline-block;
         width: 20px;
