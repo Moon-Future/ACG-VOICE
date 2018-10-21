@@ -1,55 +1,29 @@
 <template>
-  <div id="app" @touchmove.prevent>
-    <top-header></top-header>
-    <keep-alive>
-        <router-view class="router-view"/>
-    </keep-alive>
-    <bottom-footer></bottom-footer>
-    <player></player>
-    <playing-lines></playing-lines>
+  <div id="app">
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+    </div>
+    <router-view/>
   </div>
 </template>
 
-<script>
-  import TopHeader from 'components/common/TopHeader'
-  import BottomFooter from 'components/common/BottomFooter'
-  import Player from 'components/common/Player'
-  import PlayingLines from 'components/common/PlayingLines'
-  export default {
-    name: 'App',
-    data() {
-      return {
-        enterAcitve: 'animated slideInRight',
-        leaveActive: 'animated slideOutLeft'
-      }
-    },
-    components: {
-      TopHeader,
-      BottomFooter,
-      Player,
-      PlayingLines
-    },
-    watch: {
-      $route(to, from) {
-        if (to.name === 'CharacterInfo') {
-          this.enterAcitve = 'animated slideInRight'
-          this.leaveActive = 'animated slideOutLeft'
-        } else {
-          this.enterAcitve = 'animated slideInLeft'
-          this.leaveActive = 'animated slideOutRight'
-        }
-      }
+<style lang="scss">
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+#nav {
+  padding: 30px;
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+    &.router-link-exact-active {
+      color: #42b983;
     }
   }
-</script>
-
-<style lang="scss">
-  @import 'common/css/reset.scss';
-  @import 'common/css/variable.scss';
-  #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-size: 0.875rem;
-  }
+}
 </style>
